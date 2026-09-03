@@ -1,0 +1,74 @@
+/* ==========================================================================
+   CHIMAERA — Design tokens
+   Single source of truth for colour, type, spacing and motion values.
+   Change values here, not in component files.
+   ========================================================================== */
+
+:root {
+  /* ---- Colour: the coral/pale relationship is the whole brand ---- */
+  --color-coral: #e35039;          /* primary brand coral/red-orange, sampled from source material */
+  --color-coral-deep: #c73e29;     /* pressed / shadow-adjacent coral */
+  --color-coral-soft: #f0a99a;     /* tint, used sparingly for hover washes */
+  --color-pale: #f1f6f8;           /* ice blue-white field */
+  --color-pale-warm: #f7efec;      /* warm-leaning pale, seen where the atmosphere blooms out of coral */
+  --color-ink: #1a1a1a;            /* near-black body text on pale */
+  --color-white: #ffffff;          /* text / rules on coral */
+
+  /* ---- Atmosphere defaults (read by js/atmosphere.js) ---- */
+  --atmosphere-coral: var(--color-coral);
+  --atmosphere-pale: var(--color-pale);
+  --atmosphere-coral-intensity: 1;
+  --atmosphere-opacity: 1;
+  --atmosphere-speed: 1;
+  --atmosphere-amplitude: 1;
+  --atmosphere-softness: 1;
+  --atmosphere-scale: 1;
+
+  /* ---- Typography ----
+     Primary  = Minion Pro  (body copy, italic accents, captions)
+     Secondary = Forma DJR Banner (display + headline grotesque)
+     Real font files go in assets/fonts/ — see typography.css for the
+     expected filenames. Until then these stacks render on close
+     free/system fallbacks so the site is never unstyled. */
+  --font-body: 'Minion Pro', 'PT Serif', Georgia, 'Times New Roman', serif;
+  --font-display: 'Forma DJR Banner', 'Neue Haas Grotesk Display Pro',
+    'Helvetica Neue', Arial, sans-serif;
+
+  /* Modular type scale (rem, ~1.25 ratio, tuned by hand at the extremes) */
+  --step--1: clamp(0.8rem, 0.78rem + 0.1vw, 0.9rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --step-1: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --step-2: clamp(1.6rem, 1.4rem + 1vw, 2.1rem);
+  --step-3: clamp(2.1rem, 1.7rem + 2vw, 3rem);
+  --step-4: clamp(2.8rem, 2.1rem + 3.5vw, 4.5rem);
+  --step-5: clamp(3.6rem, 2.4rem + 6vw, 7rem);
+  --step-6: clamp(4.4rem, 2.4rem + 10vw, 10.5rem);
+
+  /* ---- Space scale ---- */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-s: 1rem;
+  --space-m: 1.5rem;
+  --space-l: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: 6rem;
+  --space-3xl: 9rem;
+
+  /* ---- Structure ---- */
+  --rule-width: 1px;
+  --column-gap: var(--space-l);
+  --page-margin: clamp(1.25rem, 1rem + 2vw, 3rem);
+
+  /* ---- Motion ---- */
+  --ease-editorial: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --duration-fast: 180ms;
+  --duration-medium: 420ms;
+  --duration-slow: 900ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* CHIMAERA's identity is the coral/pale relationship itself, not a
+     light/dark mode — we deliberately keep one authored palette rather
+     than inverting it. Reserved here in case that changes later. */
+}

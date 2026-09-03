@@ -1,0 +1,96 @@
+/* ==========================================================================
+   CHIMAERA — Typography
+   Primary  = Minion Pro (body)     → assets/fonts/MinionPro-Regular.woff2 / -Italic.woff2
+   Secondary = Forma DJR Banner (display) → assets/fonts/FormaDJRBanner-Bold.woff2 / -Regular.woff2
+   Drop the licensed files into assets/fonts/ using those names and both
+   families activate automatically — nothing else needs to change.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Minion Pro";
+  src: url("../assets/fonts/MinionPro-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Minion Pro";
+  src: url("../assets/fonts/MinionPro-Italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Forma DJR Banner";
+  src: url("../assets/fonts/FormaDJRBanner-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Forma DJR Banner";
+  src: url("../assets/fonts/FormaDJRBanner-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---- Editorial headline: the deck's recurring "hvem er chimaera?" mark ---- */
+.kicker {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--step-2);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  text-transform: lowercase;
+  padding-bottom: var(--space-xs);
+  border-bottom: var(--rule-width) solid currentColor;
+  margin-bottom: var(--space-l);
+}
+
+.body-copy {
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  max-width: 38ch;
+}
+
+.body-copy + .body-copy {
+  margin-top: var(--space-m);
+}
+
+.body-copy--wide {
+  max-width: 52ch;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: var(--step--1);
+  letter-spacing: 0.02em;
+  opacity: 0.75;
+}
+
+/* ---- Rare, deliberate display moment (used sparingly, per brief) ---- */
+.display-statement {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1.02;
+}
+
+.display-statement__connector {
+  display: block;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  font-size: var(--step-0);
+  opacity: 0.85;
+  margin-block: var(--space-2xs);
+}

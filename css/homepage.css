@@ -1,0 +1,504 @@
+/* ==========================================================================
+   CHIMAERA — Homepage
+   ========================================================================== */
+
+/* ==========================================================================
+   LANDING / OPENING FRAME
+   ========================================================================== */
+
+.landing {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   INTRO WEBM / GIF — FULL SCREEN
+   ========================================================================== */
+
+.landing__gif {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  z-index: 2;
+
+  display: block;
+
+  opacity: 1;
+  visibility: visible;
+
+  pointer-events: none;
+
+  transition:
+    opacity 700ms var(--ease-editorial),
+    visibility 0s linear 700ms;
+}
+
+/*
+ * JavaScript adds .landing--revealed when the opening animation
+ * has reached the landing state.
+ */
+.landing--revealed .landing__gif {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* ==========================================================================
+   LANDING VHS VIDEO
+   ========================================================================== */
+
+.landing__video {
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  width: min(640px, 74vw);
+  height: auto;
+
+  aspect-ratio: 16 / 9;
+
+  z-index: 1;
+
+  display: block;
+
+  opacity: 0;
+
+  box-shadow: 0 0 9rem 1rem rgba(227, 80, 57, 0.22);
+
+  transition: opacity 1400ms var(--ease-editorial);
+}
+
+/*
+ * The landing video appears when the opening animation finishes.
+ */
+.landing--revealed .landing__video {
+  opacity: 1;
+}
+
+/*
+ * Opening the navigation removes the landing video.
+ */
+body.nav-open .landing__video {
+  opacity: 0;
+}
+
+/* ==========================================================================
+   LANDING SCROLL CUE
+   ========================================================================== */
+
+.landing__scroll-cue {
+  position: absolute;
+
+  bottom: var(--space-l);
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  z-index: 3;
+
+  color: var(--color-white);
+
+  opacity: 0.65;
+}
+
+.landing__scroll-cue-line {
+  display: block;
+
+  width: 1px;
+  height: 2.75rem;
+
+  background: currentColor;
+
+  opacity: 0.4;
+
+  overflow: hidden;
+}
+
+.landing__scroll-cue-line::after {
+  content: "";
+
+  display: block;
+
+  width: 100%;
+  height: 40%;
+
+  background: var(--color-ink);
+
+  animation: scroll-cue 2.4s var(--ease-editorial) infinite;
+}
+
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(250%);
+  }
+}
+
+/* ==========================================================================
+   HOMEPAGE HERO
+   ========================================================================== */
+
+/*
+ * IMPORTANT:
+ *
+ * This section has NO background.
+ *
+ * #atmosphere-canvas is persistent and should remain visible
+ * behind the entire homepage.
+ */
+
+.homepage-hero {
+  position: relative;
+
+  min-height: 100svh;
+
+  overflow: hidden;
+
+  z-index: 1;
+}
+
+/* ==========================================================================
+   HERO TEXT
+   ========================================================================== */
+
+.homepage-hero__copy {
+  position: absolute;
+
+  z-index: 2;
+
+  left: clamp(2rem, 5vw, 5rem);
+  top: 50%;
+
+  width: min(42rem, 40vw);
+
+  transform: translateY(-50%);
+}
+
+.homepage-hero__copy h2 {
+  margin: 0;
+
+  color: var(--color-white);
+
+  font-family: var(--font-display);
+  font-weight: 400;
+
+  font-size: clamp(2.4rem, 4.1vw, 5rem);
+
+  line-height: 0.96;
+
+  letter-spacing: -0.035em;
+
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   HERO IMAGE FIELD
+   ========================================================================== */
+
+.homepage-hero__gallery {
+  position: absolute;
+
+  top: 0;
+  right: 0;
+
+  width: 50%;
+  height: 100%;
+
+  z-index: 2;
+}
+
+/* ==========================================================================
+   HERO IMAGES
+   ========================================================================== */
+
+.homepage-hero__image {
+  position: absolute;
+
+  display: block;
+
+  margin: 0;
+
+  object-fit: cover;
+
+  border: 0;
+  border-radius: 0;
+
+  box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   HERO 1
+   -------------------------------------------------------------------------- */
+
+.homepage-hero__image--1 {
+  top: 12%;
+  left: 17%;
+
+  width: 27%;
+
+  aspect-ratio: 1.32 / 1;
+
+  z-index: 1;
+}
+
+/* --------------------------------------------------------------------------
+   HERO 2
+   -------------------------------------------------------------------------- */
+
+.homepage-hero__image--2 {
+  top: 32%;
+  left: 35%;
+
+  width: 51%;
+
+  aspect-ratio: 1.48 / 1;
+
+  z-index: 2;
+}
+
+/* --------------------------------------------------------------------------
+   HERO 3
+   -------------------------------------------------------------------------- */
+
+.homepage-hero__image--3 {
+  top: 54%;
+  left: 54%;
+
+  width: 25%;
+
+  aspect-ratio: 0.75 / 1;
+
+  z-index: 3;
+}
+
+/* ==========================================================================
+   EDITORIAL SECTIONS
+   ========================================================================== */
+
+.editorial {
+  position: relative;
+}
+
+.editorial__text {
+  gap: var(--space-l);
+}
+
+.editorial__image img {
+  object-position: center 30%;
+}
+
+.editorial__caption {
+  position: absolute;
+
+  bottom: var(--space-m);
+  left: var(--space-m);
+
+  z-index: 1;
+
+  color: var(--color-white);
+
+  font-family: var(--font-body);
+  font-style: italic;
+
+  font-size: var(--step--1);
+
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================================================
+   SECOND EDITORIAL SECTION — PAIRED IMAGE
+   ========================================================================== */
+
+.editorial__image--pair {
+  display: flex;
+
+  flex-direction: column;
+}
+
+.editorial__image--pair picture {
+  display: block;
+
+  width: 100%;
+}
+
+.editorial__image--pair .editorial__image-primary,
+.editorial__image--pair .editorial__image-secondary {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  min-height: 0;
+}
+
+.editorial__picture--primary {
+  flex: 1 1 63%;
+
+  min-height: 0;
+}
+
+.editorial__picture--secondary {
+  flex: 1 1 37%;
+
+  min-height: 0;
+
+  border-top: var(--rule-width) solid var(--color-pale);
+}
+
+.editorial__image-primary {
+  object-position: center 45%;
+}
+
+.editorial__image-secondary {
+  object-position: center 30%;
+}
+
+/* ==========================================================================
+   FOOTER
+   ========================================================================== */
+
+.site-footer {
+  position: relative;
+
+  z-index: 1;
+
+  padding: var(--space-2xl) var(--page-margin) var(--space-l);
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: var(--space-xl);
+
+  color: var(--color-ink);
+}
+
+.site-footer__row {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: var(--space-m);
+
+  flex-wrap: wrap;
+}
+
+.site-footer .wordmark img {
+  height: clamp(1.6rem, 1.2rem + 1.5vw, 2.6rem);
+}
+
+.site-footer__row--meta {
+  align-items: flex-start;
+
+  border-top: var(--rule-width) solid currentColor;
+
+  padding-top: var(--space-m);
+
+  opacity: 0.9;
+}
+
+.site-footer__links {
+  display: flex;
+
+  gap: var(--space-m);
+
+  font-family: var(--font-display);
+
+  text-transform: lowercase;
+}
+
+.site-footer__links a {
+  text-decoration: none;
+}
+
+.site-footer__links a:hover,
+.site-footer__links a:focus-visible {
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 800px) {
+  .homepage-hero {
+    min-height: 100svh;
+  }
+
+  .homepage-hero__copy {
+    left: var(--page-margin);
+
+    width: calc(100% - (var(--page-margin) * 2));
+
+    top: 22%;
+
+    transform: none;
+  }
+
+  .homepage-hero__copy h2 {
+    font-size: clamp(2.5rem, 10vw, 4.5rem);
+  }
+
+  .homepage-hero__gallery {
+    width: 100%;
+
+    height: 65%;
+
+    top: 35%;
+  }
+
+  .homepage-hero__image--1 {
+    top: 5%;
+    left: 10%;
+
+    width: 34%;
+  }
+
+  .homepage-hero__image--2 {
+    top: 24%;
+    left: 28%;
+
+    width: 58%;
+  }
+
+  .homepage-hero__image--3 {
+    top: 52%;
+    left: 55%;
+
+    width: 30%;
+  }
+}
+
+/* ==========================================================================
+   REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .landing__gif,
+  .landing__video {
+    transition: none;
+  }
+
+  .landing__scroll-cue-line::after {
+    animation: none;
+
+    height: 100%;
+
+    opacity: 0.6;
+  }
+}
