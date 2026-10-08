@@ -1,42 +1,9 @@
 /* ==========================================================================
    CHIMAERA — Typography
-   Primary  = Minion Pro (body)     → assets/fonts/MinionPro-Regular.woff2 / -Italic.woff2
-   Secondary = Forma DJR Banner (display) → assets/fonts/FormaDJRBanner-Bold.woff2 / -Regular.woff2
-   Drop the licensed files into assets/fonts/ using those names and both
-   families activate automatically — nothing else needs to change.
+   Fonts are served by Adobe Fonts (kit koo7phy — see the <link> tags in
+   each page's <head>), not self-hosted — no @font-face rules live here.
+   Font family tokens are defined in tokens.css.
    ========================================================================== */
-
-@font-face {
-  font-family: "Minion Pro";
-  src: url("../assets/fonts/MinionPro-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Minion Pro";
-  src: url("../assets/fonts/MinionPro-Italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Forma DJR Banner";
-  src: url("../assets/fonts/FormaDJRBanner-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Forma DJR Banner";
-  src: url("../assets/fonts/FormaDJRBanner-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
 
 /* ---- Editorial headline: the deck's recurring "hvem er chimaera?" mark ---- */
 .kicker {
@@ -53,7 +20,7 @@
 }
 
 .body-copy {
-  font-family: var(--font-body);
+  font-family: var(--font-text);
   font-size: var(--step-0);
   line-height: 1.6;
   max-width: 38ch;
@@ -68,7 +35,7 @@
 }
 
 .eyebrow {
-  font-family: var(--font-body);
+  font-family: var(--font-serif);
   font-style: italic;
   font-size: var(--step--1);
   letter-spacing: 0.02em;
@@ -86,7 +53,7 @@
 
 .display-statement__connector {
   display: block;
-  font-family: var(--font-body);
+  font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
   text-transform: none;

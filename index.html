@@ -24,6 +24,9 @@
 
   <link rel="icon" href="/assets/graphics/mascot-coral.png">
 
+  <link rel="preconnect" href="https://use.typekit.net" crossorigin>
+  <link rel="stylesheet" href="https://use.typekit.net/koo7phy.css">
+
   <link rel="stylesheet" href="/css/tokens.css">
   <link rel="stylesheet" href="/css/global.css">
   <link rel="stylesheet" href="/css/typography.css">
@@ -86,6 +89,45 @@
 
         <div class="landing__scroll-cue" aria-hidden="true">
           <span class="landing__scroll-cue-line"></span>
+        </div>
+
+      </section>
+
+
+      <!-- =======================================================
+           NEXT EVENT
+           variant: Line — ruled caption band on the atmosphere.
+           Static markup is the no-JS fallback; js/next-event.js
+           fetches data/events.json and fills in the real event,
+           replacing the fallback link. See docs/HOMEPAGE-SPEC.md §3.
+           ======================================================= -->
+
+      <section class="next-event" aria-labelledby="next-event-label">
+
+        <div class="next-event__inner container">
+
+          <p class="next-event__label" id="next-event-label">
+            Next event
+          </p>
+
+          <div class="next-event__row" data-next-event-row hidden>
+
+            <div class="next-event__info">
+              <p class="next-event__date" data-next-event-date></p>
+              <p class="next-event__title-venue">
+                <span class="next-event__title" data-next-event-title></span>
+                <span class="next-event__venue" data-next-event-venue></span>
+              </p>
+            </div>
+
+            <div class="next-event__action" data-next-event-action></div>
+
+          </div>
+
+          <p class="next-event__fallback" data-next-event-fallback>
+            <a href="#events">See upcoming events</a>
+          </p>
+
         </div>
 
       </section>
@@ -325,6 +367,8 @@
   <script src="/js/header-theme.js"></script>
 
   <script src="/js/homepage.js"></script>
+
+  <script src="/js/next-event.js"></script>
 
 
 </body>

@@ -12,6 +12,7 @@
   --color-pale: #f1f6f8;           /* ice blue-white field */
   --color-pale-warm: #f7efec;      /* warm-leaning pale, seen where the atmosphere blooms out of coral */
   --color-ink: #1a1a1a;            /* near-black body text on pale */
+  --color-ink-30: rgba(26, 26, 26, 0.3); /* --color-ink at 30% — rules/borders on ink text, never full opacity (would fail contrast) */
   --color-white: #ffffff;          /* text / rules on coral */
 
   /* ---- Atmosphere defaults (read by js/atmosphere.js) ---- */
@@ -25,14 +26,19 @@
   --atmosphere-scale: 1;
 
   /* ---- Typography ----
-     Primary  = Minion Pro  (body copy, italic accents, captions)
-     Secondary = Forma DJR Banner (display + headline grotesque)
-     Real font files go in assets/fonts/ — see typography.css for the
-     expected filenames. Until then these stacks render on close
-     free/system fallbacks so the site is never unstyled. */
-  --font-body: 'Minion Pro', 'PT Serif', Georgia, 'Times New Roman', serif;
-  --font-display: 'Forma DJR Banner', 'Neue Haas Grotesk Display Pro',
-    'Helvetica Neue', Arial, sans-serif;
+     Served by Adobe Fonts, kit koo7phy (see the <link> tags in each
+     page's <head>) — not self-hosted.
+
+     banner  = huge/hero headlines
+     display = H2-weight headings, bold editorial marks, nav links
+     text    = body copy
+     micro   = small utility labels (e.g. footer links)
+     serif   = italic accents (eyebrows, captions, connectors) */
+  --font-banner: "forma-djr-greek-banner", sans-serif;
+  --font-display: "forma-djr-greek-display", sans-serif;
+  --font-text: "forma-djr-greek-text", sans-serif;
+  --font-micro: "forma-djr-greek-micro", sans-serif;
+  --font-serif: "minion-pro", serif;
 
   /* Modular type scale (rem, ~1.25 ratio, tuned by hand at the extremes) */
   --step--1: clamp(0.8rem, 0.78rem + 0.1vw, 0.9rem);
@@ -59,6 +65,8 @@
   --rule-width: 1px;
   --column-gap: var(--space-l);
   --page-margin: clamp(1.25rem, 1rem + 2vw, 3rem);
+  --content-max-width: 60rem; /* capped reading/content width — first used by .next-event */
+  --tap-target-min: 3rem; /* 48px — minimum interactive target height */
 
   /* ---- Motion ---- */
   --ease-editorial: cubic-bezier(0.22, 0.61, 0.36, 1);

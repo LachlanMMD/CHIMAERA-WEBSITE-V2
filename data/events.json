@@ -1,0 +1,29 @@
+[
+  {
+    "slug": "[EVENT-SLUG-1]",
+    "title": "[EVENT TITLE]",
+    "date": "2026-10-29",
+    "venue": "[VENUE]",
+    "poster": null,
+    "ticketUrl": "#",
+    "status": "upcoming"
+  },
+  {
+    "slug": "[EVENT-SLUG-2]",
+    "title": "[EVENT TITLE]",
+    "date": "2026-11-19",
+    "venue": "[VENUE]",
+    "poster": null,
+    "ticketUrl": "#",
+    "status": "soldout"
+  },
+  {
+    "slug": "[EVENT-SLUG-3]",
+    "title": "[EVENT TITLE]",
+    "date": "2026-09-14",
+    "venue": "[VENUE]",
+    "poster": null,
+    "ticketUrl": "#",
+    "status": "past"
+  }
+]

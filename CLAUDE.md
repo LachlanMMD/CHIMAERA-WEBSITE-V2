@@ -26,5 +26,8 @@ Static HTML/CSS/vanilla JS, no build step. Deployed on Vercel. Astro migration p
 - Homepage: docs/HOMEPAGE-SPEC.md — read it before any homepage work.
 
 ## Current state
-- Homepage being rebuilt to spec. Fonts move to an Adobe Fonts kit (self-hosted woff2 files are missing).
-- Next: scroll jank audit, then Adobe Fonts, then thread prototype.
+- Homepage being rebuilt to spec. Fonts now served by an Adobe Fonts kit (self-hosted woff2 files
+  were missing) — `--font-banner`/`--font-display`/`--font-text`/`--font-micro`/`--font-serif` in
+  `css/tokens.css`, kit link in every page's `<head>`.
+- Section 0.5 "Next event" built (variant: Line). Reads `data/events.json` via `js/next-event.js`.
+- Next: scroll jank audit, then thread prototype.

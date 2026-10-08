@@ -47,11 +47,13 @@ layout, content slots, behavior and mobile. **All copy and images are placeholde
 - Mobile: video width ~80vw, still centered.
 - Tighten the "embed" read: no black letterbox bars. Crop the video to its own aspect ratio, or let the atmosphere bleed into the edges.
 
-### 0.5 — Next event  **NEW**
+### 0.5 — Next event  **BUILT** — variant: Line — ruled caption band on the atmosphere
 - Compact strip directly after the landing: `date · title · venue` + **Tickets →** button.
 - Data from `events` (see §7): first upcoming event. Hidden if none are upcoming.
 - If sold out: replace the button with "Sold out — join waitlist" → footer newsletter anchor.
-- Mobile: stacks to two lines, full-width button.
+- Mobile: stacks to two lines, full-width button (flex-wrap, no media query).
+- Implementation: markup in `index.html`, styles in `css/homepage.css` (`.next-event`), data in
+  `data/events.json`, render logic in `js/next-event.js`.
 
 ### 1 — 01 the idea
 - Left: label, phonetic `[khi-mæ-ra]` (serif italic), statement headline (uppercase sans, placeholder).

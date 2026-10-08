@@ -149,6 +149,168 @@ body.nav-open .landing__video {
 }
 
 /* ==========================================================================
+   NEXT EVENT — variant: Line
+   ==========================================================================
+
+   A ruled caption band sitting directly on the atmosphere — no background
+   fill of its own, just the top/bottom rule and ink text. js/next-event.js
+   fills .next-event__row from data/events.json and reveals it, hiding
+   .next-event__fallback; see docs/HOMEPAGE-SPEC.md §3/§7.
+
+   Text is --color-ink throughout (not white — white-on-coral fails
+   contrast at these sizes per spec §8). min-height on the inner wrapper
+   reserves space for the row before JS fills it, so there's no layout
+   shift either way the fetch resolves.
+   ========================================================================== */
+
+.next-event {
+  position: relative;
+  z-index: 1;
+
+  border-top: var(--rule-width) solid var(--color-ink-30);
+  border-bottom: var(--rule-width) solid var(--color-ink-30);
+
+  color: var(--color-ink);
+}
+
+.next-event__inner {
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+
+  min-height: var(--space-xl);
+
+  padding-block: var(--space-m);
+}
+
+.next-event__label {
+  margin: 0 0 var(--space-xs);
+
+  font-family: var(--font-micro);
+  font-size: 0.75rem;
+
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.next-event__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+
+  gap: var(--space-xs) var(--space-l);
+
+  margin-top: var(--space-xs);
+}
+
+.next-event__row[hidden] {
+  display: none;
+}
+
+.next-event__info {
+  flex: 999 1 260px;
+}
+
+.next-event__action {
+  flex: 1 1 160px;
+}
+
+.next-event__date {
+  margin: 0;
+
+  font-family: var(--font-text);
+  font-size: 0.95rem;
+
+  font-variant-numeric: tabular-nums;
+}
+
+.next-event__title-venue {
+  margin: var(--space-3xs) 0 0;
+}
+
+.next-event__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+
+  font-size: 1.875rem;
+  line-height: 1.1;
+}
+
+.next-event__venue {
+  font-family: var(--font-text);
+  font-size: 0.95rem;
+}
+
+.next-event__venue::before {
+  content: " — ";
+}
+
+/*
+ * Rendered by js/next-event.js — .next-event__ticket-link for the
+ * upcoming-event action, .next-event__soldout-tag +
+ * .next-event__waitlist-link for the sold-out state.
+ */
+
+.next-event__ticket-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+
+  min-height: var(--tap-target-min);
+  padding-inline: var(--space-m);
+
+  background: var(--color-ink);
+  color: var(--color-pale-warm);
+
+  border-radius: 0;
+
+  font-family: var(--font-text);
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+.next-event__ticket-link:focus-visible,
+.next-event__waitlist-link:focus-visible,
+.next-event__fallback a:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+.next-event__soldout-tag {
+  display: inline-block;
+
+  font-family: var(--font-micro);
+  font-size: 0.75rem;
+
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+
+  opacity: 0.7;
+}
+
+.next-event__waitlist-link {
+  display: inline-block;
+
+  margin-top: var(--space-3xs);
+
+  font-family: var(--font-text);
+  font-weight: 700;
+
+  color: var(--color-ink);
+}
+
+.next-event__fallback {
+  margin: var(--space-xs) 0 0;
+
+  font-family: var(--font-text);
+}
+
+.next-event__fallback a {
+  color: var(--color-ink);
+}
+
+/* ==========================================================================
    HOMEPAGE HERO
    ========================================================================== */
 
@@ -199,7 +361,7 @@ body.nav-open .landing__video {
 
   color: var(--color-white);
 
-  font-family: var(--font-display);
+  font-family: var(--font-banner);
   font-weight: 400;
 
   font-size: clamp(2.4rem, 4.1vw, 5rem);
@@ -327,7 +489,7 @@ body.nav-open .landing__video {
 
   color: var(--color-white);
 
-  font-family: var(--font-body);
+  font-family: var(--font-serif);
   font-style: italic;
 
   font-size: var(--step--1);
@@ -632,7 +794,7 @@ body.nav-open .landing__video {
 
   gap: var(--space-m);
 
-  font-family: var(--font-display);
+  font-family: var(--font-micro);
 
   text-transform: lowercase;
 }
