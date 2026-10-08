@@ -237,13 +237,18 @@
          * of its own.
          */
 
-        atmosphere.finishOpeningState();
-
         /*
-         * Reveal the actual landing page.
+         * Reveal the actual landing page FIRST: the content must never
+         * depend on the background drawing successfully.
          */
 
         landing.classList.add("landing--revealed");
+
+        try {
+          atmosphere.finishOpeningState();
+        } catch (error) {
+          console.error("Atmosphere: finishOpeningState failed", error);
+        }
       }
 
       intro.addEventListener("ended", completeOpening);

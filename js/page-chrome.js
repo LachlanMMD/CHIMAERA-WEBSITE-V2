@@ -25,12 +25,16 @@
       return;
     }
 
-    atmosphere.finishOpeningState();
-
     var header = document.querySelector(".site-header");
 
     if (header) {
       header.classList.add("header--revealing");
+    }
+
+    try {
+      atmosphere.finishOpeningState();
+    } catch (error) {
+      console.error("Atmosphere: finishOpeningState failed", error);
     }
   }
 
