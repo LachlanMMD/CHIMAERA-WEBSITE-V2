@@ -4,9 +4,11 @@ Copenhagen creative platform: art, workshops, events, community.
 Static HTML/CSS/vanilla JS, no build step. Deployed on Vercel. Astro migration planned later.
 
 ## Run
+
 - Local: VS Code Live Server (http://127.0.0.1:5500). Stop it during large edits; it reloads on every file write.
 
 ## Structure
+
 - index.html, about/, contact/ — pages
 - components/ — header.html, navigation.html, footer.html, injected by js/include.js
 - css/tokens.css — ALL colors, type, spacing. Never hardcode values; add missing tokens here.
@@ -16,6 +18,7 @@ Static HTML/CSS/vanilla JS, no build step. Deployed on Vercel. Astro migration p
 - assets/ — images, video, logo. Don't open image files unless asked.
 
 ## Rules
+
 - Preserve the existing architecture. Never rewrite unrelated code.
 - Explain meaningful changes; show the diff before large edits.
 - No frameworks, no Tailwind, no new dependencies without asking.
@@ -23,23 +26,30 @@ Static HTML/CSS/vanilla JS, no build step. Deployed on Vercel. Astro migration p
 - One task per session.
 
 ## Specs
+
 - Homepage: docs/HOMEPAGE-SPEC.md — read it before any homepage work.
 
 ## Current state
-- Homepage being rebuilt to spec. Fonts now served by an Adobe Fonts kit (self-hosted woff2 files
-  were missing) — `--font-banner`/`--font-display`/`--font-text`/`--font-micro`/`--font-serif` in
-  `css/tokens.css`, kit link in every page's `<head>`.
-- Section 0.5 "Next event" built (variant: Line). Reads `data/events.json` via `js/next-event.js`.
-- Ink (`--color-ink`) is now the site-wide default text color, including over the atmosphere — it
-  has better contrast than white against both ends of the coral/pale gradient (4.54:1 vs 3.84:1 on
-  coral; 15.98:1 vs 1.09:1 on pale, where white was previously near-invisible). White text is kept
-  only for the nav overlay, the header star, and photo-caption overlays.
-- Body text: `--text-body` (16px mobile → 17px desktop), `--leading-body` (1.5), `--measure` (62ch),
-  applied to `.body-copy`.
-- Section skeleton rebuilt to spec §2: `landing → next-event → #idea → #artist → #people →
-  #practice → #events → footer`. `#practice`/`#events` are placeholder stubs (label + heading +
-  "[placeholder]" + min-height). The old single `.homepage-encounter` section is split into
-  `#artist`/`#people`; its interleaved 12-column grid didn't survive the split, so both currently
-  render as a stacked column at every width — real per-spec layouts for 02/03 are a future session.
-  `#footer` id added for the next-event waitlist link.
-- Next: `#artist`/`#people` real layouts, then scroll jank audit, then thread prototype.
+
+- Homepage being rebuilt to spec. Fonts via Adobe kit `koo7phy`; ink (`--color-ink`) is the
+  site-wide default text color, including over the atmosphere (better contrast than white at both
+  ends of the coral/pale gradient).
+- Section skeleton built to spec §2: `landing → next-event → #idea → #artist → #people →
+  #practice → #events → footer`. `#practice` is still a placeholder stub.
+- Section 0.5 "Next event" (`js/next-event.js`) and section 05 "join us" — events grid + past
+  strip (`js/events.js`) — both built, reading `data/events.json`.
+- Body text tokens (`--text-body`/`--leading-body`/`--measure`/`--text-small`) applied site-wide.
+- Next: bugs from `docs/COMPONENT-GUIDE.md` §5, then footer to spec, then atmosphere stops (§4.4).
+
+## Docs
+
+- docs/COMPONENT-GUIDE.md — where every component lives (files, selectors, recipes). Read the relevant section instead of searching the codebase.
+- docs/HOMEPAGE-SPEC.md — the target design. Read only for homepage layout work.
+
+## Working style (token budget matters)
+
+- Only open files the task names, or the ones the guide points to. No repo-wide searches unless asked.
+- Never read assets/ or large files whole; read the relevant function or CSS block.
+- No explanations unless something is ambiguous. Show the diff, not a summary of it.
+- Don't verify in the browser unless asked.
+- One task per session.
