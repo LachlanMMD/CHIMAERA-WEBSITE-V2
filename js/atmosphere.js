@@ -411,8 +411,15 @@
     // ==========================================================
 
     function resize() {
-      width = window.innerWidth;
-      height = window.innerHeight;
+      /*
+       * A tab that loads hidden or in a not-yet-laid-out pane can report
+       * a 0×0 viewport. 0/0 = NaN would size the buffers to 0 and make
+       * every drawImage() throw — which used to abort the opening and
+       * leave the landing unrevealed. Fall back to 1px and let the next
+       * real resize event fix the size.
+       */
+      width = Math.max(1, window.innerWidth || 0);
+      height = Math.max(1, window.innerHeight || 0);
 
       canvas.width = Math.round(width * dpr);
 
@@ -532,6 +539,10 @@
     // ==========================================================
 
     function drawFrame(t) {
+      if (!(bufferW > 0 && bufferH > 0)) {
+        return;
+      }
+
       var animated = getCurrentAnimatedConfig(t);
 
       var s = animated.movementSpeed * config.speedScale;
