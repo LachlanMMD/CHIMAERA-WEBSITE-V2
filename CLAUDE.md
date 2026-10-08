@@ -1,21 +1,23 @@
 # CHIMAERA — website
 
 Copenhagen creative platform: art, workshops, events, community.
-Static HTML/CSS/vanilla JS, no build step. Deployed on Vercel. Astro migration planned later.
+Astro (static output). Pages in src/, plain CSS/JS in public/ (no bundling). Deployed on Vercel.
 
 ## Run
 
-- Local: VS Code Live Server (http://127.0.0.1:5500). Stop it during large edits; it reloads on every file write.
+- `npm run dev` → http://localhost:4321 (shows draft events). `npm run build` before bigger commits.
 
 ## Structure
 
-- index.html, about/, contact/, events/<slug>/ — pages (events/_template/ = event page template)
-- components/ — header.html, navigation.html, footer.html, injected by js/include.js
-- css/tokens.css — ALL colors, type, spacing. Never hardcode values; add missing tokens here.
-- css/ — global, typography, navigation, homepage, footer, event, page (subpages)
-- js/atmosphere.js — continuous fluid background canvas + section triggers
-- js/ — include, navigation, header-theme, homepage, page-chrome, next-event
-- assets/ — images, video, logo. Don't open image files unless asked.
+- src/pages/ — index.astro, about.astro, contact.astro, events/[slug].astro, data/events.json.ts
+- src/layouts/Base.astro — head, header, nav, footer, shared scripts; pages pass extra css/js
+- src/components/ — Header, Navigation, Footer
+- src/content/events/ — one .md per event (copy _template.md); schema in src/content.config.ts
+- src/lib/events.ts — event status (past is computed from the date), URLs, date format
+- public/css/tokens.css — ALL colors, type, spacing. Never hardcode values; add missing tokens here.
+- public/css/ — global, typography, navigation, homepage, footer, event, page (subpages)
+- public/js/ — atmosphere, navigation, header-theme, homepage, page-chrome, next-event, events
+- public/assets/ — images, video, logo. Don't open image files unless asked.
 
 ## Rules
 
@@ -23,6 +25,7 @@ Static HTML/CSS/vanilla JS, no build step. Deployed on Vercel. Astro migration p
 - Explain meaningful changes; show the diff before large edits.
 - No frameworks, no Tailwind, no new dependencies without asking.
 - Atmosphere behavior and the star menu trigger: don't change without asking.
+- JS/CSS stay plain files in public/ unless asked; link them via Base.astro `styles`/`scripts`.
 - One task per session.
 
 ## Specs
@@ -31,14 +34,12 @@ Static HTML/CSS/vanilla JS, no build step. Deployed on Vercel. Astro migration p
 
 ## Current state
 
-- Homepage built to docs/HOMEPAGE-SPEC.md v2.2: landing → next-event → #idea → #artist →
-  #people → #practice → #events → footer. Fonts via Adobe kit `koo7phy`; ink is the default text colour.
-- Atmosphere: per-section STOPS in js/homepage.js; idle breath + mouse; all tuning in the
-  `--atmosphere-*` tokens (css/tokens.css).
-- Next event (js/next-event.js) and 05 events (js/events.js) read data/events.json. One `.stamp`
-  component (css/global.css). Footer: components/footer.html + css/footer.css on every page.
-- Homepage photos: web-sized copies in assets/images/optimized/ (640/1280w). Don't link the 6000px originals.
-- Next: Astro port (docs/BUILD-PROMPTS.md, "After P9"), then event pages, archive, privacy, terms.
+- Ported to Astro with zero visual change (homepage, about, contact identical to the static version).
+- Homepage built to docs/HOMEPAGE-SPEC.md v2.2. Event pages from the events collection (spec §11).
+- Atmosphere: per-section STOPS in public/js/homepage.js; idle breath + mouse; tuning in `--atmosphere-*` tokens.
+- Homepage photos: web-sized copies in public/assets/images/optimized/ (640/1280w). Don't link the 6000px originals.
+- Sample/past events are `draft: true` (dev only) until checked.
+- Next: events index + archive pages, privacy + terms pages, footer colour, connect Vercel.
 
 ## Docs
 
@@ -50,5 +51,5 @@ Static HTML/CSS/vanilla JS, no build step. Deployed on Vercel. Astro migration p
 - Only open files the task names, or the ones the guide points to. No repo-wide searches unless asked.
 - Never read assets/ or large files whole; read the relevant function or CSS block.
 - No explanations unless something is ambiguous. Show the diff, not a summary of it.
-- Don't verify in the browser unless asked.
+- Don't verify in the browser unless asked. Do run `npm run build` after changes.
 - One task per session.

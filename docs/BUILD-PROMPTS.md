@@ -124,6 +124,6 @@ Mark bugs done in §5. Don't touch code. Commit: "docs: sync after homepage buil
 
 ---
 
-## After P9: Astro port
+## After P9: Astro port — done (branch `astro-port`)
 
 Use the port prompt from the planning chat (branch `astro-port`, zero visual change, step by step), then the events-collection prompt (content collection, `/events/[slug]`, archive). Design the event pages in the canvas before that second prompt.

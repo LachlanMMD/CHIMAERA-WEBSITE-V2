@@ -1,0 +1,98 @@
+---
+/**
+ * Shared page shell: <head>, atmosphere canvas, header, navigation,
+ * footer and the common scripts. Every page renders inside this.
+ *
+ * CSS and JS stay plain files in public/ (served as-is, no bundling),
+ * exactly as before the Astro port. Pages add their own files via
+ * `styles` / `scripts`.
+ */
+import Header from "../components/Header.astro";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Path for canonical/og:url, e.g. "/about/". */
+  path: string;
+  ogDescription?: string;
+  ogImage?: string;
+  /** Extra stylesheets after the shared ones, e.g. ["/css/homepage.css"]. */
+  styles?: string[];
+  /** Page scripts after the shared ones, e.g. ["/js/homepage.js"]. */
+  scripts?: string[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  path,
+  ogDescription = description,
+  ogImage,
+  styles = [],
+  scripts = [],
+  noindex = false,
+} = Astro.props;
+
+const canonical = new URL(path, Astro.site).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    {noindex && <meta name="robots" content="noindex" />}
+
+    <title>{title}</title>
+
+    <meta name="description" content={description} />
+
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="CHIMAERA" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={ogDescription} />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta property="og:url" content={canonical} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" href="/assets/graphics/mascot-coral.png" />
+
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+    <link rel="stylesheet" href="https://use.typekit.net/koo7phy.css" />
+
+    <link rel="stylesheet" href="/css/tokens.css" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/typography.css" />
+    <link rel="stylesheet" href="/css/navigation.css" />
+    {styles.map((href) => <link rel="stylesheet" href={href} />)}
+    <link rel="stylesheet" href="/css/footer.css" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <!-- Persistent atmospheric background (js/atmosphere.js) -->
+    <canvas id="atmosphere-canvas" aria-hidden="true"></canvas>
+
+    <Header />
+    <Navigation />
+
+    <div class="site-content">
+      <slot />
+
+      <Footer />
+    </div>
+
+    <script is:inline src="/js/atmosphere.js"></script>
+    <script is:inline src="/js/navigation.js"></script>
+    <script is:inline src="/js/header-theme.js"></script>
+    {scripts.map((src) => <script is:inline src={src}></script>)}
+  </body>
+</html>
