@@ -1,4 +1,4 @@
-# CHIMAERA — Homepage spec (v2)
+# CHIMAERA — Homepage spec (v2.1)
 
 Source of truth for building the homepage.
 Visual reference: the "CHIMAERA — Next event strip" design canvas, row "Full homepage"
@@ -62,7 +62,13 @@ Left: label, H2 [Heading], body (indented). Right: collage of 4 images, fixed ro
 
 ### 5 — 05 — join us (events)
 - Header row: label + H2 "Upcoming" left; "Are you an artist? →" link right.
-- Upcoming cards from `data/events.json`: 3 columns desktop (`flex: 1 1 280px`), horizontal scroll-snap on mobile. **Card framing: pending decision between A (passe-partout), B (ticket stub), C (frame + caption). See the canvas "05 — event card framing options".** Every card: poster 3:4, date, title, venue, Tickets / Sold out + Join the waitlist.
+- Upcoming cards from `data/events.json`: 3 columns desktop (`flex: 1 1 280px`), horizontal scroll-snap on mobile.
+- **Card = passe-partout + dashed rule** (decided):
+  - Mat: `--color-pale-warm` background, padding ~1rem all sides, slightly more at the bottom (weighted mount).
+  - Poster 3:4 with a 1px ink keyline at 25% opacity (keeps pale posters from dissolving into the mat).
+  - Caption on the mat: date (micro, uppercase), title (display 700, ~1.5rem), venue (serif italic).
+  - Dashed rule (2px, ink 45%, same dash language as the thread), then a filled ink Tickets button, min-height 48px, full card width.
+  - Sold out: coral-deep tag rotated ~8°, overhanging the poster's top-right corner onto the mat; button becomes an outlined "Join the waitlist" (→ #footer).
 - "Past events" strip: small posters (~150px, 3:4) in a horizontally scrolling row, "Sold out" stamp where true, date bottom-left.
 
 ### 6 — Footer (ink background, pale-warm text)
@@ -104,7 +110,7 @@ Prototype in `prototype/thread.html` before integrating.
 
 ## 7. 04 collage interaction (later; don't build yet)
 
-Images move outward to reveal a hidden button ("[for the curious →]", destination TBD).
+Images move outward to reveal a hidden button. Destination: none yet; build the interaction only once a destination exists.
 - Desktop: triggered by hover **and** `:focus-within` (keyboard users must reach the button).
 - Mobile (primary audience, no hover): auto-spread when the collage crosses the viewport center (IntersectionObserver), plus a tap toggle on the collage (a real `<button aria-expanded>`).
 - Motion: `transform` only (GPU-friendly), ~400ms ease-out, each image moves along its own vector away from the center.
@@ -123,8 +129,7 @@ Adobe Fonts kit `koo7phy` via `<link>` + preconnect on every page. Font-family n
 
 ## 10. Open questions
 
-- Event card framing: A, B or C (or a hybrid).
 - Newsletter provider (Mailchimp, Brevo, Substack…).
 - Event cards: link to `/events/[slug]` detail pages or straight to Stripe?
-- Collage button destination (§7).
+- Collage button destination (§7), currently none.
 - Footer pages (Archive, Gallery, Privacy, Terms) don't exist yet.
