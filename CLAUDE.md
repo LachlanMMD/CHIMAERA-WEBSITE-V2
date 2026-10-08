@@ -9,10 +9,10 @@ Static HTML/CSS/vanilla JS, no build step. Deployed on Vercel. Astro migration p
 
 ## Structure
 
-- index.html, about/, contact/ — pages
+- index.html, about/, contact/, events/<slug>/ — pages (events/_template/ = event page template)
 - components/ — header.html, navigation.html, footer.html, injected by js/include.js
 - css/tokens.css — ALL colors, type, spacing. Never hardcode values; add missing tokens here.
-- css/ — global, typography, navigation, homepage, footer, page (subpages)
+- css/ — global, typography, navigation, homepage, footer, event, page (subpages)
 - js/atmosphere.js — continuous fluid background canvas + section triggers
 - js/ — include, navigation, header-theme, homepage, page-chrome, next-event
 - assets/ — images, video, logo. Don't open image files unless asked.

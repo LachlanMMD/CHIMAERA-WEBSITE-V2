@@ -145,7 +145,16 @@
         }
 
         dateEl.textContent = formatDate(next.date);
-        titleEl.textContent = next.title;
+        titleEl.textContent = "";
+
+        if (next.url) {
+          var titleLink = document.createElement("a");
+          titleLink.href = next.url;
+          titleLink.textContent = next.title;
+          titleEl.appendChild(titleLink);
+        } else {
+          titleEl.textContent = next.title;
+        }
         venueEl.textContent = next.venue;
 
         actionEl.innerHTML = "";
