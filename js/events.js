@@ -142,7 +142,21 @@
 
     var titleEl = document.createElement("p");
     titleEl.className = "event-card__title";
-    titleEl.textContent = event.title;
+
+    if (event.url) {
+      /*
+       * Stretched link: the whole card opens the event page, while the
+       * ticket/waitlist button (raised above it in CSS) keeps its own target.
+       */
+      var titleLink = document.createElement("a");
+      titleLink.className = "event-card__link";
+      titleLink.href = event.url;
+      titleLink.textContent = event.title;
+      titleEl.appendChild(titleLink);
+    } else {
+      titleEl.textContent = event.title;
+    }
+
     article.appendChild(titleEl);
 
     var venueEl = document.createElement("p");
@@ -212,8 +226,13 @@
    */
 
   function buildPastPoster(event) {
-    var figure = document.createElement("figure");
+    var figure = document.createElement(event.url ? "a" : "figure");
     figure.className = "past-poster";
+
+    if (event.url) {
+      figure.href = event.url;
+      figure.setAttribute("aria-label", event.title);
+    }
     figure.appendChild(buildPoster(event.poster, "past-poster__placeholder"));
 
     if (event.soldOut) {

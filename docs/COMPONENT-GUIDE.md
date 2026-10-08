@@ -330,6 +330,15 @@ Edit `data/events.json`. It's a list; add an object, with a comma between object
 | `ticketUrl` | Your Stripe Payment Link |
 | `status` | `"upcoming"`, `"soldout"` or `"past"` |
 | `soldOut` | **Past events only:** `true`/`false` for the stamp |
+| `url` | Optional. `"/events/<slug>/"` once the event page exists; the card, past poster and next-event title then link to it |
+
+**Event page** (until the Astro port, one HTML file per event):
+1. Copy `events/_template/` to `events/<slug>/`. Slug: `short-name-yyyy-mm`; never change it once shared.
+2. Replace every `[BRACKETED]` value and delete the `noindex` line.
+3. Poster → `assets/images/events/<slug>/poster.jpg` (3:4, ~1280 px wide).
+4. Keep ONE action block (UPCOMING / SOLD OUT / PAST), delete the others. Sold out also gets `<span class="stamp">Sold out</span>` on the poster.
+5. Add `"url": "/events/<slug>/"` to the event in `events.json`.
+Styles: `css/event.css`. The first placeholder event in `events.json` points at the template so you can preview the link.
 
 **Lifecycle (important):**
 1. New event → `"status": "upcoming"`.

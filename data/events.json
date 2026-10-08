@@ -6,7 +6,8 @@
     "venue": "[VENUE]",
     "poster": null,
     "ticketUrl": "#",
-    "status": "upcoming"
+    "status": "upcoming",
+    "url": "/events/_template/"
   },
   {
     "slug": "[EVENT-SLUG-2]",

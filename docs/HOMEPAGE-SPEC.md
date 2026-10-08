@@ -155,6 +155,15 @@ Adobe Fonts kit `koo7phy` via `<link>` + preconnect on every page. Family names:
 - Touch targets ≥ 44px. Visible `:focus-visible` on all interactive elements.
 - No horizontal page scroll at 375px.
 
+## 11. Event page (`events/<slug>/`, template `events/_template/`, `css/event.css`)
+
+Quiet and short; reference: the old chimaeracollective.dk event pages. No host/artist block (events aren't artist-led for now).
+- Mobile: one centred column (max ~37.5rem). ≥64rem: poster left (sticky), text right.
+- Order: "← All events" · poster in the pale-warm mat (card language, scaled up) · medium (serif italic) · H1 title (`--step-4`) · date · time / venue · area · two short serif paragraphs · three one-line details (Duration, Bring, Experience) · one button.
+- Button by state: upcoming → primary "Tickets · [price] kr →" (Stripe); sold out → stamp on poster + secondary "Join the waitlist"; past → photo grid + "Hear about the next one first →".
+- Not on the page: refund rule, full address, capacity — these live in the Stripe checkout and confirmation email.
+- Fields (= the Astro content schema): title, medium, date, time, venue, area, price, stripeUrl, soldOut, poster, duration, bring, experience, photos[], body (two short paragraphs).
+
 ## 10. Open questions
 
 - Collage reveal (§7): build after the Astro port.
