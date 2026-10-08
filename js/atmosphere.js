@@ -35,7 +35,7 @@
   // ============================================================
 
   var DEFAULT_CONFIG = {
-    coral: "#e25139",
+    coral: "#e35039",
     pale: "#f1f6f8",
 
     colourMidpointX: 0.75,
