@@ -81,6 +81,7 @@
 
   /* ---- Structure ---- */
   --rule-width: 1px;
+  --rule-width-strong: 1.5px; /* secondary (outline) buttons */
   --column-gap: var(--space-l);
   --page-margin: clamp(1.25rem, 1rem + 2vw, 3rem);
   --content-max-width: 60rem; /* capped reading/content width — first used by .next-event */

@@ -245,7 +245,7 @@ body.nav-open .landing__video {
 
 /*
  * Rendered by js/next-event.js — .next-event__ticket-link for the
- * upcoming-event action, .next-event__soldout-tag +
+ * upcoming-event action, .stamp.next-event__stamp +
  * .next-event__waitlist-link for the sold-out state.
  */
 
@@ -276,27 +276,26 @@ body.nav-open .landing__video {
   outline-offset: 2px;
 }
 
-.next-event__soldout-tag {
-  display: inline-block;
-
-  font-family: var(--font-micro);
-  font-size: var(--text-small);
-
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-
-  opacity: 0.7;
-}
-
 .next-event__waitlist-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 
-  margin-top: var(--space-3xs);
+  min-height: var(--tap-target-min);
+  padding-inline: var(--space-m);
+
+  border: var(--rule-width-strong) solid var(--color-ink);
+
+  color: var(--color-ink);
 
   font-family: var(--font-text);
   font-weight: 700;
 
-  color: var(--color-ink);
+  text-decoration: none;
+}
+
+.next-event__stamp {
+  margin-right: var(--space-s);
 }
 
 .next-event__fallback {
@@ -761,18 +760,22 @@ body.nav-open .landing__video {
   font-family: var(--font-display);
   font-weight: 700;
 
-  font-size: var(--step-4);
+  font-size: var(--step-3);
 
   line-height: 1.05;
 
   letter-spacing: -0.01em;
 
-  text-transform: uppercase;
-
   margin: var(--space-3xs) 0 0;
 }
 
-.homepage-events__artist-link {
+.homepage-events__artist-link,
+.homepage-events__archive-link {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 2.75rem;
+
   font-family: var(--font-text);
   font-weight: 700;
 
@@ -801,7 +804,7 @@ body.nav-open .landing__video {
 .event-card {
   position: relative;
 
-  flex: 1 1 280px;
+  flex: 0 1 22.5rem;
 
   background: var(--color-pale-warm);
 
@@ -834,23 +837,10 @@ body.nav-open .landing__video {
   background: var(--color-pale);
 }
 
-.event-card__soldout-tag {
+.event-card__poster .stamp {
   position: absolute;
-  top: -0.5rem;
-  right: -0.5rem;
-
-  transform: rotate(8deg);
-
-  background: var(--color-coral-deep);
-  color: var(--color-white);
-
-  font-family: var(--font-micro);
-  font-size: var(--text-small);
-
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-
-  padding: var(--space-3xs) var(--space-xs);
+  top: var(--space-xs);
+  left: var(--space-xs);
 }
 
 .event-card__date {
@@ -912,12 +902,49 @@ body.nav-open .landing__video {
   background: transparent;
   color: var(--color-ink);
 
-  border: var(--rule-width) solid var(--color-ink);
+  border: var(--rule-width-strong) solid var(--color-ink);
+}
+
+/* --------------------------------------------------------------------------
+   NEXT DATES PANEL — shown after 1–2 upcoming cards (js/events.js).
+   Same width as a card; transparent so it reads as an empty slot.
+   -------------------------------------------------------------------------- */
+
+.event-next-dates {
+  flex: 0 1 22.5rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-s);
+
+  padding: var(--space-m) var(--space-m) var(--space-m);
+
+  border: 2px dashed var(--color-ink-45);
+}
+
+.event-next-dates__label {
+  margin: 0;
+
+  font-family: var(--font-micro);
+  font-size: var(--text-small);
+
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.event-next-dates__text {
+  margin: 0;
+
+  font-family: var(--font-serif);
+  font-size: var(--step-1);
+  line-height: 1.25;
 }
 
 .event-card__ticket-link:focus-visible,
 .event-card__waitlist-link:focus-visible,
 .homepage-events__artist-link:focus-visible,
+.homepage-events__archive-link:focus-visible,
 .homepage-events__empty a:focus-visible {
   outline: 2px solid var(--color-ink);
   outline-offset: 2px;
@@ -942,8 +969,17 @@ body.nav-open .landing__video {
   margin-top: var(--space-2xl);
 }
 
-.homepage-events__past .eyebrow {
+.homepage-events__past-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-s);
+
   margin: 0 0 var(--space-s);
+}
+
+.homepage-events__past .eyebrow {
+  margin: 0;
 }
 
 .homepage-events__past-strip {
@@ -987,20 +1023,10 @@ body.nav-open .landing__video {
   border: var(--rule-width) solid var(--color-ink-25);
 }
 
-.past-poster__stamp {
+.past-poster .stamp {
   position: absolute;
   top: var(--space-2xs);
-  right: var(--space-2xs);
-
-  background: var(--color-coral-deep);
-  color: var(--color-white);
-
-  font-family: var(--font-micro);
-  font-size: var(--text-small);
-
-  text-transform: uppercase;
-
-  padding: var(--space-3xs) var(--space-2xs);
+  left: var(--space-2xs);
 }
 
 .past-poster__date {
@@ -1030,8 +1056,9 @@ body.nav-open .landing__video {
     min-height: 0;
   }
 
-  .event-card {
-    flex: 0 0 80vw;
+  .event-card,
+  .event-next-dates {
+    flex: 0 0 78vw;
 
     scroll-snap-align: start;
   }
