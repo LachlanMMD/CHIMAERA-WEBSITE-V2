@@ -3,16 +3,11 @@
  *
  * Scroll-driven atmosphere control.
  *
- * HERO 1:
- *   The atmosphere remains at its landing position (0.75)
- *   until HERO 1 begins entering the viewport.
- *
- *   From that point, the atmosphere gradually moves toward
- *   0.50 as the centre of HERO 1 approaches the centre of
- *   the viewport.
- *
- *   The transition uses an eased curve rather than linear
- *   interpolation.
+ *   Each homepage section has a coverage stop (STOPS below).
+ *   As the viewport centre travels between two sections'
+ *   centres, the midpoint eases from one stop to the next.
+ *   The atmosphere's own idle breath, wobble and mouse response
+ *   run on top of this (js/atmosphere.js).
  */
 
 (function () {
@@ -51,34 +46,63 @@
      *   HERO1 centre reaches viewport centre.
      */
 
+    /*
+     * ----------------------------------------------------------
+     * SECTION STOPS
+     * ----------------------------------------------------------
+     *
+     * Atmosphere midpoint per section (0 = all pale, 1 = all coral).
+     * Between two sections, the midpoint eases from one value to the
+     * next as the viewport centre travels between their centres.
+     * Edit the numbers to tune; add a row to add a section.
+     * Spec: docs/HOMEPAGE-SPEC.md §4.1.
+     */
+
+    var STOPS = [
+      { selector: ".landing", midpoint: 0.75 },
+      { selector: "#idea", midpoint: 0.5 },
+      { selector: "#artist", midpoint: 0.5 },
+      { selector: "#people", midpoint: 0.5 },
+      { selector: "#practice", midpoint: 0.5 },
+      { selector: "#events", midpoint: 0.75 },
+    ];
+
+    function midpointForScroll() {
+      var viewportCentre = window.innerHeight / 2;
+      var points = [];
+
+      STOPS.forEach(function (stop) {
+        var el = document.querySelector(stop.selector);
+        if (!el) return;
+
+        var rect = el.getBoundingClientRect();
+        points.push({ centre: rect.top + rect.height / 2, midpoint: stop.midpoint });
+      });
+
+      if (!points.length) return null;
+
+      if (viewportCentre <= points[0].centre) return points[0].midpoint;
+
+      for (var i = 0; i < points.length - 1; i++) {
+        var a = points[i];
+        var b = points[i + 1];
+
+        if (viewportCentre >= a.centre && viewportCentre <= b.centre) {
+          var t = (viewportCentre - a.centre) / (b.centre - a.centre);
+          return a.midpoint + (b.midpoint - a.midpoint) * easeInOutCubic(t);
+        }
+      }
+
+      return points[points.length - 1].midpoint;
+    }
+
     function updateAtmosphere() {
       ticking = false;
 
-      var rect = hero1.getBoundingClientRect();
+      var midpoint = midpointForScroll();
 
-      var viewportHeight = window.innerHeight;
-      var viewportCentre = viewportHeight / 2;
-
-      var transitionStart = viewportHeight;
-
-      var heroCentre = rect.top + rect.height / 2;
-
-      var transitionEnd = viewportCentre;
-
-      var heroCentreAtStart = viewportHeight + rect.height / 2;
-
-      var progress = (heroCentreAtStart - heroCentre) / (heroCentreAtStart - transitionEnd);
-
-      progress = Math.max(0, Math.min(1, progress));
-
-      var eased = easeInOutCubic(progress);
-
-      /*
-       * Send the scroll position to the persistent atmosphere.
-       */
-
-      if (typeof atmosphere.setScrollProgress === "function") {
-        atmosphere.setScrollProgress(eased);
+      if (midpoint !== null && typeof atmosphere.setColourMidpoint === "function") {
+        atmosphere.setColourMidpoint(midpoint);
       }
     }
 
