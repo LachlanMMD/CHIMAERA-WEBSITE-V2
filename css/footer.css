@@ -1,0 +1,197 @@
+/* ==========================================================================
+   CHIMAERA — Site footer (components/footer.html, every page)
+   Ink background, pale-warm text. Ends the atmosphere.
+   Spec: docs/HOMEPAGE-SPEC.md §3 section 6.
+   ========================================================================== */
+
+.site-footer {
+  position: relative;
+  z-index: 1;
+
+  background: var(--color-ink);
+  color: var(--color-pale-warm);
+
+  padding: var(--space-2xl) var(--page-margin) var(--space-l);
+}
+
+.site-footer__inner {
+  max-width: var(--section-max-width);
+  margin-inline: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.site-footer__columns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-xl);
+}
+
+.site-footer__newsletter {
+  flex: 1 1 22rem;
+
+  max-width: 32rem;
+}
+
+.site-footer__nav,
+.site-footer__contact {
+  flex: 0 1 14rem;
+}
+
+.site-footer__heading {
+  margin: 0 0 var(--space-s);
+
+  font-family: var(--font-micro);
+  font-size: var(--text-small);
+  font-weight: 700;
+
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.site-footer__copy {
+  margin: 0 0 var(--space-m);
+
+  font-family: var(--font-serif);
+  font-size: var(--step-1);
+  line-height: 1.35;
+}
+
+/* --------------------------------------------------------------------------
+   NEWSLETTER FORM (placeholder until the MailerLite embed)
+   -------------------------------------------------------------------------- */
+
+.newsletter-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs);
+}
+
+.newsletter-form__input {
+  flex: 999 1 14rem;
+
+  min-height: var(--tap-target-min);
+  padding: 0 var(--space-s);
+
+  background: transparent;
+  color: var(--color-pale-warm);
+
+  border: var(--rule-width-strong) solid var(--color-pale-warm-50);
+  border-radius: 0;
+
+  font-family: var(--font-text);
+  font-size: var(--text-body);
+}
+
+.newsletter-form__input::placeholder {
+  color: var(--color-pale-warm-50);
+}
+
+.newsletter-form__button {
+  flex: 1 1 8rem;
+
+  min-height: var(--tap-target-min);
+
+  background: var(--color-coral);
+  color: var(--color-ink);
+
+  border: 0;
+  border-radius: 0;
+
+  font-family: var(--font-text);
+  font-size: var(--text-body);
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+/* --------------------------------------------------------------------------
+   LINK LISTS
+   -------------------------------------------------------------------------- */
+
+.site-footer__list {
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.site-footer__list a {
+  display: flex;
+  align-items: center;
+
+  min-height: 2.75rem;
+
+  color: var(--color-pale-warm);
+
+  font-family: var(--font-text);
+  font-size: var(--text-body);
+
+  text-decoration: none;
+}
+
+.site-footer__list a:hover {
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   BOTTOM ROW — wordmark + legal
+   -------------------------------------------------------------------------- */
+
+.site-footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-m);
+
+  padding-top: var(--space-m);
+
+  border-top: var(--rule-width) solid var(--color-pale-warm-20);
+}
+
+.site-footer__wordmark img {
+  display: block;
+
+  width: auto;
+  height: clamp(2.5rem, 2rem + 3vw, 4.5rem);
+}
+
+.site-footer__legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--space-m);
+
+  font-family: var(--font-micro);
+  font-size: var(--text-small);
+
+  opacity: 0.75;
+}
+
+.site-footer__legal p {
+  margin: 0;
+}
+
+.site-footer__legal a {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 2.75rem;
+
+  color: var(--color-pale-warm);
+}
+
+/* --------------------------------------------------------------------------
+   FOCUS
+   -------------------------------------------------------------------------- */
+
+.site-footer a:focus-visible,
+.newsletter-form__input:focus-visible,
+.newsletter-form__button:focus-visible {
+  outline: 2px solid var(--color-pale-warm);
+  outline-offset: 2px;
+}

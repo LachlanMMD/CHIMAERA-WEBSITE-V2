@@ -1,17 +1,62 @@
+<!-- CHIMAERA site footer (all pages). Styles: css/footer.css. Spec: docs/HOMEPAGE-SPEC.md §3 section 6. -->
+
 <footer class="site-footer" id="footer">
-  <div class="site-footer__row">
-    <a href="/" class="wordmark">
-      <img src="/assets/logo/chimaera-wordmark-coral.png" alt="CHIMAERA" width="381" height="103" />
-    </a>
-    <p class="eyebrow">[khi&nbsp;-&nbsp;mæ&nbsp;-&nbsp;ra]</p>
-  </div>
-  <div class="site-footer__row site-footer__row--meta">
-    <p class="body-copy">CHIMAERA.CPH — a creative community around art, design and tactile processes.</p>
-    <ul class="site-footer__links">
-      <li><a href="/events/">events</a></li>
-      <li><a href="/gallery/">gallery</a></li>
-      <li><a href="/about/">about</a></li>
-      <li><a href="/contact/">contact</a></li>
-    </ul>
+  <div class="site-footer__inner">
+
+    <div class="site-footer__columns">
+
+      <section class="site-footer__newsletter" aria-labelledby="footer-newsletter-heading">
+        <h2 class="site-footer__heading" id="footer-newsletter-heading">Newsletter</h2>
+
+        <p class="site-footer__copy">
+          New dates reach the newsletter first — before tickets go on sale here.
+        </p>
+
+        <!-- Placeholder form: replaced by the MailerLite embed before launch. -->
+        <form class="newsletter-form" onsubmit="return false;">
+          <label class="visually-hidden" for="newsletter-email">Email address</label>
+          <input class="newsletter-form__input" id="newsletter-email" type="email" name="email"
+            autocomplete="email" placeholder="your@email.dk" required>
+          <button class="newsletter-form__button" type="button">Subscribe</button>
+        </form>
+      </section>
+
+      <nav class="site-footer__nav" aria-labelledby="footer-explore-heading">
+        <h2 class="site-footer__heading" id="footer-explore-heading">Explore</h2>
+
+        <ul class="site-footer__list">
+          <li><a href="/#events">Events</a></li>
+          <li><a href="/#events">Archive</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="/contact/">Contact</a></li>
+        </ul>
+      </nav>
+
+      <section class="site-footer__contact" aria-labelledby="footer-contact-heading">
+        <h2 class="site-footer__heading" id="footer-contact-heading">Contact</h2>
+
+        <ul class="site-footer__list">
+          <li><a href="mailto:info@chimaeracollective.dk">info@chimaeracollective.dk</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+        </ul>
+      </section>
+
+    </div>
+
+    <div class="site-footer__bottom">
+
+      <a href="/" class="site-footer__wordmark">
+        <img src="/assets/logo/chimaera-wordmark-coral.png" alt="CHIMAERA" width="381" height="103">
+      </a>
+
+      <div class="site-footer__legal">
+        <p>CHIMAERA.CPH · Ved Linden 4, 3. th., 2300 København S · CVR 45933091</p>
+        <a href="/privacy/">Privacy policy</a>
+        <a href="/terms/">Terms &amp; conditions</a>
+      </div>
+
+    </div>
+
   </div>
 </footer>

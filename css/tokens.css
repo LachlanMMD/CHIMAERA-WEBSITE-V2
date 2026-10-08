@@ -15,6 +15,8 @@
   --color-ink-25: rgba(26, 26, 26, 0.25); /* --color-ink at 25% — event poster keyline */
   --color-ink-30: rgba(26, 26, 26, 0.3); /* --color-ink at 30% — rules/borders on ink text, never full opacity (would fail contrast) */
   --color-ink-45: rgba(26, 26, 26, 0.45); /* --color-ink at 45% — dashed rules (event cards, thread) */
+  --color-pale-warm-20: rgba(247, 239, 236, 0.2); /* --color-pale-warm at 20% — rules on ink (footer) */
+  --color-pale-warm-50: rgba(247, 239, 236, 0.5); /* --color-pale-warm at 50% — input borders/placeholders on ink */
   --color-white: #ffffff;          /* text / rules on coral */
 
   /* ---- Atmosphere tuning (read once by js/atmosphere.js at load) ----
