@@ -67,7 +67,7 @@
 
     // The atmosphere keeps drifting even when the page doesn't scroll, so
     // re-sample on a slow interval too (cheap: a 1x1 canvas read).
-    window.setInterval(sample, 1200);
+    window.setInterval(sample, 2500);
   }
 
   if (document.querySelector('[data-include]')) {

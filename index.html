@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>CHIMAERA — kreativt fællesskab</title>
+  <title>CHIMAERA — creative community, Copenhagen</title>
 
   <meta name="description"
     content="CHIMAERA is a Copenhagen creative collective building community through art, design and tactile process — workshops, gatherings and hands-on making over consumption.">
@@ -14,7 +14,7 @@
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="CHIMAERA">
-  <meta property="og:title" content="CHIMAERA — kreativt fællesskab">
+  <meta property="og:title" content="CHIMAERA — creative community, Copenhagen">
   <meta property="og:description"
     content="A Copenhagen creative collective building community through art, design and tactile process.">
   <meta property="og:image" content="/assets/images/optimized/workshop-sketching-1800.jpg">
@@ -32,6 +32,7 @@
   <link rel="stylesheet" href="/css/typography.css">
   <link rel="stylesheet" href="/css/navigation.css">
   <link rel="stylesheet" href="/css/homepage.css">
+  <link rel="stylesheet" href="/css/footer.css">
 </head>
 
 
@@ -102,7 +103,7 @@
            replacing the fallback link. See docs/HOMEPAGE-SPEC.md §3.
            ======================================================= -->
 
-      <section class="next-event" id="next-event" aria-labelledby="next-event-label">
+      <section class="next-event field-atmosphere" id="next-event" data-field="coral" aria-labelledby="next-event-label">
 
         <div class="next-event__inner container">
 
@@ -137,13 +138,15 @@
            HERO / PROPOSITION
            ======================================================= -->
 
-      <section class="homepage-hero" id="idea" aria-labelledby="hero-heading">
+      <section class="homepage-hero field-atmosphere" id="idea" data-field="coral" aria-labelledby="hero-heading">
 
         <div class="homepage-hero__copy">
 
           <p class="eyebrow">
             01 — the idea
           </p>
+
+          <p class="homepage-hero__phonetic">[khi-mæ-ra]</p>
 
           <h2 id="hero-heading">
             SOME OF US WATCH.<br>
@@ -156,32 +159,22 @@
 
         </div>
 
-
-        <div class="homepage-hero__gallery" aria-hidden="true">
-
-          <img class="homepage-hero__image homepage-hero__image--1" src="/assets/images/HOMEPAGE/HERO1.JPG" alt=""
-            loading="lazy" decoding="async">
-
-          <img class="homepage-hero__image homepage-hero__image--2" src="/assets/images/HOMEPAGE/HERO2.JPG" alt=""
-            loading="lazy" decoding="async">
-
-          <img class="homepage-hero__image homepage-hero__image--3" src="/assets/images/HOMEPAGE/HERO3.JPG" alt=""
-            loading="lazy" decoding="async">
-
-        </div>
+        <figure class="homepage-hero__figure">
+          <img src="/assets/images/optimized/materials-flatlay-640.jpg"
+            srcset="/assets/images/optimized/materials-flatlay-640.jpg 640w, /assets/images/optimized/materials-flatlay-1280.jpg 1280w"
+            sizes="(min-width: 64rem) 25rem, 90vw" width="640" height="853" alt="" loading="lazy" decoding="async">
+        </figure>
 
       </section>
 
 
       <!-- =======================================================
            ARTIST
-           Split from the old single "encounter" section (see
-           css/homepage.css for why) — HERO2 is an individual
-           photographic object placed into the persistent atmosphere,
-           not a background fill.
+           Two columns ≥64rem (text left, photo right, inset).
+           Spec: docs/HOMEPAGE-SPEC.md §3 section 2.
            ======================================================= -->
 
-      <section class="homepage-artist" id="artist" data-field="coral" aria-label="The artist">
+      <section class="homepage-artist field-atmosphere" id="artist" data-field="coral" aria-label="The artist">
 
         <div class="encounter__text encounter__text--artist">
 
@@ -201,7 +194,9 @@
         </div>
 
         <figure class="encounter__photo encounter__photo--artist">
-          <img src="/assets/images/HOMEPAGE/HERO2.JPG" alt="" loading="lazy" decoding="async">
+          <img src="/assets/images/optimized/ladder-display-640.jpg"
+            srcset="/assets/images/optimized/ladder-display-640.jpg 640w, /assets/images/optimized/ladder-display-1280.jpg 1280w"
+            sizes="(min-width: 64rem) 27.5rem, 90vw" width="640" height="859" alt="" loading="lazy" decoding="async">
         </figure>
 
       </section>
@@ -211,7 +206,7 @@
            PEOPLE
            ======================================================= -->
 
-      <section class="homepage-people" id="people" data-field="coral" aria-label="The people">
+      <section class="homepage-people field-atmosphere" id="people" data-field="coral" aria-label="The people">
 
         <div class="encounter__text encounter__text--participant">
 
@@ -231,7 +226,9 @@
         </div>
 
         <figure class="encounter__photo encounter__photo--participant">
-          <img src="/assets/images/HOMEPAGE/HERO3.JPG" alt="" loading="lazy" decoding="async">
+          <img src="/assets/images/optimized/gathering-laughing-640.jpg"
+            srcset="/assets/images/optimized/gathering-laughing-640.jpg 640w, /assets/images/optimized/gathering-laughing-1280.jpg 1280w"
+            sizes="(min-width: 64rem) 30rem, 90vw" width="640" height="960" alt="" loading="lazy" decoding="async">
         </figure>
 
       </section>
@@ -239,23 +236,45 @@
 
       <!-- =======================================================
            PRACTICE
-           Stub — replaces the old empty .homepage-idea. Real layout
-           (label/H2/body + 4-image collage) per
-           docs/HOMEPAGE-SPEC.md §3 is a future session.
+           Copy + "Get in touch" link, static 4-image collage.
+           Reveal interaction comes later (spec §7).
            ======================================================= -->
 
-      <section class="homepage-practice" id="practice" aria-labelledby="practice-heading">
+      <section class="homepage-practice field-atmosphere" id="practice" data-field="coral" aria-labelledby="practice-heading">
 
-        <p class="eyebrow">
-          04 — the practice
-        </p>
+        <div class="homepage-practice__copy">
 
-        <h2 id="practice-heading">
-          [placeholder heading]
-        </h2>
+          <p class="eyebrow">
+            04 — the practice
+          </p>
 
-        <div class="body-copy">
-          [placeholder]
+          <h2 id="practice-heading">
+            [placeholder heading]
+          </h2>
+
+          <div class="body-copy">
+            [placeholder]
+          </div>
+
+          <a class="homepage-practice__link" href="/contact/">
+            Get in touch →
+          </a>
+
+        </div>
+
+        <div class="practice-collage" aria-hidden="true">
+          <figure class="practice-collage__item practice-collage__item--1">
+            <img src="/assets/images/optimized/workshop-sketching-640.jpg" width="640" height="960" alt="" loading="lazy" decoding="async">
+          </figure>
+          <figure class="practice-collage__item practice-collage__item--2">
+            <img src="/assets/images/optimized/workshop-painting-held-640.jpg" width="640" height="960" alt="" loading="lazy" decoding="async">
+          </figure>
+          <figure class="practice-collage__item practice-collage__item--3">
+            <img src="/assets/images/optimized/two-women-painting-640.jpg" width="640" height="848" alt="" loading="lazy" decoding="async">
+          </figure>
+          <figure class="practice-collage__item practice-collage__item--4">
+            <img src="/assets/images/optimized/table-flowers-640.jpg" width="640" height="960" alt="" loading="lazy" decoding="async">
+          </figure>
         </div>
 
       </section>
@@ -267,7 +286,7 @@
            data/events.json. See docs/HOMEPAGE-SPEC.md §3 section 5.
            ======================================================= -->
 
-      <section class="homepage-events" id="events" aria-labelledby="events-heading">
+      <section class="homepage-events field-atmosphere" id="events" data-field="coral" aria-labelledby="events-heading">
 
         <div class="homepage-events__header">
 
@@ -282,7 +301,7 @@
           </div>
 
           <a class="homepage-events__artist-link"
-            href="mailto:info@chimaeracollective.dk?subject=Artist%20application">
+            href="/contact/">
             Are you an artist? →
           </a>
 
@@ -296,9 +315,17 @@
 
         <div class="homepage-events__past" hidden>
 
-          <p class="eyebrow">
-            Past events
-          </p>
+          <div class="homepage-events__past-header">
+
+            <p class="eyebrow">
+              Past events
+            </p>
+
+            <a class="homepage-events__archive-link" href="/#events">
+              Archive →
+            </a>
+
+          </div>
 
           <div class="homepage-events__past-strip" data-events-past></div>
 

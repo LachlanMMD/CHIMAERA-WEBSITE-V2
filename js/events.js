@@ -125,7 +125,7 @@
 
     if (event.status === "soldout") {
       var tag = document.createElement("span");
-      tag.className = "event-card__soldout-tag";
+      tag.className = "stamp";
       tag.textContent = "Sold out";
       posterFig.appendChild(tag);
     }
@@ -174,6 +174,39 @@
 
   /*
    * ----------------------------------------------------------
+   * BUILD — NEXT DATES PANEL
+   * ----------------------------------------------------------
+   *
+   * Fills the row when only 1–2 events are on sale, turning the
+   * empty space into a newsletter prompt. Spec §3 section 5.
+   */
+
+  function buildNextDatesPanel() {
+    var aside = document.createElement("aside");
+    aside.className = "event-next-dates";
+    aside.setAttribute("aria-label", "More dates");
+
+    var label = document.createElement("p");
+    label.className = "event-next-dates__label";
+    label.textContent = "Next dates";
+    aside.appendChild(label);
+
+    var text = document.createElement("p");
+    text.className = "event-next-dates__text";
+    text.textContent = "New dates reach the newsletter before they go on sale here.";
+    aside.appendChild(text);
+
+    var link = document.createElement("a");
+    link.className = "event-card__waitlist-link";
+    link.href = "#footer";
+    link.textContent = "Get first access";
+    aside.appendChild(link);
+
+    return aside;
+  }
+
+  /*
+   * ----------------------------------------------------------
    * BUILD — PAST POSTER
    * ----------------------------------------------------------
    */
@@ -185,7 +218,7 @@
 
     if (event.soldOut) {
       var stamp = document.createElement("span");
-      stamp.className = "past-poster__stamp";
+      stamp.className = "stamp";
       stamp.textContent = "Sold out";
       figure.appendChild(stamp);
     }
@@ -239,6 +272,11 @@
           upcoming.forEach(function (event) {
             grid.appendChild(buildEventCard(event));
           });
+
+          if (upcoming.length < 3) {
+            grid.appendChild(buildNextDatesPanel());
+          }
+
           emptyState.hidden = true;
         }
 

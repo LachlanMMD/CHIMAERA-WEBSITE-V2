@@ -91,7 +91,7 @@
 
   function renderSoldOut(actionEl) {
     var tag = document.createElement("span");
-    tag.className = "next-event__soldout-tag";
+    tag.className = "stamp next-event__stamp";
     tag.textContent = "Sold out";
 
     var waitlist = document.createElement("a");

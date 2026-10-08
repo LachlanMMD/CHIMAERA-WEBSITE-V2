@@ -12,7 +12,7 @@ Static HTML/CSS/vanilla JS, no build step. Deployed on Vercel. Astro migration p
 - index.html, about/, contact/ — pages
 - components/ — header.html, navigation.html, footer.html, injected by js/include.js
 - css/tokens.css — ALL colors, type, spacing. Never hardcode values; add missing tokens here.
-- css/ — global, typography, navigation, homepage, page (subpages)
+- css/ — global, typography, navigation, homepage, footer, page (subpages)
 - js/atmosphere.js — continuous fluid background canvas + section triggers
 - js/ — include, navigation, header-theme, homepage, page-chrome, next-event
 - assets/ — images, video, logo. Don't open image files unless asked.
@@ -31,15 +31,14 @@ Static HTML/CSS/vanilla JS, no build step. Deployed on Vercel. Astro migration p
 
 ## Current state
 
-- Homepage being rebuilt to spec. Fonts via Adobe kit `koo7phy`; ink (`--color-ink`) is the
-  site-wide default text color, including over the atmosphere (better contrast than white at both
-  ends of the coral/pale gradient).
-- Section skeleton built to spec §2: `landing → next-event → #idea → #artist → #people →
-  #practice → #events → footer`. `#practice` is still a placeholder stub.
-- Section 0.5 "Next event" (`js/next-event.js`) and section 05 "join us" — events grid + past
-  strip (`js/events.js`) — both built, reading `data/events.json`.
-- Body text tokens (`--text-body`/`--leading-body`/`--measure`/`--text-small`) applied site-wide.
-- Next: bugs from `docs/COMPONENT-GUIDE.md` §5, then footer to spec, then atmosphere stops (§4.4).
+- Homepage built to docs/HOMEPAGE-SPEC.md v2.2: landing → next-event → #idea → #artist →
+  #people → #practice → #events → footer. Fonts via Adobe kit `koo7phy`; ink is the default text colour.
+- Atmosphere: per-section STOPS in js/homepage.js; idle breath + mouse; all tuning in the
+  `--atmosphere-*` tokens (css/tokens.css).
+- Next event (js/next-event.js) and 05 events (js/events.js) read data/events.json. One `.stamp`
+  component (css/global.css). Footer: components/footer.html + css/footer.css on every page.
+- Homepage photos: web-sized copies in assets/images/optimized/ (640/1280w). Don't link the 6000px originals.
+- Next: Astro port (docs/BUILD-PROMPTS.md, "After P9"), then event pages, archive, privacy, terms.
 
 ## Docs
 

@@ -15,17 +15,24 @@
   --color-ink-25: rgba(26, 26, 26, 0.25); /* --color-ink at 25% — event poster keyline */
   --color-ink-30: rgba(26, 26, 26, 0.3); /* --color-ink at 30% — rules/borders on ink text, never full opacity (would fail contrast) */
   --color-ink-45: rgba(26, 26, 26, 0.45); /* --color-ink at 45% — dashed rules (event cards, thread) */
+  --color-pale-warm-20: rgba(247, 239, 236, 0.2); /* --color-pale-warm at 20% — rules on ink (footer) */
+  --color-pale-warm-50: rgba(247, 239, 236, 0.5); /* --color-pale-warm at 50% — input borders/placeholders on ink */
   --color-white: #ffffff;          /* text / rules on coral */
 
-  /* ---- Atmosphere defaults (read by js/atmosphere.js) ---- */
-  --atmosphere-coral: var(--color-coral);
-  --atmosphere-pale: var(--color-pale);
-  --atmosphere-coral-intensity: 1;
-  --atmosphere-opacity: 1;
-  --atmosphere-speed: 1;
-  --atmosphere-amplitude: 1;
-  --atmosphere-softness: 1;
-  --atmosphere-scale: 1;
+  /* ---- Atmosphere tuning (read once by js/atmosphere.js at load) ----
+     Change these to tune the field site-wide; no JS edits needed.
+     Per-section coverage stops live in js/homepage.js (STOPS). */
+  --atmosphere-coral: var(--color-coral);   /* coral side colour (hex) */
+  --atmosphere-pale: var(--color-pale);     /* pale side colour (hex) */
+  --atmosphere-coral-intensity: 1;          /* coral alpha, 0–1 */
+  --atmosphere-opacity: 1;                  /* whole canvas opacity, 0–1 */
+  --atmosphere-speed: 1;                    /* × wobble/drift speed */
+  --atmosphere-amplitude: 1;                /* × wobble/drift distance */
+  --atmosphere-softness: 1;                 /* × edge softness/blur */
+  --atmosphere-mouse: 1;                    /* × cursor push (desktop); 0 = off */
+  --atmosphere-breath: 0.03;                /* idle breath: boundary swing, fraction of width; 0 = off */
+  --atmosphere-breath-period: 8;            /* idle breath: seconds per breath */
+  --atmosphere-breath-softness: 0.2;        /* idle breath: how much the edge softens/sharpens */
 
   /* ---- Typography ----
      Served by Adobe Fonts, kit koo7phy (see the <link> tags in each
@@ -76,10 +83,15 @@
 
   /* ---- Structure ---- */
   --rule-width: 1px;
+  --rule-width-strong: 1.5px; /* secondary (outline) buttons */
   --column-gap: var(--space-l);
   --page-margin: clamp(1.25rem, 1rem + 2vw, 3rem);
   --content-max-width: 60rem; /* capped reading/content width — first used by .next-event */
+  --section-max-width: 80rem; /* homepage two-column sections (01–05): content box width on wide screens */
   --tap-target-min: 3rem; /* 48px — minimum interactive target height */
+
+  /* ---- Elevation ---- */
+  --shadow-soft: 0 0.625rem 1.5rem rgba(26, 26, 26, 0.18); /* --color-ink at 18% — 04 collage photos */
 
   /* ---- Motion ---- */
   --ease-editorial: cubic-bezier(0.22, 0.61, 0.36, 1);

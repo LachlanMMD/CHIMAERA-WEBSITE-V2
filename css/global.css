@@ -229,3 +229,29 @@ body.nav-open {
 .container {
   padding-inline: var(--page-margin);
 }
+
+/* ==========================================================================
+   STAMP — "Sold out"
+   ==========================================================================
+
+   One stamp everywhere (next-event strip, event cards, past posters).
+   Never rotated; on posters it sits inside the top-left corner.
+   Spec: docs/HOMEPAGE-SPEC.md §1.
+   ========================================================================== */
+
+.stamp {
+  display: inline-block;
+
+  padding: var(--space-3xs) var(--space-2xs);
+
+  background: var(--color-coral-deep);
+  color: var(--color-pale-warm);
+
+  font-family: var(--font-micro);
+  font-size: var(--text-small);
+  font-weight: 700;
+  line-height: 1.2;
+
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}

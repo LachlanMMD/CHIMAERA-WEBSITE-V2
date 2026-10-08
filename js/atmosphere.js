@@ -35,7 +35,7 @@
   // ============================================================
 
   var DEFAULT_CONFIG = {
-    coral: "#e25139",
+    coral: "#e35039",
     pale: "#f1f6f8",
 
     colourMidpointX: 0.75,
@@ -55,6 +55,24 @@
     softness: 1,
     scale: 1,
     maxFPS: 60,
+
+    /*
+     * IDLE BREATH + GLOBAL MULTIPLIERS
+     *
+     * Applied on top of whichever state config is active, so the
+     * field keeps breathing through every transition.
+     * All of these can be overridden from css/tokens.css
+     * (--atmosphere-* tokens, read once in init()).
+     */
+
+    breathAmplitude: 0.03, // midpoint swing, fraction of width
+    breathPeriod: 8, // seconds per full breath
+    breathSoftness: 0.2, // how much the edge softness breathes
+
+    speedScale: 1,
+    amplitudeScale: 1,
+    softnessScale: 1,
+    mouseScale: 1,
   };
 
   // ============================================================
@@ -516,13 +534,23 @@
     function drawFrame(t) {
       var animated = getCurrentAnimatedConfig(t);
 
-      var s = animated.movementSpeed;
+      var s = animated.movementSpeed * config.speedScale;
 
-      var effDeviationFrac = animated.organicDeviation * animated.movementAmplitude;
+      var effDeviationFrac = animated.organicDeviation * animated.movementAmplitude * config.amplitudeScale;
 
-      var mouse = getMouseOffset(width, height, animated.mouseInfluence);
+      var mouse = getMouseOffset(width, height, animated.mouseInfluence * config.mouseScale);
 
       var time = t * 0.001;
+
+      // ========================================================
+      // IDLE BREATH
+      // ========================================================
+
+      var breath = REDUCED_MOTION || !(config.breathPeriod > 0) ? 0 : Math.sin((time / config.breathPeriod) * Math.PI * 2);
+
+      var breathFrac = breath * config.breathAmplitude;
+
+      var softness = animated.softness * config.softnessScale * (1 + breath * config.breathSoftness);
 
       var motionScale = s / 25;
 
@@ -542,7 +570,7 @@
       // SOFTNESS
       // ========================================================
 
-      var featherFrac = clamp(0.1 * animated.softness, 0.03, 0.3);
+      var featherFrac = clamp(0.1 * softness, 0.03, 0.3);
 
       var featherPx = featherFrac * bufferW;
 
@@ -577,7 +605,7 @@
         // MIDPOINT
         // ======================================================
 
-        var centerXFrac = animated.colourMidpointX + globalSwayFrac + wobbleFrac + verticalTilt + mouse.dxFrac;
+        var centerXFrac = animated.colourMidpointX + globalSwayFrac + breathFrac + wobbleFrac + verticalTilt + mouse.dxFrac;
 
         centerXFrac = clamp(centerXFrac, 0.04, 0.96);
 
@@ -631,7 +659,7 @@
       var src = buffer;
 
       if (HAS_CANVAS_FILTER) {
-        var blurPx = clamp(1.6 * animated.softness, 0.4, 6);
+        var blurPx = clamp(1.6 * softness, 0.4, 6);
 
         blurCtx.clearRect(0, 0, bufferW, bufferH);
 
@@ -798,6 +826,28 @@
       },
 
       // --------------------------------------------------------
+      // SET MIDPOINT DIRECTLY (per-section scroll stops)
+      // --------------------------------------------------------
+
+      setColourMidpoint: function (x) {
+        if (openingActive) {
+          return;
+        }
+
+        currentConfig = Object.assign({}, currentConfig, {
+          colourMidpointX: clamp(x, 0, 1),
+        });
+
+        transitioning = false;
+
+        transitionFrom = null;
+
+        if (REDUCED_MOTION) {
+          drawFrame(FROZEN_T);
+        }
+      },
+
+      // --------------------------------------------------------
       // OPENING
       // --------------------------------------------------------
 
@@ -938,7 +988,53 @@
   // INITIALISE
   // ============================================================
 
+  // ============================================================
+  // TOKEN OVERRIDES (css/tokens.css → config)
+  // ============================================================
+
+  /*
+   * Reads the --atmosphere-* custom properties once. A missing or
+   * invalid token keeps the JS default above.
+   */
+
+  function applyTokenOverrides() {
+    var styles = window.getComputedStyle(document.documentElement);
+
+    function read(name) {
+      return styles.getPropertyValue(name).trim();
+    }
+
+    function num(name, key) {
+      var v = parseFloat(read(name));
+
+      if (isFinite(v)) config[key] = v;
+    }
+
+    function colour(name, key) {
+      var v = read(name);
+
+      if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(v)) config[key] = v;
+    }
+
+    colour("--atmosphere-coral", "coral");
+    colour("--atmosphere-pale", "pale");
+
+    num("--atmosphere-coral-intensity", "coralIntensity");
+    num("--atmosphere-opacity", "opacity");
+
+    num("--atmosphere-speed", "speedScale");
+    num("--atmosphere-amplitude", "amplitudeScale");
+    num("--atmosphere-softness", "softnessScale");
+    num("--atmosphere-mouse", "mouseScale");
+
+    num("--atmosphere-breath", "breathAmplitude");
+    num("--atmosphere-breath-period", "breathPeriod");
+    num("--atmosphere-breath-softness", "breathSoftness");
+  }
+
   function init() {
+    applyTokenOverrides();
+
     var mainCanvas = document.getElementById("atmosphere-canvas");
 
     var navCanvas = document.getElementById("nav-atmosphere-canvas");
