@@ -1,0 +1,371 @@
+/* ==========================================================================
+   CHIMAERA — Archive (/archive/)
+   ==========================================================================
+
+   Contact sheets: one row per past evening, newest first. A title line
+   (name · medium · date · stamp) over a swipeable strip of photos and
+   clips. Tap → lightbox (built by public/js/archive.js).
+   Page: src/pages/archive.astro. Design: canvas "Archive", option C.
+   ========================================================================== */
+
+.archive {
+  position: relative;
+  z-index: 1;
+
+  padding: calc(var(--space-2xl) + var(--space-s)) var(--page-margin) var(--space-2xl);
+}
+
+.archive__inner {
+  max-width: var(--section-max-width);
+  margin-inline: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+}
+
+.archive__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.archive__label {
+  margin: 0;
+
+  font-family: var(--font-micro);
+  font-size: var(--text-small);
+  letter-spacing: 0.02em;
+}
+
+.archive h1 {
+  margin: 0;
+
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--step-4);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* Thank-you note: on the card mat, like a note pinned to the wall. */
+.archive__thanks {
+  max-width: 36rem;
+
+  padding: var(--space-m) var(--space-m) var(--space-l);
+
+  background: var(--color-pale-warm);
+}
+
+.archive__thanks p {
+  margin: 0;
+
+  font-family: var(--font-serif);
+  font-size: var(--step-1);
+  line-height: 1.4;
+}
+
+.archive__empty {
+  margin: 0;
+
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--step-1);
+}
+
+/* --------------------------------------------------------------------------
+   ONE EVENING
+   -------------------------------------------------------------------------- */
+
+.evening {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+
+  padding-top: var(--space-m);
+
+  border-top: var(--rule-width) solid var(--color-ink-30);
+
+  scroll-margin-top: var(--space-2xl);
+}
+
+.evening__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2xs) var(--space-m);
+}
+
+.evening__title-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3xs) var(--space-s);
+
+  min-width: 0;
+}
+
+.evening h2 {
+  margin: 0;
+
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--step-2);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.evening__medium {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--step-0);
+}
+
+.evening__date {
+  font-family: var(--font-micro);
+  font-size: var(--text-small);
+  font-variant-numeric: tabular-nums;
+}
+
+.evening__title-line .stamp {
+  align-self: center;
+}
+
+.evening__tools {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+}
+
+.evening__count {
+  margin-right: var(--space-2xs);
+
+  font-family: var(--font-micro);
+  font-size: var(--text-small);
+}
+
+/* Arrow buttons: desktop only (phones swipe). */
+.evening__scroll {
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+
+  background: transparent;
+  color: var(--color-ink);
+
+  border: var(--rule-width-strong) solid var(--color-ink);
+  border-radius: 0;
+
+  font-size: var(--text-body);
+
+  cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .evening__scroll {
+    display: inline-flex;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   STRIP — fixed height, each item keeps its own aspect ratio
+   -------------------------------------------------------------------------- */
+
+.evening__strip {
+  --strip-height: clamp(15rem, 12rem + 10vw, 21.25rem);
+
+  display: flex;
+  gap: var(--space-2xs);
+
+  margin: 0 calc(-1 * var(--page-margin)) 0 0;
+  padding: 0 var(--page-margin) var(--space-3xs) 0;
+
+  list-style: none;
+
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+}
+
+.evening__item {
+  flex: 0 0 auto;
+
+  height: var(--strip-height);
+
+  scroll-snap-align: start;
+}
+
+.evening__open {
+  position: relative;
+
+  display: block;
+
+  height: 100%;
+  padding: 0;
+
+  background: var(--color-ink);
+
+  border: 0;
+  border-radius: 0;
+
+  cursor: zoom-in;
+}
+
+.evening__open img,
+.evening__open video,
+.evening__item--poster img {
+  display: block;
+
+  width: auto;
+  height: 100%;
+  max-width: none;
+
+  object-fit: cover;
+}
+
+.evening__open--video video,
+.evening__open--video img {
+  aspect-ratio: 3 / 4;
+}
+
+.evening__play {
+  position: absolute;
+  left: var(--space-2xs);
+  bottom: var(--space-2xs);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 2rem;
+  height: 2rem;
+  padding: 0 var(--space-2xs);
+
+  background: var(--color-ink-70);
+  color: var(--color-pale-warm);
+
+  font-size: var(--text-small);
+}
+
+.evening__open:focus-visible,
+.evening__scroll:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   LIGHTBOX — <dialog class="lightbox"> created by public/js/archive.js
+   -------------------------------------------------------------------------- */
+
+.lightbox {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+
+  background: var(--color-ink);
+  color: var(--color-pale-warm);
+
+  border: 0;
+}
+
+.lightbox::backdrop {
+  background: var(--color-ink);
+}
+
+.lightbox[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.lightbox__top,
+.lightbox__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-s);
+
+  padding: var(--space-xs) var(--space-xs) var(--space-xs) var(--space-m);
+}
+
+.lightbox__bottom {
+  padding: var(--space-xs) var(--space-m) calc(var(--space-m) + env(safe-area-inset-bottom));
+}
+
+.lightbox__title {
+  margin: 0;
+
+  font-family: var(--font-text);
+  font-weight: 700;
+  font-size: var(--text-body);
+}
+
+.lightbox__stage {
+  flex: 1 1 auto;
+  min-height: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  touch-action: pan-y;
+}
+
+.lightbox__stage img,
+.lightbox__stage video {
+  display: block;
+
+  max-width: 100%;
+  max-height: 100%;
+
+  object-fit: contain;
+}
+
+.lightbox__count {
+  font-family: var(--font-micro);
+  font-size: var(--text-small);
+  font-variant-numeric: tabular-nums;
+}
+
+.lightbox__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: var(--tap-target-min);
+  height: var(--tap-target-min);
+  padding: 0;
+
+  background: transparent;
+  color: var(--color-pale-warm);
+
+  border: var(--rule-width-strong) solid var(--color-pale-warm-50);
+  border-radius: 0;
+
+  font-size: var(--step-0);
+
+  cursor: pointer;
+}
+
+.lightbox__btn--close {
+  border-color: transparent;
+
+  font-size: var(--step-1);
+}
+
+.lightbox__btn:focus-visible {
+  outline: 2px solid var(--color-pale-warm);
+  outline-offset: 2px;
+}
+
+html.lightbox-open {
+  overflow: hidden;
+}

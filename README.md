@@ -19,6 +19,7 @@ npm run preview    # serve dist/ to check the production build
 | Shared shell (head, header, nav, footer, scripts) | `src/layouts/Base.astro` |
 | Header / navigation / footer | `src/components/` |
 | Events (one markdown file each) | `src/content/events/` — copy `_template.md` |
+| Archive photos and clips | `src/assets/events/<event-slug>/` (`01.jpg`, `02.jpg`, …); cut clips with `scripts/clip.sh` |
 | Event fields (schema) | `src/content.config.ts` |
 | CSS, JS, images, video | `public/css/`, `public/js/`, `public/assets/` |
 

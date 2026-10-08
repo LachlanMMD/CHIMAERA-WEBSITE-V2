@@ -26,6 +26,16 @@ const { data } = event;
 const { Content } = await render(event);
 
 const status = statusOf(event);
+
+// Past events live in the archive now; keep old links working.
+if (status === "past") {
+  const target = `/archive/#${event.id}`;
+  const title = data.title.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c] ?? c);
+  return new Response(
+    `<!doctype html><meta charset="utf-8"><title>${title} — CHIMAERA</title><link rel="canonical" href="${target}"><meta http-equiv="refresh" content="0; url=${target}"><a href="${target}">${title} in the archive</a>`,
+    { headers: { "Content-Type": "text/html; charset=utf-8" } },
+  );
+}
 const when = [formatDate(data.date), data.time].filter(Boolean).join(" · ");
 const where = [data.venue, data.area].filter(Boolean).join(" · ");
 const details = [
