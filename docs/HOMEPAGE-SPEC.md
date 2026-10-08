@@ -164,6 +164,16 @@ Quiet and short; reference: the old chimaeracollective.dk event pages. No host/a
 - Not on the page: refund rule, full address, capacity — these live in the Stripe checkout and confirmation email.
 - Fields (= the Astro content schema): title, medium, date, time, venue, area, price, stripeUrl, soldOut, poster, duration, bring, experience, photos[], body (two short paragraphs).
 
+## 12. Archive (`/archive/`, `src/pages/archive.astro`, `public/css/archive.css`, `public/js/archive.js`)
+
+Option C "contact sheets" from the canvas (page "Archive").
+- Header: label "archive", H1 "Past evenings", then a short thank-you note on a pale-warm mat (no collage opener).
+- Evenings: past events only, newest first. Title line: name (display 700, `--step-2`) · medium (serif italic) · date · stamp if sold out; right side: count ("20 photos · 2 clips") and ←/→ buttons (desktop/fine pointer only).
+- Strip: one horizontal row per evening, fixed height (~240–340px), items keep their own aspect ratio, scroll-snap. Media order = file names in `src/assets/events/<slug>/`.
+- Clips: never autoplay in the strip; poster + ▶ badge; play muted and looped in the lightbox only.
+- Lightbox: full-screen ink `<dialog>`; evening title, close; ← n / total →; swipe and arrow keys; steps within one evening.
+- Past events have no page of their own; `/events/<slug>/` redirects to `/archive/#<slug>`, and homepage past posters link there.
+
 ## 10. Open questions
 
 - Collage reveal (§7): build after the Astro port.

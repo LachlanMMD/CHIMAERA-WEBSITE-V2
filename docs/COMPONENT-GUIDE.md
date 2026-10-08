@@ -397,6 +397,18 @@ Add at the end of the ARTIST / PEOPLE block in `homepage.css`, then tune in DevT
 
 ---
 
+### 4.8 Add archive photos and clips
+The archive (`/archive/`) shows every past event, newest first, as a row with a swipeable strip. Tapping opens the lightbox for that evening.
+
+1. Drop photos into `src/assets/events/<event-slug>/` (the same slug as the event file). Full-size exports are fine; Astro resizes and converts them at build time.
+2. Name them in the order you want: `01.jpg`, `02.jpg`, … The strip follows the file names.
+3. Clips: `scripts/clip.sh <video> <start> <seconds> <event-slug> <name>`, e.g. `scripts/clip.sh ~/Movies/IMG_4012.MOV 00:01:12 6 we-are-art-2026-04 07`. It writes `07.mp4` (silent, 720px, ~1–2 MB) and `07.poster.jpg` into the folder. Clips play only in the lightbox, never in the strip.
+4. 8–20 strong shots per evening beats 80 near-duplicates.
+
+No list to edit: the page reads the folders (`src/lib/media.ts`). An evening without media shows its poster. Past event URLs (`/events/<slug>/`) redirect to `/archive/#<slug>`.
+
+Files: `src/pages/archive.astro`, `public/css/archive.css`, `public/js/archive.js` (lightbox, strip arrows). The thank-you note is plain text in `archive.astro`.
+
 ## 5. Known bugs and leftovers
 
 | # | Problem | Status |

@@ -1,0 +1,152 @@
+---
+/**
+ * Archive — "contact sheets": one row per past evening, newest first,
+ * each a swipeable strip of its photos and clips. Tapping any item opens
+ * the lightbox (public/js/archive.js), which steps through that evening.
+ *
+ * Media comes from src/assets/events/<slug>/ (see src/lib/media.ts).
+ * Styles: public/css/archive.css. Design: canvas page "Archive", option C.
+ */
+import Base from "../layouts/Base.astro";
+import { Image, getImage } from "astro:assets";
+import { getEvents, statusOf, formatDate } from "../lib/events";
+import { mediaFor } from "../lib/media";
+
+const past = (await getEvents()).filter((event) => statusOf(event) === "past").reverse();
+
+const evenings = await Promise.all(
+  past.map(async (event) => {
+    const media = mediaFor(event.id);
+
+    // Full-size versions for the lightbox, sized once at build time.
+    const items = await Promise.all(
+      media.map(async (item) => {
+        if (item.kind === "photo") {
+          const full = await getImage({ src: item.image, width: 1800, format: "webp" });
+          return { ...item, full: full.src };
+        }
+        const poster = item.poster ? await getImage({ src: item.poster, width: 800, format: "webp" }) : undefined;
+        return { ...item, posterSrc: poster?.src };
+      }),
+    );
+
+    const photos = items.filter((i) => i.kind === "photo").length;
+    const clips = items.length - photos;
+    const count = [
+      photos && `${photos} ${photos === 1 ? "photo" : "photos"}`,
+      clips && `${clips} ${clips === 1 ? "clip" : "clips"}`,
+    ]
+      .filter(Boolean)
+      .join(" · ");
+
+    return { event, items, count };
+  }),
+);
+---
+
+<Base
+  title="Archive — CHIMAERA"
+  description="Photos and short films from past CHIMAERA evenings in Copenhagen."
+  path="/archive/"
+  styles={["/css/archive.css"]}
+  scripts={["/js/page-chrome.js", "/js/archive.js"]}
+>
+  <main id="main">
+    <div class="archive field-atmosphere" data-field="coral">
+      <div class="archive__inner">
+        <header class="archive__header">
+          <p class="archive__label">archive</p>
+          <h1>Past evenings</h1>
+        </header>
+
+        <div class="archive__thanks">
+          <p>
+            Thank you to everyone who has painted, glued, stitched and stayed for one more glass with us. These are the
+            evenings so far, newest first.
+          </p>
+        </div>
+
+        {evenings.length === 0 && <p class="archive__empty">The first photos land here after our next evening.</p>}
+
+        {
+          evenings.map(({ event, items, count }) => (
+            <section class="evening" id={event.id} aria-labelledby={`${event.id}-title`} data-lightbox-group>
+              <div class="evening__head">
+                <div class="evening__title-line">
+                  <h2 id={`${event.id}-title`}>{event.data.title}</h2>
+                  {event.data.medium && <span class="evening__medium">{event.data.medium}</span>}
+                  <time class="evening__date" datetime={event.data.date}>
+                    {formatDate(event.data.date)}
+                  </time>
+                  {event.data.soldOut && <span class="stamp">Sold out</span>}
+                </div>
+
+                {items.length > 1 && (
+                  <div class="evening__tools">
+                    <span class="evening__count">{count}</span>
+                    <button class="evening__scroll" type="button" data-scroll="-1" aria-label={`Scroll ${event.data.title} back`}>
+                      <span aria-hidden="true">←</span>
+                    </button>
+                    <button class="evening__scroll" type="button" data-scroll="1" aria-label={`Scroll ${event.data.title} forward`}>
+                      <span aria-hidden="true">→</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <ul class="evening__strip" data-strip>
+                {items.length === 0 && event.data.poster && (
+                  <li class="evening__item evening__item--poster">
+                    <img src={event.data.poster} alt={`Poster: ${event.data.title}`} loading="lazy" />
+                  </li>
+                )}
+
+                {items.map((item, index) => (
+                  <li class="evening__item">
+                    {item.kind === "photo" ? (
+                      <button
+                        class="evening__open"
+                        type="button"
+                        data-lightbox-item
+                        data-type="photo"
+                        data-src={item.full}
+                        aria-label={`Open photo ${index + 1} of ${items.length} from ${event.data.title}`}
+                      >
+                        <Image
+                          src={item.image}
+                          alt=""
+                          widths={[400, 800]}
+                          sizes="(min-width: 64rem) 17rem, 45vw"
+                          loading="lazy"
+                        />
+                      </button>
+                    ) : (
+                      <button
+                        class="evening__open evening__open--video"
+                        type="button"
+                        data-lightbox-item
+                        data-type="video"
+                        data-src={item.src}
+                        data-poster={item.posterSrc}
+                        aria-label={`Play clip ${index + 1} of ${items.length} from ${event.data.title}`}
+                      >
+                        {item.posterSrc ? (
+                          <img src={item.posterSrc} alt="" loading="lazy" />
+                        ) : (
+                          <video src={item.src} muted playsinline preload="metadata" aria-hidden="true" tabindex="-1" />
+                        )}
+                        <span class="evening__play" aria-hidden="true">
+                          ▶
+                        </span>
+                      </button>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
+      </div>
+    </div>
+  </main>
+</Base>
