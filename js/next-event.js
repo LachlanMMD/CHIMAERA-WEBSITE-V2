@@ -50,11 +50,11 @@
     var date = parseISODate(isoDate);
     if (!date) return isoDate;
 
-    return new Intl.DateTimeFormat("en-GB", {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    }).format(date);
+    var day = String(date.getDate()).padStart(2, "0");
+    var month = String(date.getMonth() + 1).padStart(2, "0");
+    var year = date.getFullYear();
+
+    return day + "." + month + "." + year;
   }
 
   /*

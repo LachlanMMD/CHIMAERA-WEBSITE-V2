@@ -55,6 +55,12 @@
   --leading-body: 1.5;
   --measure: 62ch;
 
+  /* ---- Small UI text ----
+     Deliberately-small text that isn't a body paragraph: labels,
+     eyebrows, captions, compact inline info (next-event date/venue).
+     One consistent size instead of three accidental ones. */
+  --text-small: clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem); /* 12px mobile → 13px desktop */
+
   /* ---- Space scale ---- */
   --space-3xs: 0.25rem;
   --space-2xs: 0.5rem;

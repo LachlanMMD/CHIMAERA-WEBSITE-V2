@@ -185,7 +185,7 @@ body.nav-open .landing__video {
   margin: 0 0 var(--space-xs);
 
   font-family: var(--font-micro);
-  font-size: 0.75rem;
+  font-size: var(--text-small);
 
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -217,7 +217,7 @@ body.nav-open .landing__video {
   margin: 0;
 
   font-family: var(--font-text);
-  font-size: 0.95rem;
+  font-size: var(--text-small);
 
   font-variant-numeric: tabular-nums;
 }
@@ -236,7 +236,7 @@ body.nav-open .landing__video {
 
 .next-event__venue {
   font-family: var(--font-text);
-  font-size: 0.95rem;
+  font-size: var(--text-small);
 }
 
 .next-event__venue::before {
@@ -280,7 +280,7 @@ body.nav-open .landing__video {
   display: inline-block;
 
   font-family: var(--font-micro);
-  font-size: 0.75rem;
+  font-size: var(--text-small);
 
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -303,6 +303,9 @@ body.nav-open .landing__video {
   margin: var(--space-xs) 0 0;
 
   font-family: var(--font-text);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  max-width: var(--measure);
 }
 
 .next-event__fallback a {
@@ -485,7 +488,7 @@ body.nav-open .landing__video {
   font-family: var(--font-serif);
   font-style: italic;
 
-  font-size: var(--step--1);
+  font-size: var(--text-small);
 
   text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
 }
