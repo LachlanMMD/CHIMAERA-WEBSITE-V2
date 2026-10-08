@@ -4,11 +4,11 @@ Source of truth for building the homepage.
 Visual reference: the design canvas, page "Homepage": artboards "Homepage — full, desktop",
 "Homepage — full, mobile" (canonical) and "System — tokens & components".
 The canvas uses stand-in fonts (Archivo/Crimson Pro); the real fonts are the Adobe kit.
-Copy and images in the canvas are placeholders. **Real copy already in `index.html` wins over canvas placeholders.**
+Copy and images in the canvas are placeholders. **Real copy already in `src/pages/index.astro` wins over canvas placeholders.**
 
 ## How to use this spec (for Claude Code)
 
-- Stack stays as-is until the Astro port: static HTML, CSS custom properties from `css/tokens.css`, vanilla JS (IIFE, 'use strict', like the existing files). No frameworks, no Tailwind, no new dependencies.
+- Stack: Astro (static output). CSS custom properties from `public/css/tokens.css`, vanilla JS in `public/js/` (IIFE, 'use strict', like the existing files). No UI frameworks, no Tailwind, no new dependencies without asking.
 - One section per session. Report → wait for approval → change → verify → commit.
 - Never hardcode colors, sizes or font names. Missing token → add it to `tokens.css`.
 - Don't change behavior marked **KEEP** without asking. If the spec is ambiguous, ask.
@@ -51,7 +51,7 @@ Copy and images in the canvas are placeholders. **Real copy already in `index.ht
 Full viewport. Wordmark top-left (white), star top-right. Centered editorial video (4:3, `muted autoplay loop playsinline`, poster, no controls, no letterbox bars). Mobile: video ~80vw.
 
 ### 0.5 — Next event  (variant: Line)
-Ruled caption band directly under the landing, on the atmosphere, all ink. Label "Next event" · date · title + venue · Tickets button (primary). Sold out → stamp + secondary "Join the waitlist" button (→ #footer), same pair as on event cards. No upcoming event → section hidden. Rendered by `js/next-event.js`.
+Ruled caption band directly under the landing, on the atmosphere, all ink. Label "Next event" · date · title + venue · Tickets button (primary). Sold out → stamp + secondary "Join the waitlist" button (→ #footer), same pair as on event cards. No upcoming event → section hidden. Rendered by `public/js/next-event.js`.
 
 ### 1 — 01 — the idea
 Left: label, phonetic `[khi-mæ-ra]` (serif italic, ~1.9rem), statement headline (§1 type roles, max ~13ch), intro paragraph (serif, body size). Right: one image, 4:5, max ~400px. Mobile: text, then image. No second wordmark.
@@ -73,7 +73,7 @@ Left (indented ~64px on desktop, no indent on mobile): label, H2 [Heading], body
 - **"Next dates" panel** when there are 1–2 upcoming events: same width as a card, transparent, 2px dashed `--color-ink-45` border, content bottom-aligned: label "Next dates", serif line "New dates reach the newsletter before they go on sale here.", secondary button "Get first access" (→ #footer). 0 upcoming → existing empty state line. 3 upcoming → no panel.
 - "Past events" row: label left, "Archive →" text link right (to `/#events` until the archive page exists). Small posters (~150px, 3:4) in a horizontal scroll row; stamp where sold out; date bottom-left.
 
-### 6 — Footer (ink background, pale-warm text) — `components/footer.html`, styles in `css/footer.css`
+### 6 — Footer (ink background, pale-warm text) — `src/components/Footer.astro`, styles in `public/css/footer.css`
 - Column 1, Newsletter: label, one line of copy, email input (visually-hidden label) + coral Subscribe button (ink text). MailerLite embed later; placeholder form for now (no action, `type="button"`).
 - Column 2, Explore: Events, Archive, About, Contact. Events/Archive → `/#events` until those pages exist.
 - Column 3, Contact: info@chimaeracollective.dk (mailto), Instagram, Facebook.
@@ -94,7 +94,7 @@ Coral coverage from the left edge, at the section's midpoint. Between sections t
 | 04 the practice | 0.50 |
 | 05 join us | 0.75 |
 
-Implementation: `STOPS` table in `js/homepage.js` + `setColourMidpoint()` in `js/atmosphere.js` (recipe: COMPONENT-GUIDE §4.4, with these numbers).
+Implementation: `STOPS` table in `public/js/homepage.js` + `setColourMidpoint()` in `public/js/atmosphere.js` (recipe: COMPONENT-GUIDE §4.4, with these numbers).
 
 ### 4.2 Alive when idle
 On top of scroll position, the boundary always moves:
@@ -122,7 +122,7 @@ All knobs are CSS custom properties in `tokens.css`, read once by `atmosphere.js
 
 ## 5. Event data
 
-`data/events.json`, fields: `slug, title, date (ISO), venue, poster, ticketUrl, status (upcoming|soldout|past)`. `ticketUrl` = Stripe Payment Link. Sections 0.5 and 05 both render from this file. Becomes an Astro content collection in the port (one markdown file per event).
+Events are an Astro content collection: one markdown file per event in `src/content/events/` (schema: `src/content.config.ts`, fields as in §11). At build time `src/pages/data/events.json.ts` turns them into `/data/events.json` (`slug, title, date, venue, poster, ticketUrl, status, soldOut, url`), which sections 0.5 and 05 read. Status is computed: past if the date has passed, else soldout/upcoming.
 
 ## 6. Thread (scroll-drawn dashed line), prototype first
 
@@ -155,7 +155,7 @@ Adobe Fonts kit `koo7phy` via `<link>` + preconnect on every page. Family names:
 - Touch targets ≥ 44px. Visible `:focus-visible` on all interactive elements.
 - No horizontal page scroll at 375px.
 
-## 11. Event page (`events/<slug>/`, template `events/_template/`, `css/event.css`)
+## 11. Event page (`/events/<slug>/` from `src/pages/events/[slug].astro`, data in `src/content/events/`, `public/css/event.css`)
 
 Quiet and short; reference: the old chimaeracollective.dk event pages. No host/artist block (events aren't artist-led for now).
 - Mobile: one centred column (max ~37.5rem). ≥64rem: poster left (sticky), text right.

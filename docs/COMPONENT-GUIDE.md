@@ -7,31 +7,36 @@ Written against the code as of 08.10.2026. When code and this guide disagree, th
 
 ## 0. How the page fits together
 
-```
-index.html
- ├─ <head>: Adobe kit → tokens.css → global.css → typography.css → navigation.css → homepage.css
- ├─ #atmosphere-canvas            fixed, behind everything (z-index 0)
- ├─ [data-include] header.html    ┐ fetched and injected by include.js,
- ├─ [data-include] navigation.html├ then include.js fires "chimaera:includes-loaded"
- ├─ .site-content > main          │
- │    .landing → .next-event → #idea → #artist → #people → #practice → #events
- └─ [data-include] footer.html    ┘
+The site is built with Astro. Pages are `.astro` files that render to plain HTML at build time; CSS and JS are plain files in `public/`, linked as-is (no bundling).
 
-Scripts (bottom of body), all wait for "chimaera:includes-loaded":
- include.js     injects components
- atmosphere.js  draws the canvas, exposes window.ChimaeraAtmosphere.main
- navigation.js  star → opens nav, switches atmosphere to NAV state
+```
+src/pages/index.astro  (inside src/layouts/Base.astro)
+ ├─ <head>: Adobe kit → tokens.css → global.css → typography.css → navigation.css → [page css] → footer.css
+ ├─ #atmosphere-canvas            fixed, behind everything (z-index 0)
+ ├─ <Header />                    src/components/Header.astro
+ ├─ <Navigation />                src/components/Navigation.astro
+ ├─ .site-content > main          the page's own content
+ │    .landing → .next-event → #idea → #artist → #people → #practice → #events
+ └─ <Footer />                    src/components/Footer.astro
+
+Scripts (bottom of body, from public/js/), all start on DOMContentLoaded:
+ atmosphere.js   draws the canvas, exposes window.ChimaeraAtmosphere.main
+ navigation.js   star → opens nav, switches atmosphere to NAV state
  header-theme.js samples what's behind wordmark + star, flips white/coral
- homepage.js    opening sequence + scroll → atmosphere midpoint
- next-event.js  data/events.json → strip under the landing
- events.js      data/events.json → section 05 cards + past strip
+ homepage.js     opening sequence + scroll → atmosphere midpoint      (homepage)
+ next-event.js   /data/events.json → strip under the landing           (homepage)
+ events.js       /data/events.json → section 05 cards + past strip     (homepage)
+ page-chrome.js  ends the opening state, reveals the header            (subpages, event pages)
+
+/data/events.json is generated at build time from src/content/events/ (src/pages/data/events.json.ts).
 ```
 
 Rules that hold everywhere:
-- **Values live in `css/tokens.css`.** Components reference tokens. Change a token and every component using it follows.
+- **Values live in `public/css/tokens.css`.** Components reference tokens. Change a token and every component using it follows.
 - **Nothing has a background except the footer area and the cards.** The atmosphere must stay visible.
 - **Text is ink (`--color-ink`) by default.** White only in the nav overlay, the star, and captions on photos.
-- **Components load via `fetch()`.** Opening `index.html` as a file (`file://`) shows no header, nav or footer. Always use Live Server.
+- **Run `npm run dev`** (http://localhost:4321). Opening files directly doesn't work.
+- **A page's extra CSS/JS** is passed to `<Base styles={[...]} scripts={[...]}>` at the top of the page file.
 
 ---
 
@@ -43,11 +48,11 @@ Rules that hold everywhere:
 4. **Commit small:** `git add -A && git commit -m "what changed"`. Small commits make bad changes easy to undo (`git restore <file>` before committing, `git revert <hash>` after).
 5. **Claude Code only** for logic changes or bugs you can't trace (template in §6).
 
-Live Server reloads on every save. If it reloads in a loop, stop it while editing many files at once.
+`npm run dev` reloads on every save. Before committing a bigger change, run `npm run build` once: it catches broken event files and template errors.
 
 ---
 
-## 2. Tokens — `css/tokens.css`
+## 2. Tokens — `public/css/tokens.css`
 
 | Group | Tokens | Controls |
 |---|---|---|
@@ -69,7 +74,7 @@ Live Server reloads on every save. If it reloads in a loop, stop it while editin
 ## 3. Components
 
 ### 3.1 Header: wordmark + star
-**Files:** `components/header.html`, `css/navigation.css` (sections HEADER, WORDMARK, NAV TRIGGER), `js/header-theme.js` (colour switching).
+**Files:** `src/components/Header.astro`, `public/css/navigation.css` (sections HEADER, WORDMARK, NAV TRIGGER), `public/js/header-theme.js` (colour switching).
 
 The header is fixed and invisible on load (`opacity: 0`). `homepage.js` (or `page-chrome.js` on subpages) adds `.header--revealing` to fade it in.
 
@@ -81,14 +86,14 @@ The header is fixed and invisible on load (`opacity: 0`). `homepage.js` (or `pag
 | Star position | `.nav-star-button` | `transform: translate(42px, -25px)` |
 | Star rotation on hover / open | `.nav-star-button:hover .nav-star-button__img` (35deg), `[aria-expanded="true"]` (135deg) | `rotate()` values |
 | Header fade-in speed | `.site-header` | `transition: opacity 400ms` |
-| When the header appears on the homepage | `js/homepage.js` | `HEADER_DELAY = 1800` (ms after intro starts) |
+| When the header appears on the homepage | `public/js/homepage.js` | `HEADER_DELAY = 1800` (ms after intro starts) |
 | Header padding | `.site-header` | `padding: var(--space-m) var(--page-margin)` |
 
 **Gotchas**
-- The wordmark is **two stacked images** (coral PNG, white PNG). `header-theme.js` sets `data-ink="on-dark"` (show white) or `"on-light"` (show coral). Replacing the logo means replacing both files in `assets/logo/`.
+- The wordmark is **two stacked images** (coral PNG, white PNG). `header-theme.js` sets `data-ink="on-dark"` (show white) or `"on-light"` (show coral). Replacing the logo means replacing both files in `public/assets/logo/`.
 - The negative translate offsets are compensating for whitespace in the PNG/SVG files. Crop the files tighter and you can set these to 0.
 
-### 3.2 Header colour switching: `js/header-theme.js`
+### 3.2 Header colour switching: `public/js/header-theme.js`
 Decides white vs coral for wordmark and star by looking at what's behind each one.
 
 How it decides, per point:
@@ -104,12 +109,12 @@ How it decides, per point:
 
 **Gotcha (current bug):** only `.landing` samples the canvas. `#idea`, `#practice`, `#events` have no `data-field` (→ always white), and `#artist`/`#people` have `data-field="coral"` without `field-atmosphere` (→ always white). When the atmosphere's pale side sits under the star, the white star disappears. Fix in §5, bug 4.
 
-### 3.3 Atmosphere: `js/atmosphere.js`
+### 3.3 Atmosphere: `public/js/atmosphere.js`
 The fluid coral/pale field. Coral on the left, pale on the right, a soft wobbling boundary between. It never stands still: idle breath + organic wobble + mouse push (desktop), on top of the scroll position.
 
 **The one number that matters: `colourMidpointX`** (0–1) = where the boundary sits, from the left. `0.75` = coral covers 75% of the width.
 
-**Tune it in `css/tokens.css` (Atmosphere tuning block), not in JS.** `atmosphere.js` reads these once at load; a missing token falls back to the JS default.
+**Tune it in `public/css/tokens.css` (Atmosphere tuning block), not in JS.** `atmosphere.js` reads these once at load; a missing token falls back to the JS default.
 
 | Token | Default | Effect |
 |---|---|---|
@@ -123,7 +128,7 @@ The fluid coral/pale field. Coral on the left, pale on the right, a soft wobblin
 | `--atmosphere-coral`, `--atmosphere-pale` | colour tokens | The two colours (hex) |
 | `--atmosphere-coral-intensity`, `--atmosphere-opacity` | 1 | Coral alpha, canvas opacity |
 
-**Per-section coverage:** `STOPS` in `js/homepage.js` (landing .75, 01–04 .50, 05 .75). The midpoint eases between section centres as you scroll.
+**Per-section coverage:** `STOPS` in `public/js/homepage.js` (landing .75, 01–04 .50, 05 .75). The midpoint eases between section centres as you scroll.
 
 **States** (config objects at the top of `atmosphere.js`; the opening and the nav still use them):
 
@@ -137,11 +142,11 @@ The fluid coral/pale field. Coral on the left, pale on the right, a soft wobblin
 
 | To change | Where |
 |---|---|
-| Coverage per section | `js/homepage.js` `STOPS` |
+| Coverage per section | `public/js/homepage.js` `STOPS` |
 | Motion feel | tokens above |
 | Intro sweep length (fallback) | `OPENING_DURATION = 3200`. Normally the intro video's length drives it. |
-| When the sweep starts | `js/homepage.js`: `ATMOSPHERE_DELAY = 500` |
-| Nav transition speed | `js/navigation.js`: `enterNavState(1800)` / `enterLandingState(1800)` |
+| When the sweep starts | `public/js/homepage.js`: `ATMOSPHERE_DELAY = 500` |
+| Nav transition speed | `public/js/navigation.js`: `enterNavState(1800)` / `enterLandingState(1800)` |
 
 **Gotchas**
 - **The opening lock:** while the intro plays, `setColourMidpoint` is ignored on purpose. Don't remove `if (openingActive) return;`.
@@ -150,18 +155,18 @@ The fluid coral/pale field. Coral on the left, pale on the right, a soft wobblin
 - The loop pauses when the tab is hidden (`visibilitychange`).
 
 ### 3.4 Navigation panel
-**Files:** `components/navigation.html` (links), `css/navigation.css` (BACKDROP, NAV PANEL, NAV LINKS), `js/navigation.js` (open/close, focus trap, Escape).
+**Files:** `src/components/Navigation.astro` (links), `public/css/navigation.css` (BACKDROP, NAV PANEL, NAV LINKS), `public/js/navigation.js` (open/close, focus trap, Escape).
 
 | To change | Where | What |
 |---|---|---|
-| Links | `components/navigation.html` | `<li><a href>` items |
+| Links | `src/components/Navigation.astro` | `<li><a href>` items |
 | Link size / font | `.site-nav__list a` | `font-size: var(--step-3)`, `font-family`, `text-transform: lowercase` |
 | Gap between links | `.site-nav__list` | `gap: var(--space-l)` |
 | Panel width | `.site-nav` | `width: min(30rem, 88vw)` |
 | Slide-in speed | `.site-nav` | `transition: transform 900ms` |
 | Page blur strength | `.nav-backdrop` and `body.nav-open main, body.nav-open footer` | `blur(14px)` (change both) |
 | Link stagger | `.site-nav.is-open .site-nav__list li:nth-child(n)` | `transition-delay` per item |
-| Bottom tagline | `.site-nav__meta` in navigation.html | Text |
+| Bottom tagline | `.site-nav__meta` in Navigation.astro | Text |
 
 **Gotchas**
 - Adding a 6th+ link needs an `nth-child` delay rule, or that link appears before the others. There are 5 links and 5 rules.
@@ -169,13 +174,13 @@ The fluid coral/pale field. Coral on the left, pale on the right, a soft wobblin
 - The panel has no background on purpose. Text is white over the atmosphere and the blurred page.
 
 ### 3.5 Landing
-**Files:** `index.html` (`.landing`), `css/homepage.css` (LANDING, INTRO WEBM, LANDING VHS VIDEO, SCROLL CUE), `js/homepage.js` (opening sequence).
+**Files:** `src/pages/index.astro` (`.landing`), `public/css/homepage.css` (LANDING, INTRO WEBM, LANDING VHS VIDEO, SCROLL CUE), `public/js/homepage.js` (opening sequence).
 
 Sequence: `intro.webm` plays full screen → its `ended` event adds `.landing--revealed` → intro fades out, VHS video fades in.
 
 | To change | Where | What |
 |---|---|---|
-| Intro video | `index.html` `.landing__gif` `<source>` | File path |
+| Intro video | `src/pages/index.astro` `.landing__gif` `<source>` | File path |
 | Centre video | `.landing__video` `<source>`s + `poster` | File paths (WebM + MP4 + poster) |
 | Centre video size | `.landing__video` | `width: min(640px, 74vw)`, `aspect-ratio: 16 / 9` |
 | Video glow | `.landing__video` | `box-shadow: 0 0 9rem 1rem rgba(227,80,57,.22)` |
@@ -188,37 +193,37 @@ Sequence: `intro.webm` plays full screen → its `ended` event adds `.landing--r
 - The spec says no letterbox bars on the centre video. If your clip has bars baked in, crop the file; CSS can't remove them cleanly.
 
 ### 3.6 Next-event strip (0.5)
-**Files:** `index.html` (`#next-event`), `css/homepage.css` (NEXT EVENT), `js/next-event.js`, `data/events.json`.
+**Files:** `src/pages/index.astro` (`#next-event`), `public/css/homepage.css` (NEXT EVENT), `public/js/next-event.js`, events from `src/content/events/`.
 
 Logic: take events where `status` isn't `"past"` and `date` ≥ today, sort by date, show the first. Status `"soldout"` → `.stamp` + outlined "Join the waitlist" button (→ `#footer`). None → the whole section hides. Fetch fails → the static "See upcoming events" link stays.
 
 | To change | Where |
 |---|---|
-| Label text | `index.html` `.next-event__label` |
+| Label text | `src/pages/index.astro` `.next-event__label` |
 | Title size | `.next-event__title` `font-size: 1.875rem` |
 | Strip width | `--content-max-width` (token) |
 | Rules above/below | `.next-event` `border-top/bottom` |
 | Button look | `.next-event__ticket-link` |
-| Button text / arrow | `js/next-event.js` `renderTickets()` and `ARROW_SVG` |
-| Sold-out text | `js/next-event.js` `renderSoldOut()` |
+| Button text / arrow | `public/js/next-event.js` `renderTickets()` and `ARROW_SVG` |
+| Sold-out text | `public/js/next-event.js` `renderSoldOut()` |
 | Date format | `formatDate()` in `next-event.js` **and** `events.js` (duplicated) |
 
 ### 3.7 01 — the idea (`#idea`, class `.homepage-hero`)
-**Files:** `index.html`, `css/homepage.css` (01 — THE IDEA).
+**Files:** `src/pages/index.astro`, `public/css/homepage.css` (01 — THE IDEA).
 
 Layout: flex row that wraps. Copy left (label, phonetic, statement, body), one 4:5 photo right. Below ~64rem it stacks, text first.
 
 | To change | Where |
 |---|---|
-| Headline | `index.html` `#hero-heading` (`<br>` controls line breaks) |
+| Headline | `src/pages/index.astro` `#hero-heading` (`<br>` controls line breaks) |
 | Headline size | `.homepage-hero__copy h2` `font-size: var(--step-4)` |
-| Phonetic line | `index.html` `.homepage-hero__phonetic`; size `var(--step-2)` |
-| Photo | `index.html` `.homepage-hero__figure img` (`src` + `srcset`) |
+| Phonetic line | `src/pages/index.astro` `.homepage-hero__phonetic`; size `var(--step-2)` |
+| Photo | `src/pages/index.astro` `.homepage-hero__figure img` (`src` + `srcset`) |
 | Photo size / ratio | `.homepage-hero__figure` `flex: 0 1 25rem`, `aspect-ratio: 4 / 5` |
 | Content width | `--section-max-width` (token, shared by 01–04) |
 
 ### 3.8 02 — the artist / 03 — the people (`#artist`, `#people`)
-**Files:** `index.html`, `css/homepage.css` (02 — THE ARTIST / 03 — THE PEOPLE).
+**Files:** `src/pages/index.astro`, `public/css/homepage.css` (02 — THE ARTIST / 03 — THE PEOPLE).
 
 Mobile: stacked, text first. ≥64rem: two-column grid. 02 photo right with an inset (`margin-right: var(--space-xl)`); 03 photo left (`order: -1`, so text stays first in the HTML).
 
@@ -233,20 +238,20 @@ Mobile: stacked, text first. ≥64rem: two-column grid. 02 photo right with an i
 **Gotcha:** class names still say `encounter__…` and `--participant`. Leftovers from the old combined section; `--participant` = people. No rotation or shadow on these photos: rotation is reserved for the 04 collage.
 
 ### 3.9 04 — the practice (`#practice`)
-**Files:** `index.html`, `css/homepage.css` (04 — THE PRACTICE).
+**Files:** `src/pages/index.astro`, `public/css/homepage.css` (04 — THE PRACTICE).
 
 Copy (label, H2, body, "Get in touch →" to `/contact/`) + `.practice-collage`: 4 absolutely-positioned `<figure>`s, rotations −5°, 3°, −2°, 6°, `--shadow-soft`. ≥64rem: two columns, copy indented `--space-xl`.
 
 | To change | Where |
 |---|---|
-| Collage photos | `index.html` `.practice-collage__item--1…4 img` |
+| Collage photos | `src/pages/index.astro` `.practice-collage__item--1…4 img` |
 | Positions / sizes / tilt | `.practice-collage__item--1…4` (`left/top/right/bottom`, `width`, `aspect-ratio`, `rotate`) |
 | Collage size | `.practice-collage` `max-width: 33.75rem`, `aspect-ratio: 27 / 23` |
 
 The reveal interaction (spec §7) isn't built; it will reveal `.homepage-practice__link`.
 
 ### 3.10 05 — join us (`#events`)
-**Files:** `index.html` (header + empty containers), `css/homepage.css` (EVENTS), `css/global.css` (`.stamp`), `js/events.js`, `data/events.json`.
+**Files:** `src/pages/index.astro` (header + empty containers), `public/css/homepage.css` (EVENTS), `public/css/global.css` (`.stamp`), `public/js/events.js`, events from `src/content/events/`.
 
 Logic:
 - **Upcoming grid:** status `"upcoming"` or `"soldout"`, date ≥ today, soonest first → `.event-card`s. 1–2 cards → a **Next dates** panel follows (`buildNextDatesPanel()`). None → "New events soon" line.
@@ -267,34 +272,34 @@ Card anatomy (built in `buildEventCard()`):
 
 | To change | Where |
 |---|---|
-| Heading / label / artist link | `index.html` `.homepage-events__header` |
+| Heading / label / artist link | `src/pages/index.astro` `.homepage-events__header` |
 | Card width | `.event-card` `flex: 0 1 22.5rem` |
 | Card gap | `.homepage-events__grid` `gap` |
 | Poster ratio / keyline | `.event-card__poster` `aspect-ratio`, `border` |
-| Stamp look (everywhere) | `.stamp` in `css/global.css` |
+| Stamp look (everywhere) | `.stamp` in `public/css/global.css` |
 | Next dates panel | `.event-next-dates` (CSS), copy in `buildNextDatesPanel()` |
 | Buttons | `.event-card__ticket-link`, `.event-card__waitlist-link` (`--rule-width-strong` outline) |
 | Mobile scroll row | `@media (max-width: 600px)`: cards + panel `flex: 0 0 78vw` |
 | Past poster size | `.past-poster` `flex: 0 0 150px` |
-| Archive link | `index.html` `.homepage-events__archive-link` (→ `/#events` for now) |
-| Empty-state text | `index.html` `.homepage-events__empty` |
+| Archive link | `src/pages/index.astro` `.homepage-events__archive-link` (→ `/#events` for now) |
+| Empty-state text | `src/pages/index.astro` `.homepage-events__empty` |
 
 ### 3.11 Footer
-**Files:** `components/footer.html` (markup, every page), `css/footer.css` (linked on every page).
+**Files:** `src/components/Footer.astro` (markup, every page), `public/css/footer.css` (linked on every page).
 
 Newsletter (placeholder form; swap in the MailerLite embed), Explore, Contact, bottom row with the coral wordmark + legal line + Privacy/Terms.
 
 | To change | Where |
 |---|---|
-| Newsletter copy / form | `footer.html` `.site-footer__newsletter` |
-| Links | `footer.html` `.site-footer__list` |
-| Legal line | `footer.html` `.site-footer__legal` |
+| Newsletter copy / form | `Footer.astro` `.site-footer__newsletter` |
+| Links | `Footer.astro` `.site-footer__list` |
+| Legal line | `Footer.astro` `.site-footer__legal` |
 | Column widths | `.site-footer__newsletter` `flex: 1 1 22rem`; nav/contact `flex: 0 1 14rem` |
 
 **Open:** Instagram/Facebook links are still `#`.
 
 ### 3.12 Subpages (about, contact)
-**Files:** `about/index.html`, `contact/index.html`, `css/page.css`, `js/page-chrome.js`.
+**Files:** `src/pages/about.astro`, `src/pages/contact.astro`, `public/css/page.css`, `public/js/page-chrome.js`.
 
 No intro video, so `page-chrome.js` ends the atmosphere's opening state immediately and reveals the header. Sections use `.page-intro` and `.page-section`, plus `field-atmosphere` + `data-field="coral"` so header ink sampling works (the homepage does the same).
 
@@ -309,43 +314,27 @@ No intro video, so `page-chrome.js` ends the atmosphere's opening state immediat
 ## 4. Recipes
 
 ### 4.1 Add an event
-Edit `data/events.json`. It's a list; add an object, with a comma between objects:
+One markdown file per event in `src/content/events/`. The file name is the URL.
 
-```json
-{
-  "slug": "art-week-allinge-2026",
-  "title": "Art Week Allinge",
-  "date": "2026-11-21",
-  "venue": "Ved Linden, Copenhagen",
-  "poster": "/assets/images/events/art-week-allinge.jpg",
-  "ticketUrl": "https://buy.stripe.com/your-payment-link",
-  "status": "upcoming"
-}
-```
+1. Copy `src/content/events/_template.md` to `src/content/events/<slug>.md`. Slug: `short-name-yyyy-mm`; never rename it once the link is shared.
+2. Fill the fields at the top (between the `---` lines) and write two short paragraphs below them.
+3. Poster: put it in `public/assets/images/events/<slug>/poster.jpg` (3:4, ~1280 px wide, under ~300 KB) and set `poster: "/assets/images/events/<slug>/poster.jpg"`.
+4. Check it with `npm run dev` → `/events/<slug>/` and the homepage. `draft: true` keeps it dev-only; set `draft: false` to publish.
+5. Commit and push. Vercel rebuilds.
 
 | Field | Rule |
 |---|---|
-| `date` | `YYYY-MM-DD`, always |
-| `poster` | Path starting with `/`, or `null` for a placeholder. Crop to 3:4, ~900 px wide, JPG/WebP under ~200 KB. |
-| `ticketUrl` | Your Stripe Payment Link |
-| `status` | `"upcoming"`, `"soldout"` or `"past"` |
-| `soldOut` | **Past events only:** `true`/`false` for the stamp |
-| `url` | Optional. `"/events/<slug>/"` once the event page exists; the card, past poster and next-event title then link to it |
+| `date` | `"YYYY-MM-DD"` in quotes |
+| `time` | `"HH:MM"`, 24h |
+| `price` | Number, kr. Shown in the Tickets button |
+| `stripeUrl` | The event's Stripe Payment Link |
+| `soldOut` | `true` → stamp + "Join the waitlist" everywhere. Also set the Stripe link's payment limit, so it can't oversell. |
+| `photos` | After the event: list of image paths; shown on the event page |
+| `draft` | `true` = only in `npm run dev` |
 
-**Event page** (until the Astro port, one HTML file per event):
-1. Copy `events/_template/` to `events/<slug>/`. Slug: `short-name-yyyy-mm`; never change it once shared.
-2. Replace every `[BRACKETED]` value and delete the `noindex` line.
-3. Poster → `assets/images/events/<slug>/poster.jpg` (3:4, ~1280 px wide).
-4. Keep ONE action block (UPCOMING / SOLD OUT / PAST), delete the others. Sold out also gets `<span class="stamp">Sold out</span>` on the poster.
-5. Add `"url": "/events/<slug>/"` to the event in `events.json`.
-Styles: `css/event.css`. The first placeholder event in `events.json` points at the template so you can preview the link.
+**Lifecycle:** upcoming → (sold out: `soldOut: true`) → **past happens by itself**: the site compares the date with today at build time, and the nightly rebuild (`.github/workflows/nightly-rebuild.yml`) moves finished events to "Past events". Afterwards, add `photos`.
 
-**Lifecycle (important):**
-1. New event → `"status": "upcoming"`.
-2. Sells out → `"status": "soldout"`. The button becomes "Join the waitlist" in both the strip and the card.
-3. **After the date, change it to `"status": "past"` and add `"soldOut": true` or `false`.** The site does not do this for you. An event whose date has passed but is still marked `upcoming` disappears from the site entirely until you change its status.
-
-Validate before saving: paste the file into [jsonlint.com](https://jsonlint.com). One missing comma breaks both the strip and section 05 (they silently fall back to "See upcoming events" / "New events soon").
+A missing or malformed field stops `npm run build` with the file and field named, so a broken event never reaches the live site.
 
 ### 4.2 Change a colour everywhere
 Change the token in `tokens.css`. For the coral, also change `DEFAULT_CONFIG.coral` in `atmosphere.js`, and the hardcoded `rgba(227, 80, 57, 0.22)` glow in `.landing__video`.
@@ -355,10 +344,10 @@ Change the token in `tokens.css`. For the coral, also change `DEFAULT_CONFIG.cor
 - Body size: `--text-body`. Section H2s: they use `--step-4`; change the token to resize all of them, or change one selector to resize one.
 
 ### 4.4 Per-section atmosphere coverage
-Built. Edit the numbers in `STOPS` (`js/homepage.js`); add a row to add a section. Motion feel lives in the `--atmosphere-*` tokens (§3.3).
+Built. Edit the numbers in `STOPS` (`public/js/homepage.js`); add a row to add a section. Motion feel lives in the `--atmosphere-*` tokens (§3.3).
 
 ### 4.5 Add a homepage section
-1. Copy an existing `<section>` in `index.html`, give it a unique `id` and `aria-labelledby`.
+1. Copy an existing `<section>` in `src/pages/index.astro`, give it a unique `id` and `aria-labelledby`.
 2. Add `class="… field-atmosphere" data-field="coral"` (so header ink works).
 3. Add its styles as a new commented block in `homepage.css`, using tokens.
 4. If it should move the atmosphere, add a row to `STOPS` (§4.4).
