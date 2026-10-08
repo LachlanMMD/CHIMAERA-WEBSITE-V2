@@ -91,5 +91,5 @@
 }
 
 .page-section + .page-section {
-  border-top: var(--rule-width) solid rgba(255, 255, 255, 0.25);
+  border-top: var(--rule-width) solid var(--color-ink-30);
 }
