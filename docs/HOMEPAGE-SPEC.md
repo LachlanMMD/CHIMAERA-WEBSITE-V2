@@ -1,16 +1,18 @@
-# CHIMAERA — Homepage spec (v2.1)
+# CHIMAERA — Homepage spec (v2.2)
 
 Source of truth for building the homepage.
-Visual reference: the "CHIMAERA — Next event strip" design canvas, row "Full homepage"
-(desktop + mobile). The canvas uses stand-in fonts (Archivo/Crimson Pro); the real fonts are the Adobe kit.
-**All copy and images are placeholders** unless stated.
+Visual reference: the design canvas, page "Homepage": artboards "Homepage — full, desktop",
+"Homepage — full, mobile" (canonical) and "System — tokens & components".
+The canvas uses stand-in fonts (Archivo/Crimson Pro); the real fonts are the Adobe kit.
+Copy and images in the canvas are placeholders. **Real copy already in `index.html` wins over canvas placeholders.**
 
 ## How to use this spec (for Claude Code)
 
-- Stack stays as-is: static HTML, CSS custom properties from `css/tokens.css`, vanilla JS (IIFE, 'use strict', like the existing files). No frameworks, no Tailwind, no new dependencies.
+- Stack stays as-is until the Astro port: static HTML, CSS custom properties from `css/tokens.css`, vanilla JS (IIFE, 'use strict', like the existing files). No frameworks, no Tailwind, no new dependencies.
 - One section per session. Report → wait for approval → change → verify → commit.
 - Never hardcode colors, sizes or font names. Missing token → add it to `tokens.css`.
 - Don't change behavior marked **KEEP** without asking. If the spec is ambiguous, ask.
+- Mobile (≈375–390px) is the primary audience. Every change must work there first.
 
 ---
 
@@ -18,13 +20,17 @@ Visual reference: the "CHIMAERA — Next event strip" design canvas, row "Full h
 
 | Element | Spec |
 |---|---|
-| Atmosphere | **KEEP** the continuous fluid canvas behind the page and its scroll-driven shifts. Per-section coverage targets are in §4. |
+| Ground | `--color-pale` (#f1f6f8). `--color-pale-warm` is only for card mats and text on ink. |
+| Atmosphere | **KEEP** the continuous fluid canvas. It is never still: idle "breath" + organic wobble + mouse response (desktop). Coverage stops in §4. All tuning knobs live in `tokens.css` (§4.2). |
 | Header | **KEEP.** No visible header on load. Star (top-right) = menu trigger. Wordmark stays **white** (logo; exempt from contrast). |
 | Text color | Ink (`--color-ink`) is the default for all content text, site-wide. White only for the wordmark, the nav overlay, and inverse elements on ink backgrounds. |
-| Section labels | Dash format: `01 — the idea`, `02 — the artist`, `03 — the people`, `04 — the practice`, `05 — join us`. Sequential, no duplicates. |
-| Type roles | Huge statement → `--font-banner`; section H2 → `--font-display` 700; UI/text sans → `--font-text`; labels and small caps → `--font-micro`; body paragraphs + italic accents → `--font-serif` (Minion Pro). |
-| Body size | `--text-body: clamp(1rem, 0.95rem + 0.25vw, 1.0625rem)`, `--leading-body: 1.5`, `--measure: 62ch`. |
-| Thread | Dashed line 02 → 05, ink at 70% opacity, 2.5px, dash 12/9, drawn on scroll. Behind images and text, above the atmosphere (§6). |
+| Section labels | Dash format: `01 — the idea`, `02 — the artist`, `03 — the people`, `04 — the practice`, `05 — join us`. |
+| Type roles | 01 statement → `--font-banner`, `--step-4`, 700, uppercase. Section H2 → `--font-display` 700, `--step-3`. UI sans → `--font-text`. Labels/small caps → `--font-micro`, `--text-small`. Body paragraphs + italic accents → `--font-serif` (Minion Pro). The statement must always be the largest type on the page after the wordmark. |
+| Body size | `--text-body`, `--leading-body: 1.5`, `--measure: 62ch`. |
+| Stamp | **One** "Sold out" stamp everywhere (next-event strip, event cards, past posters): `--color-coral-deep` background, `--color-pale-warm` text, `--font-micro` 700 uppercase, letter-spacing 0.1em, padding ~5px 9px. **Never rotated.** On posters it sits inside the top-left corner (12px inset), never overhanging. |
+| Rotation | Reserved for the 04 collage. Nothing else is rotated. |
+| Buttons | Primary: ink fill, pale-warm text, min-height 48px. Secondary: 1.5px ink outline, transparent. Text link: ink, 600, trailing arrow. Touch targets ≥ 44px. |
+| Thread | Dashed line 02 → 05, ink at 70% opacity, 2.5px, dash 12/9, drawn on scroll. Behind images and text, above the atmosphere (§6). Off on mobile. |
 
 ## 2. Section map
 
@@ -39,74 +45,84 @@ Visual reference: the "CHIMAERA — Next event strip" design canvas, row "Full h
 | 5 | `events` | 05 — join us |
 | 6 | `footer` | none |
 
-**Status (structure session):** `idea`/`artist`/`people`/`practice`/`events`/`footer` ids are live in
-`index.html`/`components/footer.html`. `landing` and `next-event` don't have ids yet — not requested
-in that session's scope, flagged rather than added speculatively. Section order matches this table.
-
 ## 3. Sections
 
 ### 0 — Landing  **KEEP concept**
 Full viewport. Wordmark top-left (white), star top-right. Centered editorial video (4:3, `muted autoplay loop playsinline`, poster, no controls, no letterbox bars). Mobile: video ~80vw.
 
 ### 0.5 — Next event  (variant: Line)
-Ruled caption band directly under the landing, on the atmosphere, all ink. Label "Next event" · date · title + venue · Tickets button (ink bg, pale-warm text, min-height 48px). Sold out → "Sold out" tag + "Join the waitlist" (#footer). No upcoming event → section hidden. Rendered by `js/next-event.js` from `data/events.json`.
+Ruled caption band directly under the landing, on the atmosphere, all ink. Label "Next event" · date · title + venue · Tickets button (primary). Sold out → stamp + secondary "Join the waitlist" button (→ #footer), same pair as on event cards. No upcoming event → section hidden. Rendered by `js/next-event.js`.
 
 ### 1 — 01 — the idea
-Left: label, phonetic `[khi-mæ-ra]` (serif italic, ~1.9rem), statement headline (banner, uppercase, ~4rem, max ~13ch), intro paragraph (serif, body size). Right: one image, 4:5, max ~400px. No second wordmark. Mobile: text, then image.
+Left: label, phonetic `[khi-mæ-ra]` (serif italic, ~1.9rem), statement headline (§1 type roles, max ~13ch), intro paragraph (serif, body size). Right: one image, 4:5, max ~400px. Mobile: text, then image. No second wordmark.
 
 ### 2 — 02 — the artist
-Left: label, H2 "The artist", body. Right: image 3:2, max ~440px, inset from the right edge. Thread starts at the end of the body text and passes behind the image.
-
-**Interim state:** `#artist` was split out of the old single `.homepage-encounter` section (structure
-session). That section's interleaved 12-column grid + 50/50 divider depended on both halves sharing
-one container, so it doesn't carry over — `#artist` currently renders as a simple stacked column
-(label, H2, body, photo) at every width, not yet this layout. Real layout is its own future session.
+Desktop ≥64rem: two columns. Left: label, H2 "The artist", body. Right: image 3:2, max ~440px, inset ~80px from the right edge. Mobile: stacked, no inset.
 
 ### 3 — 03 — the people
-Left: image 4:3, max ~480px. Right: label, H2 "The people", body ("We believe that everyone is an artist." + placeholder). Mobile: text **before** image (use `flex-wrap: wrap-reverse` or source order + CSS).
-
-**Interim state:** same as `#artist` above — currently a stacked column, not yet this layout.
+Desktop: image 4:3 (max ~480px) left, text right. Mobile: text **before** image (source order text-first, `order: -1` on the image at desktop).
 
 ### 4 — 04 — the practice
-Left: label, H2 [Heading], body (indented). Right: collage of 4 images, fixed rotations −5°, 3°, −2°, 6°, overlapping, soft shadow. Mobile: collage full width, same composition scaled.
-**Later:** interactive collage (§7).
+Left (indented ~64px on desktop, no indent on mobile): label, H2 [Heading], body, then a text link **"Get in touch →" to `/contact/`** (visible now). Right: collage of 4 images, fixed rotations −5°, 3°, −2°, 6°, overlapping, soft shadow. Mobile: collage full width, same composition scaled.
+**Later:** the collage reveal (§7) will use this same link as its revealed button.
 
 ### 5 — 05 — join us (events)
-- Header row: label + H2 "Upcoming" left; "Are you an artist? →" link right.
-- Upcoming cards from `data/events.json`: 3 columns desktop (`flex: 1 1 280px`), horizontal scroll-snap on mobile.
-- **Card = passe-partout + dashed rule** (decided):
-  - Mat: `--color-pale-warm` background, padding ~1rem all sides, slightly more at the bottom (weighted mount).
-  - Poster 3:4 with a 1px ink keyline at 25% opacity (keeps pale posters from dissolving into the mat).
-  - Caption on the mat: date (micro, uppercase), title (display 700, ~1.5rem), venue (serif italic).
-  - Dashed rule (2px, ink 45%, same dash language as the thread), then a filled ink Tickets button, min-height 48px, full card width.
-  - Sold out: coral-deep tag rotated ~8°, overhanging the poster's top-right corner onto the mat; button becomes an outlined "Join the waitlist" (→ #footer).
-- "Past events" strip: small posters (~150px, 3:4) in a horizontally scrolling row, "Sold out" stamp where true, date bottom-left.
+- Header row: label + H2 "Upcoming" left; "Are you an artist? →" text link right, to `/contact/`.
+- Upcoming cards: realistically 1–2 at a time, max 3. Cards `flex: 0 1 360px`, left-aligned (never stretched full width). Mobile: horizontal scroll-snap row, cards ~78% width.
+- **Card = passe-partout + dashed rule:** pale-warm mat, padding ~1rem (slightly more at the bottom); poster 3:4 with 1px `--color-ink-25` keyline; caption on the mat: date (micro, uppercase), title (display 700, 1.5rem), venue (serif italic); 2px dashed `--color-ink-45` rule; primary Tickets button, full card width. Sold out: stamp (§1) inside the poster + secondary "Join the waitlist" (→ #footer).
+- **"Next dates" panel** when there are 1–2 upcoming events: same width as a card, transparent, 2px dashed `--color-ink-45` border, content bottom-aligned: label "Next dates", serif line "New dates reach the newsletter before they go on sale here.", secondary button "Get first access" (→ #footer). 0 upcoming → existing empty state line. 3 upcoming → no panel.
+- "Past events" row: label left, "Archive →" text link right (to `/#events` until the archive page exists). Small posters (~150px, 3:4) in a horizontal scroll row; stamp where sold out; date bottom-left.
 
-### 6 — Footer (ink background, pale-warm text)
-- Column 1, Newsletter: label, one line of copy, email input (visually-hidden label) + coral Subscribe button. Provider TBD; placeholder form for now.
-- Column 2, Explore: Home, All events, Archive, Gallery, About, Contact (same as the nav).
+### 6 — Footer (ink background, pale-warm text) — `components/footer.html`, styles in `css/footer.css`
+- Column 1, Newsletter: label, one line of copy, email input (visually-hidden label) + coral Subscribe button (ink text). MailerLite embed later; placeholder form for now (no action, `type="button"`).
+- Column 2, Explore: Events, Archive, About, Contact. Events/Archive → `/#events` until those pages exist.
 - Column 3, Contact: info@chimaeracollective.dk (mailto), Instagram, Facebook.
-- Bottom row (above a thin rule): large wordmark left; right: [Legal entity name] · [Address], København · CVR [number] · Privacy policy · Terms & conditions.
-- `id="footer"` (target of the waitlist links).
+- Bottom row (above a thin pale-warm 20% rule): large wordmark left; right: `CHIMAERA.CPH · Ved Linden 4, 3. th., 2300 København S · CVR 45933091` · Privacy policy · Terms & conditions.
+- All links ≥ 44px tall. `id="footer"` (waitlist target). The footer ends the atmosphere.
 
-## 4. Atmosphere coverage per section
+## 4. Atmosphere
 
-The atmosphere shifts as you scroll. Target coverage from the left edge, measured at the section's midpoint:
+### 4.1 Coverage per section
+Coral coverage from the left edge, at the section's midpoint. Between sections the midpoint eases smoothly (no hard cuts).
 
 | Section | Coverage |
 |---|---|
-| landing | default (~70%) |
-| 01 the idea | ~50% |
-| 02 the artist | ~30–40% |
-| 03 the people | ~50% |
-| 04 the practice | ~30–40% |
-| 05 join us | back to default (same as landing) |
+| landing | 0.75 |
+| 01 the idea | 0.50 |
+| 02 the artist | 0.50 |
+| 03 the people | 0.50 |
+| 04 the practice | 0.50 |
+| 05 join us | 0.75 |
 
-Claude Code: list the existing triggers (selector → effect) and propose how to hit these targets with the current atmosphere.js API before changing anything. Transitions between states stay smooth (no hard cuts).
+Implementation: `STOPS` table in `js/homepage.js` + `setColourMidpoint()` in `js/atmosphere.js` (recipe: COMPONENT-GUIDE §4.4, with these numbers).
+
+### 4.2 Alive when idle
+On top of scroll position, the boundary always moves:
+- **Breath:** a slow sine on the midpoint (±0.03, ~8s period) and on the edge softness (±20%). Added to the existing global sway; never replaces it.
+- **Organic wobble:** existing noise terms, **KEEP**.
+- **Mouse (desktop, fine pointer only):** existing `mouseInfluence`, **KEEP**.
+- **Reduced motion:** one static frame at the scroll stop, no breath, no mouse.
+- Pauses when the tab is hidden (existing `visibilitychange`, **KEEP**).
+
+All knobs are CSS custom properties in `tokens.css`, read once by `atmosphere.js` at mount (fallback to the JS defaults if a token is missing):
+
+| Token | Default | Effect |
+|---|---|---|
+| `--atmosphere-coral` | `var(--color-coral)` | Coral colour (replaces the hardcoded `#e25139`) |
+| `--atmosphere-pale` | `var(--color-pale)` | Pale colour |
+| `--atmosphere-speed` | 1 | Multiplies `movementSpeed` |
+| `--atmosphere-amplitude` | 1 | Multiplies `movementAmplitude` |
+| `--atmosphere-softness` | 1 | Multiplies `softness` |
+| `--atmosphere-breath` | 0.03 | Breath amplitude (fraction of width) |
+| `--atmosphere-breath-period` | 8 | Breath period in seconds |
+| `--atmosphere-breath-softness` | 0.2 | Breath effect on edge softness |
+| `--atmosphere-mouse` | 1 | Multiplies `mouseInfluence` (0 = off) |
+
+`--atmosphere-coral-intensity`, `--atmosphere-opacity`, `--atmosphere-scale`: wire them the same way or delete them. No dead tokens.
 
 ## 5. Event data
 
-`data/events.json`, fields: `slug, title, date (ISO), venue, poster, ticketUrl, status (upcoming|soldout|past)`. `ticketUrl` = Stripe Payment Link per event/tier. Sections 0.5 and 05 both render from this file. Maps 1:1 to an Astro content collection later.
+`data/events.json`, fields: `slug, title, date (ISO), venue, poster, ticketUrl, status (upcoming|soldout|past)`. `ticketUrl` = Stripe Payment Link. Sections 0.5 and 05 both render from this file. Becomes an Astro content collection in the port (one markdown file per event).
 
 ## 6. Thread (scroll-drawn dashed line), prototype first
 
@@ -114,33 +130,32 @@ Prototype in `prototype/thread.html` before integrating.
 - One SVG behind the content of sections 02–05, `pointer-events: none`. z-order: atmosphere < thread < images/text.
 - Path computed from anchor elements (`[data-thread-anchor]`), cubic béziers, not hardcoded coordinates.
 - Recompute on **width** change only, debounced.
-- Dashes use `stroke-dasharray`, so the draw-on effect uses a **mask**: a solid copy of the path in a `<mask>`, animated via `stroke-dashoffset`.
+- Draw-on effect uses a **mask**: a solid copy of the path in a `<mask>`, animated via `stroke-dashoffset`.
 - Progress = scroll through the thread container (0 → 1), in the page's single rAF scroll loop.
 - `prefers-reduced-motion: reduce` → fully drawn, static.
-- Mobile: thread off by default; prototype a vertical variant before deciding.
+- Mobile: off.
 
 ## 7. 04 collage interaction (later; don't build yet)
 
-Images move outward to reveal a hidden button. Destination: none yet; build the interaction only once a destination exists.
-- Desktop: triggered by hover **and** `:focus-within` (keyboard users must reach the button).
-- Mobile (primary audience, no hover): auto-spread when the collage crosses the viewport center (IntersectionObserver), plus a tap toggle on the collage (a real `<button aria-expanded>`).
-- Motion: `transform` only (GPU-friendly), ~400ms ease-out, each image moves along its own vector away from the center.
-- `prefers-reduced-motion`: no movement, button always visible.
+Images move outward to reveal the "Get in touch" link.
+- Desktop: hover **and** `:focus-within`.
+- Mobile: auto-spread when the collage crosses the viewport center (IntersectionObserver), plus a tap toggle (a real `<button aria-expanded>`).
+- Motion: `transform` only, ~400ms ease-out, each image along its own vector away from the center.
+- `prefers-reduced-motion`: no movement, link always visible.
 
 ## 8. Fonts
 
-Adobe Fonts kit `koo7phy` via `<link>` + preconnect on every page. Font-family names from the kit: `forma-djr-greek-banner/display/text/micro`, `minion-pro`. No self-hosted Adobe fonts (license). Kit trimmed to used styles; `font-display: swap` set in the Adobe project.
+Adobe Fonts kit `koo7phy` via `<link>` + preconnect on every page. Family names: `forma-djr-greek-banner/display/text/micro`, `minion-pro`. No self-hosted Adobe fonts (license). `font-display: swap` set in the Adobe project.
 
 ## 9. Quality bar
 
-- Contrast: ink on coral ≈ 4.5:1 (passes at body size); white on coral ≈ 3.9:1 (headlines/logo only).
+- Contrast: ink on coral ≈ 4.5:1; white on coral ≈ 3.9:1 (logo/headlines only); pale-warm on coral-deep ≈ 4.5:1 (stamp).
 - Images: `loading="lazy"` below the fold, explicit width/height. Video < ~3 MB, WebM + MP4 fallback, poster.
 - One scroll loop for the page; no layout reads or `getImageData` in scroll handlers.
 - Touch targets ≥ 44px. Visible `:focus-visible` on all interactive elements.
+- No horizontal page scroll at 375px.
 
 ## 10. Open questions
 
-- Newsletter provider (Mailchimp, Brevo, Substack…).
-- Event cards: link to `/events/[slug]` detail pages or straight to Stripe?
-- Collage button destination (§7), currently none.
-- Footer pages (Archive, Gallery, Privacy, Terms) don't exist yet.
+- Collage reveal (§7): build after the Astro port.
+- Archive, events index, event pages, privacy, terms: built in the Astro port.
