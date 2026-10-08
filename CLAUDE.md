@@ -9,16 +9,13 @@ Astro (static output). Pages in src/, plain CSS/JS in public/ (no bundling). Dep
 
 ## Structure
 
-- src/pages/ — index.astro, about.astro, contact.astro, archive.astro, events/[slug].astro, data/events.json.ts
-- src/layouts/Base.astro — head, header, nav, footer, shared scripts; pages pass extra css/js
-- src/components/ — Header, Navigation, Footer
-- src/content/events/ — one .md per event (copy _template.md); schema in src/content.config.ts
-- src/lib/events.ts — event status (past is computed from the date), URLs, date format
-- src/assets/events/<slug>/ — archive photos/clips per event (read by src/lib/media.ts); scripts/clip.sh cuts clips
-- public/css/tokens.css — ALL colors, type, spacing. Never hardcode values; add missing tokens here.
-- public/css/ — global, typography, navigation, homepage, footer, event, archive, page (subpages)
-- public/js/ — atmosphere, navigation, header-theme, homepage, page-chrome, next-event, events, archive
-- public/assets/ — images, video, logo. Don't open image files unless asked.
+- index.html, about/, contact/, events/<slug>/ — pages (events/_template/ = event page template)
+- components/ — header.html, navigation.html, footer.html, injected by js/include.js
+- css/tokens.css — ALL colors, type, spacing. Never hardcode values; add missing tokens here.
+- css/ — global, typography, navigation, homepage, footer, event, page (subpages)
+- js/atmosphere.js — continuous fluid background canvas + section triggers
+- js/ — include, navigation, header-theme, homepage, page-chrome, next-event
+- assets/ — images, video, logo. Don't open image files unless asked.
 
 ## Rules
 
@@ -35,13 +32,14 @@ Astro (static output). Pages in src/, plain CSS/JS in public/ (no bundling). Dep
 
 ## Current state
 
-- Ported to Astro with zero visual change (homepage, about, contact identical to the static version).
-- Homepage built to docs/HOMEPAGE-SPEC.md v2.2. Event pages from the events collection (spec §11).
-- Atmosphere: per-section STOPS in public/js/homepage.js; idle breath + mouse; tuning in `--atmosphere-*` tokens.
-- Homepage photos: web-sized copies in public/assets/images/optimized/ (640/1280w). Don't link the 6000px originals.
-- Sample/past events are `draft: true` (dev only) until checked.
-- Archive built (spec §12): media from src/assets/events/<slug>/; past event URLs redirect to /archive/#slug.
-- Next: events index page, privacy + terms pages, footer colour, connect Vercel.
+- Homepage built to docs/HOMEPAGE-SPEC.md v2.2: landing → next-event → #idea → #artist →
+  #people → #practice → #events → footer. Fonts via Adobe kit `koo7phy`; ink is the default text colour.
+- Atmosphere: per-section STOPS in js/homepage.js; idle breath + mouse; all tuning in the
+  `--atmosphere-*` tokens (css/tokens.css).
+- Next event (js/next-event.js) and 05 events (js/events.js) read data/events.json. One `.stamp`
+  component (css/global.css). Footer: components/footer.html + css/footer.css on every page.
+- Homepage photos: web-sized copies in assets/images/optimized/ (640/1280w). Don't link the 6000px originals.
+- Next: Astro port (docs/BUILD-PROMPTS.md, "After P9"), then event pages, archive, privacy, terms.
 
 ## Docs
 
