@@ -137,7 +137,7 @@
            HERO / PROPOSITION
            ======================================================= -->
 
-      <section class="homepage-hero" aria-labelledby="hero-heading">
+      <section class="homepage-hero" id="idea" aria-labelledby="hero-heading">
 
         <div class="homepage-hero__copy">
 
@@ -174,19 +174,19 @@
 
 
       <!-- =======================================================
-           THE ENCOUNTER — ARTIST / PARTICIPANT
-           One continuous editorial canvas, not two panels. HERO2 and
-           HERO3 are individual photographic objects placed into the
-           persistent atmosphere, not background fills — the section
-           carries no background of its own at any breakpoint.
+           ARTIST
+           Split from the old single "encounter" section (see
+           css/homepage.css for why) — HERO2 is an individual
+           photographic object placed into the persistent atmosphere,
+           not a background fill.
            ======================================================= -->
 
-      <section class="homepage-encounter" data-field="coral" aria-label="The artist and the participant">
+      <section class="homepage-artist" id="artist" data-field="coral" aria-label="The artist">
 
         <div class="encounter__text encounter__text--artist">
 
           <p class="eyebrow">
-            01 — the artist
+            02 — the artist
           </p>
 
           <h2>
@@ -204,10 +204,19 @@
           <img src="/assets/images/HOMEPAGE/HERO2.JPG" alt="" loading="lazy" decoding="async">
         </figure>
 
+      </section>
+
+
+      <!-- =======================================================
+           PEOPLE
+           ======================================================= -->
+
+      <section class="homepage-people" id="people" data-field="coral" aria-label="The people">
+
         <div class="encounter__text encounter__text--participant">
 
           <p class="eyebrow">
-            02 — the participant
+            03 — the people
           </p>
 
           <h2>
@@ -229,114 +238,48 @@
 
 
       <!-- =======================================================
-           THE TWO SIDES
+           PRACTICE
+           Stub — replaces the old empty .homepage-idea. Real layout
+           (label/H2/body + 4-image collage) per
+           docs/HOMEPAGE-SPEC.md §3 is a future session.
            ======================================================= -->
 
-      <section class="homepage-idea" aria-labelledby="idea-heading">
+      <section class="homepage-practice" id="practice" aria-labelledby="practice-heading">
 
-        <div class="homepage-idea__intro">
+        <p class="eyebrow">
+          04 — the practice
+        </p>
 
-          <p class="eyebrow">
-            02 — the practice
-          </p>
+        <h2 id="practice-heading">
+          [placeholder heading]
+        </h2>
 
-          <h2 id="idea-heading">
-            <!-- Section statement goes here -->
-          </h2>
-
-        </div>
-
-
-        <div class="homepage-idea__split">
-
-
-          <!-- ===================================================
-               ARTIST
-               =================================================== -->
-
-          <article class="homepage-idea__side homepage-idea__side--artist">
-
-            <div class="homepage-idea__content">
-
-              <p class="eyebrow">
-                <!-- Artist label -->
-              </p>
-
-              <h3>
-                <!-- Artist statement -->
-              </h3>
-
-              <div class="body-copy">
-                <!-- Artist explanation -->
-              </div>
-
-            </div>
-
-          </article>
-
-
-          <!-- ===================================================
-               PARTICIPANT
-               =================================================== -->
-
-          <article class="homepage-idea__side homepage-idea__side--participant">
-
-            <div class="homepage-idea__content">
-
-              <p class="eyebrow">
-                <!-- Participant label -->
-              </p>
-
-              <h3>
-                <!-- Participant statement -->
-              </h3>
-
-              <div class="body-copy">
-                <!-- Participant explanation -->
-              </div>
-
-            </div>
-
-          </article>
-
-        </div>
-
-
-        <!-- =====================================================
-             BRIDGE BETWEEN ARTIST + PARTICIPANT
-             ===================================================== -->
-
-        <div class="homepage-idea__bridge">
-
-          <p>
-            <!-- Connecting statement goes here -->
-          </p>
-
+        <div class="body-copy">
+          [placeholder]
         </div>
 
       </section>
 
 
       <!-- =======================================================
-           CALL TO ACTION
+           EVENTS
+           Stub — replaces the old empty .homepage-cta. Real layout
+           (upcoming cards + past strip) per docs/HOMEPAGE-SPEC.md §3
+           is a future session.
            ======================================================= -->
 
-      <section class="homepage-cta" aria-labelledby="cta-heading">
+      <section class="homepage-events" id="events" aria-labelledby="events-heading">
 
-        <div class="homepage-cta__inner">
+        <p class="eyebrow">
+          05 — join us
+        </p>
 
-          <p class="eyebrow">
-            03 — come along
-          </p>
+        <h2 id="events-heading">
+          [placeholder heading]
+        </h2>
 
-          <h2 id="cta-heading">
-            <!-- CTA statement goes here -->
-          </h2>
-
-          <a class="homepage-cta__link" href="/join/">
-            <!-- CTA label -->
-          </a>
-
+        <div class="body-copy">
+          [placeholder]
         </div>
 
       </section>

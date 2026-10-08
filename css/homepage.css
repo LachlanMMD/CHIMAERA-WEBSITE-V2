@@ -539,32 +539,31 @@ body.nav-open .landing__video {
 }
 
 /* ==========================================================================
-   THE ENCOUNTER — ARTIST / PARTICIPANT
+   ARTIST / PEOPLE
    ==========================================================================
 
-   HERO2 (the artist) and HERO3 (the participant) are individual
-   photographic objects placed into the persistent atmosphere, not
-   background panels — this section carries no background of its own
-   at any breakpoint, in flow or in the grid below. Legibility comes
-   from white text + a soft shadow, not a colour block.
+   Structural split of what was previously one "encounter" section
+   (HERO2/artist + HERO3/people, a single interleaved 12-column grid
+   with a shared 50/50 divider). Per docs/HOMEPAGE-SPEC.md §2/§3, these
+   are now two independent sections (#artist, #people) with their own
+   simpler target layouts (image + text column pair, not an overlapping
+   grid) — to be built out in their own dedicated sessions.
 
-   Structure: four independent pieces (artist text, artist photo,
-   participant text, participant photo) stack in a simple column below
-   64rem, then become items on a 12-column grid above it — artist
-   material anchored toward the left/upper half, participant material
-   toward the right/lower half, so the two photographs (and only the
-   photographs) are free to cross the conceptual 50/50 centre via grid
-   placement and justify-self, not hand-placed coordinates.
+   For now, both sections share the same base treatment the old
+   .homepage-encounter used below 64rem (a simple flex column: text,
+   then photo). The old 12-column grid and its ::before divider line
+   are deliberately NOT carried over — they depended on both halves
+   living in one shared container, which splitting breaks. Until each
+   section's real layout is built, both render as this stacked
+   fallback at every width, including desktop.
 
-   The row-gap is deliberately small (--space-m, not the section's own
-   generous outer padding) — the artist half and participant half are
-   meant to read as one physically continuous composition, not two
-   panels with a section-sized gap between them. Portrait photographs
-   (aspect-ratio 2/3) carry the actual image presence; a single ruled
-   line at the midpoint keeps the 50/50 axis legible underneath it.
+   HERO2/HERO3 remain individual photographic objects placed into the
+   persistent atmosphere, not background panels. Legibility comes from
+   white text + a soft shadow, not a colour block.
    ========================================================================== */
 
-.homepage-encounter {
+.homepage-artist,
+.homepage-people {
   position: relative;
   z-index: 1;
 
@@ -576,11 +575,13 @@ body.nav-open .landing__video {
   padding-inline: var(--page-margin);
 }
 
-.homepage-encounter .eyebrow {
+.homepage-artist .eyebrow,
+.homepage-people .eyebrow {
   margin: 0 0 var(--space-s);
 }
 
-.homepage-encounter h2 {
+.homepage-artist h2,
+.homepage-people h2 {
   font-family: var(--font-display);
   font-weight: 700;
 
@@ -595,7 +596,8 @@ body.nav-open .landing__video {
   margin: 0 0 var(--space-m);
 }
 
-.homepage-encounter .body-copy {
+.homepage-artist .body-copy,
+.homepage-people .body-copy {
   opacity: 0.9;
 
   max-width: 34ch;
@@ -655,78 +657,51 @@ body.nav-open .landing__video {
   object-fit: cover;
 }
 
-/* --------------------------------------------------------------------------
-   DESKTOP — 12-COLUMN GRID
-   -------------------------------------------------------------------------- */
+/* ==========================================================================
+   PRACTICE / EVENTS — stubs
+   ==========================================================================
 
-@media (min-width: 64rem) {
-  .homepage-encounter {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
+   Replace the old empty .homepage-idea / .homepage-cta. min-height
+   keeps the page's section rhythm visible while these are placeholder
+   content; real layouts per docs/HOMEPAGE-SPEC.md §3 are future
+   sessions. H2 treatment matches .homepage-artist/.homepage-people's
+   for visual consistency between adjacent sections — not a new style.
+   ========================================================================== */
 
-    column-gap: var(--space-l);
-    row-gap: var(--space-m);
+.homepage-practice,
+.homepage-events {
+  position: relative;
+  z-index: 1;
 
-    padding-block: var(--space-2xl);
-  }
+  min-height: 60svh;
 
-  .homepage-encounter::before {
-    content: '';
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-    position: absolute;
-    top: var(--space-xl);
-    bottom: var(--space-xl);
-    left: 50%;
+  padding-block: var(--space-2xl);
+  padding-inline: var(--page-margin);
+}
 
-    width: var(--rule-width);
+.homepage-practice .eyebrow,
+.homepage-events .eyebrow {
+  margin: 0 0 var(--space-s);
+}
 
-    background: var(--color-white);
-    opacity: 0.25;
+.homepage-practice h2,
+.homepage-events h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
 
-    z-index: -1;
-  }
+  font-size: var(--step-4);
 
-  /*
-   * Artist material sits in the upper-left, participant material in
-   * the lower-right — but the two photographs both reach toward the
-   * centre columns (4-9) so they approach one another and the 50/50
-   * axis rather than sitting in two isolated halves. Row placement is
-   * deliberately adjacent (artist photo ends where participant text
-   * begins, participant text ends where its own photo begins) so the
-   * row-gap above is the only distance between the two halves.
-   */
+  line-height: 1.05;
 
-  .encounter__text--artist {
-    grid-column: 1 / 6;
-    grid-row: 1;
+  letter-spacing: -0.01em;
 
-    align-self: start;
-  }
+  text-transform: uppercase;
 
-  .encounter__photo--artist {
-    grid-column: 4 / 9;
-    grid-row: 2 / 4;
-
-    justify-self: end;
-
-    width: clamp(17rem, 25vw, 23rem);
-  }
-
-  .encounter__text--participant {
-    grid-column: 7 / 13;
-    grid-row: 3;
-
-    align-self: end;
-  }
-
-  .encounter__photo--participant {
-    grid-column: 4 / 10;
-    grid-row: 4 / 6;
-
-    justify-self: start;
-
-    width: clamp(19rem, 29vw, 27rem);
-  }
+  margin: 0 0 var(--space-m);
 }
 
 /* ==========================================================================

@@ -12,7 +12,7 @@ Static HTML/CSS/vanilla JS, no build step. Deployed on Vercel. Astro migration p
 - css/tokens.css — ALL colors, type, spacing. Never hardcode values; add missing tokens here.
 - css/ — global, typography, navigation, homepage, page (subpages)
 - js/atmosphere.js — continuous fluid background canvas + section triggers
-- js/ — include, navigation, header-theme, homepage, page-chrome
+- js/ — include, navigation, header-theme, homepage, page-chrome, next-event
 - assets/ — images, video, logo. Don't open image files unless asked.
 
 ## Rules
@@ -36,4 +36,10 @@ Static HTML/CSS/vanilla JS, no build step. Deployed on Vercel. Astro migration p
   only for the nav overlay, the header star, and photo-caption overlays.
 - Body text: `--text-body` (16px mobile → 17px desktop), `--leading-body` (1.5), `--measure` (62ch),
   applied to `.body-copy`.
-- Next: scroll jank audit, then thread prototype.
+- Section skeleton rebuilt to spec §2: `landing → next-event → #idea → #artist → #people →
+  #practice → #events → footer`. `#practice`/`#events` are placeholder stubs (label + heading +
+  "[placeholder]" + min-height). The old single `.homepage-encounter` section is split into
+  `#artist`/`#people`; its interleaved 12-column grid didn't survive the split, so both currently
+  render as a stacked column at every width — real per-spec layouts for 02/03 are a future session.
+  `#footer` id added for the next-event waitlist link.
+- Next: `#artist`/`#people` real layouts, then scroll jank audit, then thread prototype.

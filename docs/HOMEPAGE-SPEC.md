@@ -39,6 +39,10 @@ Visual reference: the "CHIMAERA — Next event strip" design canvas, row "Full h
 | 5 | `events` | 05 — join us |
 | 6 | `footer` | none |
 
+**Status (structure session):** `idea`/`artist`/`people`/`practice`/`events`/`footer` ids are live in
+`index.html`/`components/footer.html`. `landing` and `next-event` don't have ids yet — not requested
+in that session's scope, flagged rather than added speculatively. Section order matches this table.
+
 ## 3. Sections
 
 ### 0 — Landing  **KEEP concept**
@@ -53,8 +57,15 @@ Left: label, phonetic `[khi-mæ-ra]` (serif italic, ~1.9rem), statement headline
 ### 2 — 02 — the artist
 Left: label, H2 "The artist", body. Right: image 3:2, max ~440px, inset from the right edge. Thread starts at the end of the body text and passes behind the image.
 
+**Interim state:** `#artist` was split out of the old single `.homepage-encounter` section (structure
+session). That section's interleaved 12-column grid + 50/50 divider depended on both halves sharing
+one container, so it doesn't carry over — `#artist` currently renders as a simple stacked column
+(label, H2, body, photo) at every width, not yet this layout. Real layout is its own future session.
+
 ### 3 — 03 — the people
 Left: image 4:3, max ~480px. Right: label, H2 "The people", body ("We believe that everyone is an artist." + placeholder). Mobile: text **before** image (use `flex-wrap: wrap-reverse` or source order + CSS).
+
+**Interim state:** same as `#artist` above — currently a stacked column, not yet this layout.
 
 ### 4 — 04 — the practice
 Left: label, H2 [Heading], body (indented). Right: collage of 4 images, fixed rotations −5°, 3°, −2°, 6°, overlapping, soft shadow. Mobile: collage full width, same composition scaled.

@@ -9,8 +9,8 @@
    .hairline / .field-atmosphere (global.css) primitives; nothing here
    duplicates them.
 
-   IMPORTANT: like .homepage-hero and .homepage-encounter, nothing in this
-   file puts an opaque background behind text — the atmosphere stays
+   IMPORTANT: like .homepage-hero, .homepage-artist and .homepage-people,
+   nothing in this file puts an opaque background behind text — the atmosphere stays
    visible throughout. Text is ink (the site-wide default, see global.css)
    rather than a colour block — ink has better contrast than white against
    both ends of the atmosphere's coral/pale gradient (4.54:1 vs 3.84:1 on
