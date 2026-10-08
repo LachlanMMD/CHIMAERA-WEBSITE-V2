@@ -18,12 +18,32 @@
     "status": "soldout"
   },
   {
+    "slug": "[EVENT-SLUG-4]",
+    "title": "[EVENT TITLE]",
+    "date": "2026-12-10",
+    "venue": "[VENUE]",
+    "poster": null,
+    "ticketUrl": "#",
+    "status": "upcoming"
+  },
+  {
     "slug": "[EVENT-SLUG-3]",
     "title": "[EVENT TITLE]",
     "date": "2026-09-14",
     "venue": "[VENUE]",
     "poster": null,
     "ticketUrl": "#",
-    "status": "past"
+    "status": "past",
+    "soldOut": true
+  },
+  {
+    "slug": "[EVENT-SLUG-5]",
+    "title": "[EVENT TITLE]",
+    "date": "2026-08-01",
+    "venue": "[VENUE]",
+    "poster": null,
+    "ticketUrl": "#",
+    "status": "past",
+    "soldOut": false
   }
 ]

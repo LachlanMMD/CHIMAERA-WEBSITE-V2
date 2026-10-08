@@ -263,23 +263,45 @@
 
       <!-- =======================================================
            EVENTS
-           Stub — replaces the old empty .homepage-cta. Real layout
-           (upcoming cards + past strip) per docs/HOMEPAGE-SPEC.md §3
-           is a future session.
+           Upcoming grid + past strip, rendered by js/events.js from
+           data/events.json. See docs/HOMEPAGE-SPEC.md §3 section 5.
            ======================================================= -->
 
       <section class="homepage-events" id="events" aria-labelledby="events-heading">
 
-        <p class="eyebrow">
-          05 — join us
+        <div class="homepage-events__header">
+
+          <div>
+            <p class="eyebrow">
+              05 — join us
+            </p>
+
+            <h2 id="events-heading">
+              Upcoming
+            </h2>
+          </div>
+
+          <a class="homepage-events__artist-link"
+            href="mailto:info@chimaeracollective.dk?subject=Artist%20application">
+            Are you an artist? →
+          </a>
+
+        </div>
+
+        <div class="homepage-events__grid" data-events-grid></div>
+
+        <p class="homepage-events__empty body-copy" data-events-empty>
+          New events soon — <a href="#footer">join the newsletter</a>
         </p>
 
-        <h2 id="events-heading">
-          [placeholder heading]
-        </h2>
+        <div class="homepage-events__past" hidden>
 
-        <div class="body-copy">
-          [placeholder]
+          <p class="eyebrow">
+            Past events
+          </p>
+
+          <div class="homepage-events__past-strip" data-events-past></div>
+
         </div>
 
       </section>
@@ -312,6 +334,8 @@
   <script src="/js/homepage.js"></script>
 
   <script src="/js/next-event.js"></script>
+
+  <script src="/js/events.js"></script>
 
 
 </body>

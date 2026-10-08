@@ -12,7 +12,9 @@
   --color-pale: #f1f6f8;           /* ice blue-white field */
   --color-pale-warm: #f7efec;      /* warm-leaning pale, seen where the atmosphere blooms out of coral */
   --color-ink: #1a1a1a;            /* near-black body text on pale */
+  --color-ink-25: rgba(26, 26, 26, 0.25); /* --color-ink at 25% — event poster keyline */
   --color-ink-30: rgba(26, 26, 26, 0.3); /* --color-ink at 30% — rules/borders on ink text, never full opacity (would fail contrast) */
+  --color-ink-45: rgba(26, 26, 26, 0.45); /* --color-ink at 45% — dashed rules (event cards, thread) */
   --color-white: #ffffff;          /* text / rules on coral */
 
   /* ---- Atmosphere defaults (read by js/atmosphere.js) ---- */

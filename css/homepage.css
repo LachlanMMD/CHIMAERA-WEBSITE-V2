@@ -661,18 +661,17 @@ body.nav-open .landing__video {
 }
 
 /* ==========================================================================
-   PRACTICE / EVENTS — stubs
+   PRACTICE — stub
    ==========================================================================
 
-   Replace the old empty .homepage-idea / .homepage-cta. min-height
-   keeps the page's section rhythm visible while these are placeholder
-   content; real layouts per docs/HOMEPAGE-SPEC.md §3 are future
-   sessions. H2 treatment matches .homepage-artist/.homepage-people's
-   for visual consistency between adjacent sections — not a new style.
+   Replaces the old empty .homepage-idea. min-height keeps the page's
+   section rhythm visible while this is placeholder content; real
+   layout per docs/HOMEPAGE-SPEC.md §3 is a future session. H2
+   treatment matches .homepage-artist/.homepage-people's for visual
+   consistency between adjacent sections — not a new style.
    ========================================================================== */
 
-.homepage-practice,
-.homepage-events {
+.homepage-practice {
   position: relative;
   z-index: 1;
 
@@ -686,13 +685,11 @@ body.nav-open .landing__video {
   padding-inline: var(--page-margin);
 }
 
-.homepage-practice .eyebrow,
-.homepage-events .eyebrow {
+.homepage-practice .eyebrow {
   margin: 0 0 var(--space-s);
 }
 
-.homepage-practice h2,
-.homepage-events h2 {
+.homepage-practice h2 {
   font-family: var(--font-display);
   font-weight: 700;
 
@@ -705,6 +702,327 @@ body.nav-open .landing__video {
   text-transform: uppercase;
 
   margin: 0 0 var(--space-m);
+}
+
+/* ==========================================================================
+   EVENTS (05 — join us)
+   ==========================================================================
+
+   Built per docs/HOMEPAGE-SPEC.md §3 section 5 / §5. The upcoming
+   grid and past strip are both rendered by js/events.js from
+   data/events.json — the markup in index.html only has the static
+   header plus three empty containers
+   ([data-events-grid]/[data-events-empty]/[data-events-past]).
+
+   [data-events-empty] defaults to VISIBLE in the markup (not the
+   grid's no-JS fallback exactly, but the same idea as next-event's
+   static fallback link) — if JS never runs or the fetch fails, the
+   visitor sees "New events soon" rather than a blank section. JS
+   hides it the moment it appends real cards. .homepage-events__past
+   defaults to [hidden] instead, since an empty "Past events" label
+   over nothing looks broken in a way an empty-state message doesn't.
+   ========================================================================== */
+
+.homepage-events {
+  position: relative;
+  z-index: 1;
+
+  padding-block: var(--space-2xl);
+  padding-inline: var(--page-margin);
+}
+
+.homepage-events .eyebrow {
+  margin: 0 0 var(--space-s);
+}
+
+.homepage-events__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-s) var(--space-l);
+
+  margin-bottom: var(--space-l);
+}
+
+.homepage-events__header h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+
+  font-size: var(--step-4);
+
+  line-height: 1.05;
+
+  letter-spacing: -0.01em;
+
+  text-transform: uppercase;
+
+  margin: var(--space-3xs) 0 0;
+}
+
+.homepage-events__artist-link {
+  font-family: var(--font-text);
+  font-weight: 700;
+
+  color: var(--color-ink);
+
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   UPCOMING GRID
+   -------------------------------------------------------------------------- */
+
+.homepage-events__grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-l);
+
+  /*
+   * Reserves roughly one card's height so there's no layout shift
+   * while js/events.js's fetch is in flight — not a reusable token,
+   * just this grid's own expected content height.
+   */
+  min-height: 34rem;
+}
+
+.event-card {
+  position: relative;
+
+  flex: 1 1 280px;
+
+  background: var(--color-pale-warm);
+
+  padding: var(--space-s) var(--space-s) var(--space-m);
+}
+
+.event-card__poster {
+  position: relative;
+
+  margin: 0 0 var(--space-s);
+
+  aspect-ratio: 3 / 4;
+
+  overflow: hidden;
+
+  border: var(--rule-width) solid var(--color-ink-25);
+}
+
+.event-card__poster img,
+.event-card__poster-placeholder {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.event-card__poster-placeholder {
+  background: var(--color-pale);
+}
+
+.event-card__soldout-tag {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+
+  transform: rotate(8deg);
+
+  background: var(--color-coral-deep);
+  color: var(--color-white);
+
+  font-family: var(--font-micro);
+  font-size: var(--text-small);
+
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+
+  padding: var(--space-3xs) var(--space-xs);
+}
+
+.event-card__date {
+  margin: 0;
+
+  font-family: var(--font-micro);
+  font-size: var(--text-small);
+
+  text-transform: uppercase;
+
+  font-variant-numeric: tabular-nums;
+}
+
+.event-card__title {
+  margin: var(--space-3xs) 0 0;
+
+  font-family: var(--font-display);
+  font-weight: 700;
+
+  font-size: 1.5rem;
+  line-height: 1.15;
+}
+
+.event-card__venue {
+  margin: var(--space-3xs) 0 0;
+
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.event-card__rule {
+  border: 0;
+  border-top: 2px dashed var(--color-ink-45);
+
+  margin: var(--space-m) 0;
+}
+
+.event-card__ticket-link,
+.event-card__waitlist-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: var(--tap-target-min);
+
+  font-family: var(--font-text);
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+.event-card__ticket-link {
+  background: var(--color-ink);
+  color: var(--color-pale-warm);
+}
+
+.event-card__waitlist-link {
+  background: transparent;
+  color: var(--color-ink);
+
+  border: var(--rule-width) solid var(--color-ink);
+}
+
+.event-card__ticket-link:focus-visible,
+.event-card__waitlist-link:focus-visible,
+.homepage-events__artist-link:focus-visible,
+.homepage-events__empty a:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   EMPTY STATE
+
+   .homepage-events__empty also carries .body-copy in the markup —
+   that already supplies font-family/size/line-height/max-width.
+   -------------------------------------------------------------------------- */
+
+.homepage-events__empty a {
+  color: var(--color-ink);
+}
+
+/* --------------------------------------------------------------------------
+   PAST STRIP
+   -------------------------------------------------------------------------- */
+
+.homepage-events__past {
+  margin-top: var(--space-2xl);
+}
+
+.homepage-events__past .eyebrow {
+  margin: 0 0 var(--space-s);
+}
+
+.homepage-events__past-strip {
+  display: flex;
+  gap: var(--space-m);
+
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+
+  padding-bottom: var(--space-xs);
+}
+
+.past-poster {
+  position: relative;
+
+  flex: 0 0 150px;
+
+  width: 150px;
+  margin: 0;
+
+  aspect-ratio: 3 / 4;
+
+  overflow: hidden;
+
+  scroll-snap-align: start;
+}
+
+.past-poster img,
+.past-poster__placeholder {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.past-poster__placeholder {
+  background: var(--color-pale-warm);
+
+  border: var(--rule-width) solid var(--color-ink-25);
+}
+
+.past-poster__stamp {
+  position: absolute;
+  top: var(--space-2xs);
+  right: var(--space-2xs);
+
+  background: var(--color-coral-deep);
+  color: var(--color-white);
+
+  font-family: var(--font-micro);
+  font-size: var(--text-small);
+
+  text-transform: uppercase;
+
+  padding: var(--space-3xs) var(--space-2xs);
+}
+
+.past-poster__date {
+  position: absolute;
+  bottom: var(--space-2xs);
+  left: var(--space-2xs);
+
+  color: var(--color-white);
+
+  font-family: var(--font-micro);
+  font-size: var(--text-small);
+
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* --------------------------------------------------------------------------
+   MOBILE — upcoming grid becomes a horizontal scroll-snap row
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 600px) {
+  .homepage-events__grid {
+    flex-wrap: nowrap;
+
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+
+    min-height: 0;
+  }
+
+  .event-card {
+    flex: 0 0 80vw;
+
+    scroll-snap-align: start;
+  }
 }
 
 /* ==========================================================================
