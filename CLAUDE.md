@@ -30,4 +30,10 @@ Static HTML/CSS/vanilla JS, no build step. Deployed on Vercel. Astro migration p
   were missing) — `--font-banner`/`--font-display`/`--font-text`/`--font-micro`/`--font-serif` in
   `css/tokens.css`, kit link in every page's `<head>`.
 - Section 0.5 "Next event" built (variant: Line). Reads `data/events.json` via `js/next-event.js`.
+- Ink (`--color-ink`) is now the site-wide default text color, including over the atmosphere — it
+  has better contrast than white against both ends of the coral/pale gradient (4.54:1 vs 3.84:1 on
+  coral; 15.98:1 vs 1.09:1 on pale, where white was previously near-invisible). White text is kept
+  only for the nav overlay, the header star, and photo-caption overlays.
+- Body text: `--text-body` (16px mobile → 17px desktop), `--leading-body` (1.5), `--measure` (62ch),
+  applied to `.body-copy`.
 - Next: scroll jank audit, then thread prototype.

@@ -21,9 +21,9 @@
 
 .body-copy {
   font-family: var(--font-text);
-  font-size: var(--step-0);
-  line-height: 1.6;
-  max-width: 38ch;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  max-width: var(--measure);
 }
 
 .body-copy + .body-copy {

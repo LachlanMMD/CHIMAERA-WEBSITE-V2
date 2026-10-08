@@ -194,7 +194,7 @@ body.nav-open {
 
 .field-coral {
   background: var(--color-coral);
-  color: var(--color-white);
+  /* ink beats white here too — 4.54:1 vs 3.84:1 against this coral — so it inherits the body default */
 }
 
 .field-pale {
