@@ -187,6 +187,43 @@
        * ----------------------------------------------------------
        */
 
+      /*
+       * ----------------------------------------------------------
+       * INTRO COMPLETE
+       * ----------------------------------------------------------
+       */
+
+      var openingCompleted = false;
+
+      function completeOpening() {
+        /*
+         * Guarded so this can safely run from both the "ended"
+         * handler and the play()-rejection fallback in
+         * startOpening() below without finishing the opening twice.
+         */
+
+        if (openingCompleted) return;
+
+        openingCompleted = true;
+
+        /*
+         * The intro WebM's own "ended" event is normally the single
+         * authoritative signal that the opening has finished. Tell
+         * the atmosphere explicitly, rather than relying on a timer
+         * of its own.
+         */
+
+        atmosphere.finishOpeningState();
+
+        /*
+         * Reveal the actual landing page.
+         */
+
+        landing.classList.add("landing--revealed");
+      }
+
+      intro.addEventListener("ended", completeOpening);
+
       function startOpening() {
         /*
          * Make absolutely sure the intro starts from frame 0.
@@ -204,6 +241,28 @@
         atmosphere.enterOpeningState();
 
         /*
+         * Explicitly start playback rather than relying solely on
+         * the `autoplay` attribute. Attribute-driven autoplay has
+         * proven unreliable in practice (e.g. a fresh origin with no
+         * prior media engagement can silently leave the video paused
+         * at frame 0 even though readyState reaches HAVE_ENOUGH_DATA)
+         * — and since "ended" is the only signal that completes the
+         * opening, a video that never plays leaves the whole page
+         * stuck showing nothing but the atmosphere's 0.00 start
+         * state. If the browser still refuses playback outright (a
+         * genuine autoplay policy block), skip the intro gracefully
+         * instead of leaving the page frozen.
+         */
+
+        var playResult = intro.play();
+
+        if (playResult && typeof playResult.catch === "function") {
+          playResult.catch(function () {
+            completeOpening();
+          });
+        }
+
+        /*
          * Start atmosphere movement after the chosen delay.
          *
          * At the same moment, begin fading the header in.
@@ -219,29 +278,6 @@
           }
         }, HEADER_DELAY);
       }
-
-      /*
-       * ----------------------------------------------------------
-       * INTRO COMPLETE
-       * ----------------------------------------------------------
-       */
-
-      intro.addEventListener("ended", function () {
-        /*
-         * The intro WebM's own "ended" event is the single
-         * authoritative signal that the opening has finished.
-         * Tell the atmosphere explicitly, rather than relying
-         * on a timer of its own.
-         */
-
-        atmosphere.finishOpeningState();
-
-        /*
-         * Reveal the actual landing page.
-         */
-
-        landing.classList.add("landing--revealed");
-      });
 
       /*
        * ----------------------------------------------------------

@@ -188,8 +188,14 @@ body.nav-open .landing__video {
   transform: translateY(-50%);
 }
 
+.homepage-hero__copy .eyebrow {
+  color: var(--color-white);
+
+  margin: 0 0 var(--space-s);
+}
+
 .homepage-hero__copy h2 {
-  margin: 0;
+  margin: 0 0 var(--space-m);
 
   color: var(--color-white);
 
@@ -203,6 +209,16 @@ body.nav-open .landing__video {
   letter-spacing: -0.035em;
 
   text-transform: uppercase;
+}
+
+/* ==========================================================================
+   HERO SUPPORTING STATEMENT
+   ========================================================================== */
+
+.homepage-hero__body {
+  color: var(--color-white);
+
+  opacity: 0.85;
 }
 
 /* ==========================================================================
@@ -365,6 +381,205 @@ body.nav-open .landing__video {
 
 .editorial__image-secondary {
   object-position: center 30%;
+}
+
+/* ==========================================================================
+   THE ENCOUNTER — ARTIST / PARTICIPANT
+   ==========================================================================
+
+   HERO2 (the artist) and HERO3 (the participant) are individual
+   photographic objects placed into the persistent atmosphere, not
+   background panels — this section carries no background of its own
+   at any breakpoint, in flow or in the grid below. Legibility comes
+   from white text + a soft shadow, not a colour block.
+
+   Structure: four independent pieces (artist text, artist photo,
+   participant text, participant photo) stack in a simple column below
+   64rem, then become items on a 12-column grid above it — artist
+   material anchored toward the left/upper half, participant material
+   toward the right/lower half, so the two photographs (and only the
+   photographs) are free to cross the conceptual 50/50 centre via grid
+   placement and justify-self, not hand-placed coordinates.
+
+   The row-gap is deliberately small (--space-m, not the section's own
+   generous outer padding) — the artist half and participant half are
+   meant to read as one physically continuous composition, not two
+   panels with a section-sized gap between them. Portrait photographs
+   (aspect-ratio 2/3) carry the actual image presence; a single ruled
+   line at the midpoint keeps the 50/50 axis legible underneath it.
+   ========================================================================== */
+
+.homepage-encounter {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+
+  padding-block: var(--space-2xl);
+  padding-inline: var(--page-margin);
+}
+
+.homepage-encounter .eyebrow,
+.homepage-encounter h2,
+.homepage-encounter .body-copy {
+  color: var(--color-white);
+
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+}
+
+.homepage-encounter .eyebrow {
+  margin: 0 0 var(--space-s);
+}
+
+.homepage-encounter h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+
+  font-size: var(--step-4);
+
+  line-height: 1.05;
+
+  letter-spacing: -0.01em;
+
+  text-transform: uppercase;
+
+  margin: 0 0 var(--space-m);
+}
+
+.homepage-encounter .body-copy {
+  opacity: 0.9;
+
+  max-width: 34ch;
+}
+
+.encounter__text--artist {
+  align-self: flex-start;
+}
+
+.encounter__text--participant {
+  align-self: flex-end;
+
+  text-align: right;
+}
+
+.encounter__text--participant .body-copy {
+  margin-left: auto;
+}
+
+/* --------------------------------------------------------------------------
+   PHOTOGRAPHS
+   -------------------------------------------------------------------------- */
+
+.encounter__photo {
+  align-self: center;
+
+  margin: 0;
+
+  width: min(21rem, 74vw);
+
+  aspect-ratio: 2 / 3;
+
+  position: relative;
+  overflow: hidden;
+
+  box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.28);
+}
+
+.encounter__photo--artist {
+  align-self: flex-start;
+
+  transform: rotate(-3deg);
+}
+
+.encounter__photo--participant {
+  align-self: flex-end;
+
+  width: min(25rem, 80vw);
+
+  transform: rotate(2deg);
+}
+
+.encounter__photo img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+/* --------------------------------------------------------------------------
+   DESKTOP — 12-COLUMN GRID
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 64rem) {
+  .homepage-encounter {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+
+    column-gap: var(--space-l);
+    row-gap: var(--space-m);
+
+    padding-block: var(--space-2xl);
+  }
+
+  .homepage-encounter::before {
+    content: '';
+
+    position: absolute;
+    top: var(--space-xl);
+    bottom: var(--space-xl);
+    left: 50%;
+
+    width: var(--rule-width);
+
+    background: var(--color-white);
+    opacity: 0.25;
+
+    z-index: -1;
+  }
+
+  /*
+   * Artist material sits in the upper-left, participant material in
+   * the lower-right — but the two photographs both reach toward the
+   * centre columns (4-9) so they approach one another and the 50/50
+   * axis rather than sitting in two isolated halves. Row placement is
+   * deliberately adjacent (artist photo ends where participant text
+   * begins, participant text ends where its own photo begins) so the
+   * row-gap above is the only distance between the two halves.
+   */
+
+  .encounter__text--artist {
+    grid-column: 1 / 6;
+    grid-row: 1;
+
+    align-self: start;
+  }
+
+  .encounter__photo--artist {
+    grid-column: 4 / 9;
+    grid-row: 2 / 4;
+
+    justify-self: end;
+
+    width: clamp(17rem, 25vw, 23rem);
+  }
+
+  .encounter__text--participant {
+    grid-column: 7 / 13;
+    grid-row: 3;
+
+    align-self: end;
+  }
+
+  .encounter__photo--participant {
+    grid-column: 4 / 10;
+    grid-row: 4 / 6;
+
+    justify-self: start;
+
+    width: clamp(19rem, 29vw, 27rem);
+  }
 }
 
 /* ==========================================================================

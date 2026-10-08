@@ -19,8 +19,11 @@
 
     // Over the live atmosphere, sample the actual rendered pixel — the
     // pale bloom drifts, so a fixed "this whole section is coral" label
-    // isn't reliable at the exact point the header sits.
-    if (field.classList.contains('landing') && window.ChimaeraAtmosphere) {
+    // isn't reliable at the exact point the header sits. .landing is the
+    // homepage's opening section; .field-atmosphere is the general-purpose
+    // opt-in for any other section that shows the raw atmosphere (see
+    // css/global.css) rather than a solid field colour.
+    if ((field.classList.contains('landing') || field.classList.contains('field-atmosphere')) && window.ChimaeraAtmosphere) {
       var luminance = window.ChimaeraAtmosphere.getLuminanceAt(x, y);
       if (luminance !== null) {
         return luminance > LUMINANCE_THRESHOLD ? 'on-light' : 'on-dark';

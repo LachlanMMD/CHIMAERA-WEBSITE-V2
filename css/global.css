@@ -206,6 +206,18 @@ body.nav-open {
   background: transparent;
 }
 
+/*
+ * Like .field-transparent, but also opts into live luminance sampling
+ * for the fixed header (see js/header-theme.js) — use this on any
+ * section where the persistent atmosphere itself, not a solid field
+ * colour, is what's directly behind the header. .landing gets the
+ * same treatment by name for historical reasons; this is the general
+ * form any other page can use.
+ */
+.field-atmosphere {
+  background: transparent;
+}
+
 .hairline {
   border: 0;
   height: var(--rule-width);

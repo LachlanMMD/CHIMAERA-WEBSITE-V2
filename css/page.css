@@ -1,0 +1,102 @@
+/* ==========================================================================
+   CHIMAERA — Generic editorial page
+   ==========================================================================
+
+   Shared by secondary pages that aren't the homepage (about, contact, and
+   any future page cut from the same cloth) — one sparse, text-led
+   composition over the persistent atmosphere. Built entirely from the
+   existing tokens, .eyebrow / .body-copy (typography.css) and .container /
+   .hairline / .field-atmosphere (global.css) primitives; nothing here
+   duplicates them.
+
+   IMPORTANT: like .homepage-hero and .homepage-encounter, nothing in this
+   file puts an opaque background behind text — the atmosphere stays
+   visible throughout. Headings/body copy are set in white with a soft
+   shadow (the same legibility technique the homepage already uses over
+   the atmosphere) rather than a colour block.
+   ========================================================================== */
+
+#main .eyebrow,
+#main h1,
+#main h2,
+#main .body-copy {
+  color: var(--color-white);
+
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.45);
+}
+
+/* ==========================================================================
+   INTRO — the page's opening statement
+   ========================================================================== */
+
+.page-intro {
+  position: relative;
+  z-index: 1;
+
+  min-height: 70svh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding-block: var(--space-3xl);
+}
+
+.page-intro .eyebrow {
+  margin: 0 0 var(--space-s);
+}
+
+.page-intro h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+
+  font-size: var(--step-6);
+
+  line-height: 0.94;
+
+  letter-spacing: -0.015em;
+
+  text-transform: uppercase;
+
+  margin: 0 0 var(--space-l);
+}
+
+.page-intro .body-copy {
+  max-width: 52ch;
+
+  opacity: 0.9;
+}
+
+/* ==========================================================================
+   SECTION — a single editorial text block
+   ========================================================================== */
+
+.page-section {
+  position: relative;
+  z-index: 1;
+
+  padding-block: var(--space-2xl);
+}
+
+.page-section h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+
+  font-size: var(--step-3);
+
+  line-height: 1.05;
+
+  letter-spacing: -0.01em;
+
+  text-transform: uppercase;
+
+  margin: 0 0 var(--space-m);
+}
+
+.page-section .body-copy {
+  opacity: 0.9;
+}
+
+.page-section + .page-section {
+  border-top: var(--rule-width) solid rgba(255, 255, 255, 0.25);
+}
