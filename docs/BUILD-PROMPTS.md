@@ -3,7 +3,7 @@
 Paste one prompt per Claude Code session, in order. After each: check at 375px and 1440px, commit, `/clear`.
 Model: Sonnet. Each prompt names its files so Claude Code doesn't search.
 
-Before P1: commit `docs/HOMEPAGE-SPEC.md` (v2.2) and this file.
+Status: P1–P9 were done directly on branch `homepage-v2.2` (see its commits). Kept for reference and for re-running a step.
 
 ---
 

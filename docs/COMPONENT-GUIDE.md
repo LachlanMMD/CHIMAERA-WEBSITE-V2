@@ -105,46 +105,49 @@ How it decides, per point:
 **Gotcha (current bug):** only `.landing` samples the canvas. `#idea`, `#practice`, `#events` have no `data-field` (→ always white), and `#artist`/`#people` have `data-field="coral"` without `field-atmosphere` (→ always white). When the atmosphere's pale side sits under the star, the white star disappears. Fix in §5, bug 4.
 
 ### 3.3 Atmosphere: `js/atmosphere.js`
-The fluid coral/pale field. Coral on the left, pale on the right, a soft wobbling boundary between.
+The fluid coral/pale field. Coral on the left, pale on the right, a soft wobbling boundary between. It never stands still: idle breath + organic wobble + mouse push (desktop), on top of the scroll position.
 
 **The one number that matters: `colourMidpointX`** (0–1) = where the boundary sits, from the left. `0.75` = coral covers 75% of the width.
 
-**States** (config objects at the top of the file):
+**Tune it in `css/tokens.css` (Atmosphere tuning block), not in JS.** `atmosphere.js` reads these once at load; a missing token falls back to the JS default.
+
+| Token | Default | Effect |
+|---|---|---|
+| `--atmosphere-breath` | 0.03 | Idle breath: boundary swing (fraction of width). 0 = off |
+| `--atmosphere-breath-period` | 8 | Seconds per breath |
+| `--atmosphere-breath-softness` | 0.2 | How much the edge softens/sharpens with each breath |
+| `--atmosphere-speed` | 1 | × wobble/drift speed |
+| `--atmosphere-amplitude` | 1 | × wobble/drift distance |
+| `--atmosphere-softness` | 1 | × edge softness/blur |
+| `--atmosphere-mouse` | 1 | × cursor push (desktop, fine pointer). 0 = off |
+| `--atmosphere-coral`, `--atmosphere-pale` | colour tokens | The two colours (hex) |
+| `--atmosphere-coral-intensity`, `--atmosphere-opacity` | 1 | Coral alpha, canvas opacity |
+
+**Per-section coverage:** `STOPS` in `js/homepage.js` (landing .75, 01–04 .50, 05 .75). The midpoint eases between section centres as you scroll.
+
+**States** (config objects at the top of `atmosphere.js`; the opening and the nav still use them):
 
 | Config | Used when | Midpoint |
 |---|---|---|
 | `OPENING_START_CONFIG` | First frame of the intro | 0.00 |
-| `OPENING_END_CONFIG` | End of intro = landing | 0.75 |
-| `DEFAULT_CONFIG` | Initial values; target when the nav closes. **Also holds the colours.** | 0.75 |
-| `HERO_CONFIG` | Scrolled to #idea | 0.50 |
+| `OPENING_END_CONFIG` | End of intro = landing; its motion values stay active while scrolling | 0.75 |
+| `DEFAULT_CONFIG` | Target when the nav closes. Holds the breath/multiplier defaults. | 0.75 |
 | `NAV_CONFIG` | Nav open | 0.50, calmer |
-
-**Parameters** (same in every config):
-
-| Parameter | Effect | Typical |
-|---|---|---|
-| `colourMidpointX` | Boundary position | 0–1 |
-| `organicDeviation` | How far the boundary wobbles | 0.01–0.05 |
-| `movementSpeed` | Animation speed | 8 (calm) – 25 (lively) |
-| `movementAmplitude` | Multiplies the wobble | 0.5–1.5 |
-| `mouseInfluence` | How much the cursor pushes the boundary (desktop only) | 0–0.1 |
-| `softness` | Width of the soft edge + blur | 1 = default, higher = softer |
-| `verticalPosition` | Tilt pivot | 0.5 |
-| `coral`, `pale` (DEFAULT_CONFIG only) | The two colours | hex |
+| `HERO_CONFIG` | No longer used by scroll (kept for `enterHeroState`) | 0.50 |
 
 | To change | Where |
 |---|---|
-| Atmosphere colours | `DEFAULT_CONFIG.coral` / `.pale`. **Currently `#e25139`, while the token is `#e35039`.** Make them match. |
+| Coverage per section | `js/homepage.js` `STOPS` |
+| Motion feel | tokens above |
 | Intro sweep length (fallback) | `OPENING_DURATION = 3200`. Normally the intro video's length drives it. |
 | When the sweep starts | `js/homepage.js`: `ATMOSPHERE_DELAY = 500` |
 | Nav transition speed | `js/navigation.js`: `enterNavState(1800)` / `enterLandingState(1800)` |
-| Per-section coverage | Not built yet. Recipe in §4.4. |
 
 **Gotchas**
-- Scroll currently only moves the atmosphere between landing (0.75) and #idea (0.50). Everything after #idea stays at 0.50.
-- **The opening lock:** while the intro plays, `setScrollProgress` is ignored on purpose. Don't remove `if (openingActive) return;`.
-- Closing the nav always returns to `DEFAULT_CONFIG` (0.75), even mid-page; the next scroll snaps it back. Known, minor.
-- Reduced motion: the canvas draws one frozen frame (`FROZEN_T`) and never animates.
+- **The opening lock:** while the intro plays, `setColourMidpoint` is ignored on purpose. Don't remove `if (openingActive) return;`.
+- Closing the nav returns to `DEFAULT_CONFIG` (0.75) mid-page; the next scroll corrects it. Known, minor (bug 9).
+- Reduced motion: one frozen frame (`FROZEN_T`), no breath, no mouse.
+- The loop pauses when the tab is hidden (`visibilitychange`).
 
 ### 3.4 Navigation panel
 **Files:** `components/navigation.html` (links), `css/navigation.css` (BACKDROP, NAV PANEL, NAV LINKS), `js/navigation.js` (open/close, focus trap, Escape).
@@ -161,7 +164,8 @@ The fluid coral/pale field. Coral on the left, pale on the right, a soft wobblin
 | Bottom tagline | `.site-nav__meta` in navigation.html | Text |
 
 **Gotchas**
-- Adding a 5th+ link needs an `nth-child` delay rule, or that link appears before the others. There are 5 links and only 4 rules right now.
+- Adding a 6th+ link needs an `nth-child` delay rule, or that link appears before the others. There are 5 links and 5 rules.
+- Events and archive point at `/#events` until those pages exist (Astro port).
 - The panel has no background on purpose. Text is white over the atmosphere and the blurred page.
 
 ### 3.5 Landing
@@ -186,7 +190,7 @@ Sequence: `intro.webm` plays full screen → its `ended` event adds `.landing--r
 ### 3.6 Next-event strip (0.5)
 **Files:** `index.html` (`#next-event`), `css/homepage.css` (NEXT EVENT), `js/next-event.js`, `data/events.json`.
 
-Logic: take events where `status` isn't `"past"` and `date` ≥ today, sort by date, show the first. Status `"soldout"` → "Sold out" + "Join the waitlist" (→ `#footer`). None → the whole section hides. Fetch fails → the static "See upcoming events" link stays.
+Logic: take events where `status` isn't `"past"` and `date` ≥ today, sort by date, show the first. Status `"soldout"` → `.stamp` + outlined "Join the waitlist" button (→ `#footer`). None → the whole section hides. Fetch fails → the static "See upcoming events" link stays.
 
 | To change | Where |
 |---|---|
@@ -200,48 +204,52 @@ Logic: take events where `status` isn't `"past"` and `date` ≥ today, sort by d
 | Date format | `formatDate()` in `next-event.js` **and** `events.js` (duplicated) |
 
 ### 3.7 01 — the idea (`#idea`, class `.homepage-hero`)
-**Files:** `index.html`, `css/homepage.css` (HOMEPAGE HERO, HERO TEXT, HERO IMAGES, RESPONSIVE).
+**Files:** `index.html`, `css/homepage.css` (01 — THE IDEA).
 
-Layout: text block absolutely positioned on the left half; three images absolutely positioned inside `.homepage-hero__gallery` (right 50%), placed by % values.
+Layout: flex row that wraps. Copy left (label, phonetic, statement, body), one 4:5 photo right. Below ~64rem it stacks, text first.
 
 | To change | Where |
 |---|---|
 | Headline | `index.html` `#hero-heading` (`<br>` controls line breaks) |
-| Headline size | `.homepage-hero__copy h2` `font-size: clamp(2.4rem, 4.1vw, 5rem)` |
-| Text position / width | `.homepage-hero__copy` `left`, `top`, `width: min(42rem, 40vw)` |
-| Image positions | `.homepage-hero__image--1/2/3` `top`, `left`, `width`, `aspect-ratio`, `z-index` |
-| Images | `index.html` `src` of the three `<img>` |
-
-**Gotchas**
-- **Mobile overrides live at the bottom** of `homepage.css` under `@media (max-width: 800px)`. Change a desktop value and nothing happens on mobile → you need to change it there too.
-- Everything is absolutely positioned inside a `100svh` box with `overflow: hidden`. Longer headline copy on a short phone screen will clip. Check at 390×667 after copy changes.
-- The spec's phonetic line `[khi-mæ-ra]` and intro paragraph aren't in this section yet.
+| Headline size | `.homepage-hero__copy h2` `font-size: var(--step-4)` |
+| Phonetic line | `index.html` `.homepage-hero__phonetic`; size `var(--step-2)` |
+| Photo | `index.html` `.homepage-hero__figure img` (`src` + `srcset`) |
+| Photo size / ratio | `.homepage-hero__figure` `flex: 0 1 25rem`, `aspect-ratio: 4 / 5` |
+| Content width | `--section-max-width` (token, shared by 01–04) |
 
 ### 3.8 02 — the artist / 03 — the people (`#artist`, `#people`)
-**Files:** `index.html`, `css/homepage.css` (ARTIST / PEOPLE, PHOTOGRAPHS).
+**Files:** `index.html`, `css/homepage.css` (02 — THE ARTIST / 03 — THE PEOPLE).
 
-Both share one rule set (`.homepage-artist, .homepage-people`) and currently render as a **stacked column at every width**. The two-column layout from the mockup isn't built yet (starter in §4.6).
+Mobile: stacked, text first. ≥64rem: two-column grid. 02 photo right with an inset (`margin-right: var(--space-xl)`); 03 photo left (`order: -1`, so text stays first in the HTML).
 
 | To change | Where |
 |---|---|
-| H2 size / style (shared) | `.homepage-artist h2, .homepage-people h2` |
-| Body width | `.homepage-artist .body-copy, …` `max-width: 34ch` |
-| Section padding | `.homepage-artist, .homepage-people` `padding-block` |
-| Photo size | `.encounter__photo` `width: min(21rem, 74vw)`, `--participant` `min(25rem, 80vw)` |
-| Photo tilt | `.encounter__photo--artist` `rotate(-3deg)`, `--participant` `rotate(2deg)` |
-| Photo shadow | `.encounter__photo` `box-shadow` |
-| People text alignment | `.encounter__text--participant` (right-aligned now) |
+| H2 size / style (shared with 04) | `.homepage-artist h2, .homepage-people h2, .homepage-practice h2` (`--step-3`) |
+| Body width | `… .body-copy` `max-width: 46ch` |
+| Photo size | `.encounter__photo` `max-width: 27.5rem`, `--participant` `30rem` |
+| Photo ratio | `.encounter__photo` `aspect-ratio: 4 / 5` (the photography is portrait) |
+| Breakpoint | `@media (min-width: 64rem)` in the same block |
 
-**Gotcha:** class names still say `encounter__…` and `--participant`. Those are leftovers from the old combined section. They work; just know `--participant` = people.
+**Gotcha:** class names still say `encounter__…` and `--participant`. Leftovers from the old combined section; `--participant` = people. No rotation or shadow on these photos: rotation is reserved for the 04 collage.
 
 ### 3.9 04 — the practice (`#practice`)
-A stub: label, heading, placeholder, `min-height: 60svh`. Styles in `.homepage-practice`. The collage and hover reveal from the spec are not built.
+**Files:** `index.html`, `css/homepage.css` (04 — THE PRACTICE).
+
+Copy (label, H2, body, "Get in touch →" to `/contact/`) + `.practice-collage`: 4 absolutely-positioned `<figure>`s, rotations −5°, 3°, −2°, 6°, `--shadow-soft`. ≥64rem: two columns, copy indented `--space-xl`.
+
+| To change | Where |
+|---|---|
+| Collage photos | `index.html` `.practice-collage__item--1…4 img` |
+| Positions / sizes / tilt | `.practice-collage__item--1…4` (`left/top/right/bottom`, `width`, `aspect-ratio`, `rotate`) |
+| Collage size | `.practice-collage` `max-width: 33.75rem`, `aspect-ratio: 27 / 23` |
+
+The reveal interaction (spec §7) isn't built; it will reveal `.homepage-practice__link`.
 
 ### 3.10 05 — join us (`#events`)
-**Files:** `index.html` (header + empty containers), `css/homepage.css` (EVENTS), `js/events.js`, `data/events.json`.
+**Files:** `index.html` (header + empty containers), `css/homepage.css` (EVENTS), `css/global.css` (`.stamp`), `js/events.js`, `data/events.json`.
 
 Logic:
-- **Upcoming grid:** status `"upcoming"` or `"soldout"`, date ≥ today, soonest first → `.event-card`s. None → "New events soon" line.
+- **Upcoming grid:** status `"upcoming"` or `"soldout"`, date ≥ today, soonest first → `.event-card`s. 1–2 cards → a **Next dates** panel follows (`buildNextDatesPanel()`). None → "New events soon" line.
 - **Past strip:** status `"past"`, newest first → `.past-poster`s. None → strip hidden.
 
 Card anatomy (built in `buildEventCard()`):
@@ -249,7 +257,7 @@ Card anatomy (built in `buildEventCard()`):
 ```
 .event-card                  pale-warm mat
  ├ .event-card__poster       3:4, keyline border
- │   └ .event-card__soldout-tag   (sold out only)
+ │   └ .stamp                (sold out only; top-left, straight)
  ├ .event-card__date
  ├ .event-card__title
  ├ .event-card__venue        serif italic
@@ -260,38 +268,41 @@ Card anatomy (built in `buildEventCard()`):
 | To change | Where |
 |---|---|
 | Heading / label / artist link | `index.html` `.homepage-events__header` |
-| Card width | `.event-card` `flex: 1 1 280px` (minimum width before wrapping) |
+| Card width | `.event-card` `flex: 0 1 22.5rem` |
 | Card gap | `.homepage-events__grid` `gap` |
-| Mat padding | `.event-card` `padding` |
 | Poster ratio / keyline | `.event-card__poster` `aspect-ratio`, `border` |
-| Sold-out tag | `.event-card__soldout-tag` (`rotate(8deg)`, colour, position) |
-| Title size | `.event-card__title` `font-size: 1.5rem` |
-| Dashed rule | `.event-card__rule` `border-top: 2px dashed` |
-| Buttons | `.event-card__ticket-link`, `.event-card__waitlist-link` |
-| Button text | `js/events.js` `buildEventCard()` |
-| Mobile scroll row | `@media (max-width: 600px)` block: card `flex: 0 0 80vw` |
-| Past poster size | `.past-poster` `flex: 0 0 150px; width: 150px` |
-| Past stamp | `.past-poster__stamp` |
+| Stamp look (everywhere) | `.stamp` in `css/global.css` |
+| Next dates panel | `.event-next-dates` (CSS), copy in `buildNextDatesPanel()` |
+| Buttons | `.event-card__ticket-link`, `.event-card__waitlist-link` (`--rule-width-strong` outline) |
+| Mobile scroll row | `@media (max-width: 600px)`: cards + panel `flex: 0 0 78vw` |
+| Past poster size | `.past-poster` `flex: 0 0 150px` |
+| Archive link | `index.html` `.homepage-events__archive-link` (→ `/#events` for now) |
 | Empty-state text | `index.html` `.homepage-events__empty` |
-| Reserved height while loading | `.homepage-events__grid` `min-height: 34rem` |
 
 ### 3.11 Footer
-**Files:** `components/footer.html` (markup, shared by every page), `css/homepage.css` (FOOTER).
+**Files:** `components/footer.html` (markup, every page), `css/footer.css` (linked on every page).
 
-**Not built to spec yet.** It currently has the wordmark, phonetic line, a Danish tagline and 4 links. Missing: newsletter (MailerLite), Explore column, contact (info@, Instagram, Facebook), legal row (CVR, privacy, terms).
+Newsletter (placeholder form; swap in the MailerLite embed), Explore, Contact, bottom row with the coral wordmark + legal line + Privacy/Terms.
 
-**Gotcha:** footer styles live in `homepage.css`, which is why `about/` and `contact/` also load `homepage.css`. Anything you change in `homepage.css` can affect subpages. Moving the FOOTER block into its own `css/footer.css` (linked on every page) would fix this.
+| To change | Where |
+|---|---|
+| Newsletter copy / form | `footer.html` `.site-footer__newsletter` |
+| Links | `footer.html` `.site-footer__list` |
+| Legal line | `footer.html` `.site-footer__legal` |
+| Column widths | `.site-footer__newsletter` `flex: 1 1 22rem`; nav/contact `flex: 0 1 14rem` |
+
+**Open:** Instagram/Facebook links are still `#`.
 
 ### 3.12 Subpages (about, contact)
 **Files:** `about/index.html`, `contact/index.html`, `css/page.css`, `js/page-chrome.js`.
 
-No intro video, so `page-chrome.js` ends the atmosphere's opening state immediately and reveals the header. Sections use `.page-intro` and `.page-section`, plus `field-atmosphere` + `data-field="coral"` so header ink sampling works (the homepage should copy this; see bug 4).
+No intro video, so `page-chrome.js` ends the atmosphere's opening state immediately and reveals the header. Sections use `.page-intro` and `.page-section`, plus `field-atmosphere` + `data-field="coral"` so header ink sampling works (the homepage does the same).
 
 | To change | Where |
 |---|---|
 | H1 size | `.page-intro h1` `font-size: var(--step-6)` |
 | Section H2 | `.page-section h2` |
-| Divider between sections | `.page-section + .page-section` (**currently white at 25%, nearly invisible on pale; switch to `var(--color-ink-30)`**) |
+| Divider between sections | `.page-section + .page-section` (`var(--color-ink-30)`) |
 
 ---
 
@@ -334,101 +345,8 @@ Change the token in `tokens.css`. For the coral, also change `DEFAULT_CONFIG.cor
 - Font for a role: change the `--font-*` token. The name must match the Adobe kit (check fonts.adobe.com → your web project → font names).
 - Body size: `--text-body`. Section H2s: they use `--step-4`; change the token to resize all of them, or change one selector to resize one.
 
-### 4.4 Per-section atmosphere coverage (from the spec)
-Targets: landing 0.75, #idea 0.50, #artist 0.35, #people 0.50, #practice 0.35, #events 0.75. Two edits.
-
-**Step 1: `js/atmosphere.js`.** In the `handle` object, directly after the `setScrollProgress: function (progress) { … },` block, add:
-
-```js
-      // --------------------------------------------------------
-      // SET MIDPOINT DIRECTLY (per-section scroll stops)
-      // --------------------------------------------------------
-
-      setColourMidpoint: function (x) {
-        if (openingActive) {
-          return;
-        }
-
-        currentConfig = Object.assign({}, currentConfig, {
-          colourMidpointX: clamp(x, 0, 1),
-        });
-
-        transitioning = false;
-
-        transitionFrom = null;
-
-        if (REDUCED_MOTION) {
-          drawFrame(FROZEN_T);
-        }
-      },
-```
-
-**Step 2: `js/homepage.js`.** Inside `setup()`, directly after the `easeInOutCubic` function, add the stops table and lookup:
-
-```js
-    /*
-     * Atmosphere midpoint per section (0 = all pale, 1 = all coral).
-     * Between two sections, the midpoint eases from one value to the
-     * next as the viewport centre travels between their centres.
-     * Edit the numbers to tune; add a row to add a section.
-     */
-
-    var STOPS = [
-      { selector: ".landing", midpoint: 0.75 },
-      { selector: "#idea", midpoint: 0.5 },
-      { selector: "#artist", midpoint: 0.35 },
-      { selector: "#people", midpoint: 0.5 },
-      { selector: "#practice", midpoint: 0.35 },
-      { selector: "#events", midpoint: 0.75 },
-    ];
-
-    function midpointForScroll() {
-      var viewportCentre = window.innerHeight / 2;
-      var points = [];
-
-      STOPS.forEach(function (stop) {
-        var el = document.querySelector(stop.selector);
-        if (!el) return;
-
-        var rect = el.getBoundingClientRect();
-        points.push({ centre: rect.top + rect.height / 2, midpoint: stop.midpoint });
-      });
-
-      if (!points.length) return null;
-
-      if (viewportCentre <= points[0].centre) return points[0].midpoint;
-
-      for (var i = 0; i < points.length - 1; i++) {
-        var a = points[i];
-        var b = points[i + 1];
-
-        if (viewportCentre >= a.centre && viewportCentre <= b.centre) {
-          var t = (viewportCentre - a.centre) / (b.centre - a.centre);
-          return a.midpoint + (b.midpoint - a.midpoint) * easeInOutCubic(t);
-        }
-      }
-
-      return points[points.length - 1].midpoint;
-    }
-```
-
-Then replace the **body** of `updateAtmosphere()` with:
-
-```js
-    function updateAtmosphere() {
-      ticking = false;
-
-      var midpoint = midpointForScroll();
-
-      if (midpoint !== null && typeof atmosphere.setColourMidpoint === "function") {
-        atmosphere.setColourMidpoint(midpoint);
-      }
-    }
-```
-
-What you give up: the old version also slowed the movement slightly between landing and #idea. If you miss it, it's a separate small change.
-Verify: scroll slowly top to bottom; the boundary should move left at 02 and 04 and swing back right at 05. To tune, change only the numbers in `STOPS`.
-Do bug 4 (§5) in the same commit, or the star turns invisible at 02/04.
+### 4.4 Per-section atmosphere coverage
+Built. Edit the numbers in `STOPS` (`js/homepage.js`); add a row to add a section. Motion feel lives in the `--atmosphere-*` tokens (§3.3).
 
 ### 4.5 Add a homepage section
 1. Copy an existing `<section>` in `index.html`, give it a unique `id` and `aria-labelledby`.
@@ -481,22 +399,24 @@ Add at the end of the ARTIST / PEOPLE block in `homepage.css`, then tune in DevT
 
 ---
 
-## 5. Known bugs and leftovers (found in this read-through)
+## 5. Known bugs and leftovers
 
-| # | Problem | Fix |
+| # | Problem | Status |
 |---|---|---|
-| 1 | Nav "home" links to `/index/`, which doesn't exist | `components/navigation.html`: `href="/"` |
-| 2 | Nav/footer link to `/events/` and `/gallery/`, which don't exist yet | Build the pages, or point them at `/#events` for now |
-| 3 | 5 nav links, only 4 stagger delays | `navigation.css`: add `.site-nav.is-open .site-nav__list li:nth-child(5) { transition-delay: 360ms; }` |
-| 4 | Header ink never samples the canvas below the landing → the white star vanishes over the pale side | `index.html`: on `#idea`, `#artist`, `#people`, `#practice`, `#events` add class `field-atmosphere` and `data-field="coral"` |
-| 5 | Atmosphere coral `#e25139` ≠ token `#e35039`; `--atmosphere-*` tokens unused | Match the hex in `atmosphere.js`; delete or document the dead tokens |
-| 6 | Past events need a manual status change | Expected behaviour; follow the lifecycle in §4.1 |
-| 7 | Danish strings remain: page `<title>`/`og:title` ("kreativt fællesskab"), nav tagline, footer tagline | Translate in `index.html`, `about/`, `contact/`, `navigation.html`, `footer.html` |
-| 8 | Subpage section divider is white at 25% (invisible on pale) | `page.css`: `border-top: var(--rule-width) solid var(--color-ink-30)` |
-| 9 | Nav close sends the atmosphere to 0.75 mid-page; it snaps back on the next scroll | Minor; leave until it bothers you |
-| 10 | `header-theme.js` reads a canvas pixel every 1.2 s plus on every scroll (`getImageData`). Likely remaining source of jank. | Raise the interval to 2500, or sample on scroll-end only |
-| 11 | `CLAUDE.md` "Current state" says #events is a stub | Update it; Claude Code trusts it |
-| 12 | Footer not to spec (newsletter, columns, legal) | Next build task |
+| 1 | Nav "home" linked to `/index/` | **Fixed** (`/`) |
+| 2 | Nav/footer linked to missing `/events/`, `/gallery/` | **Fixed for now** (`/#events`); real pages in the Astro port |
+| 3 | 5 nav links, 4 stagger delays | **Fixed** |
+| 4 | Header ink never sampled the canvas below the landing | **Fixed** (`field-atmosphere` on every homepage section) |
+| 5 | Atmosphere coral ≠ token; dead `--atmosphere-*` tokens | **Fixed** (tokens now drive the atmosphere) |
+| 6 | Past events need a manual status change | Expected; the Astro port computes it from the date |
+| 7 | Danish strings | **Fixed** |
+| 8 | Subpage divider invisible | **Fixed** (`--color-ink-30`) |
+| 9 | Nav close sends the atmosphere to 0.75 mid-page | Open, minor |
+| 10 | `header-theme.js` pixel sampling every 1.2 s | **Reduced** to 2.5 s; scroll-end sampling would be better |
+| 11 | `CLAUDE.md` current state stale | **Fixed** |
+| 12 | Footer not to spec | **Fixed** |
+| 13 | Instagram/Facebook footer links are `#` | Open: needs the real handles |
+| 14 | Section labels (`.eyebrow`) are serif italic; spec §1 says micro sans | Open: decide, then change `.eyebrow` once (affects subpages) |
 
 ---
 
