@@ -313,150 +313,89 @@ body.nav-open .landing__video {
 }
 
 /* ==========================================================================
-   HOMEPAGE HERO
-   ========================================================================== */
+   01 — THE IDEA (#idea, .homepage-hero)
+   ==========================================================================
 
-/*
- * IMPORTANT:
- *
- * This section has NO background.
- *
- * #atmosphere-canvas is persistent and should remain visible
- * behind the entire homepage.
- */
+   No background: the persistent atmosphere shows through.
+   Copy left, one 4:5 image right (≥64rem); stacked below, text first.
+   Spec: docs/HOMEPAGE-SPEC.md §3 section 1.
+   ========================================================================== */
 
 .homepage-hero {
   position: relative;
+  z-index: 1;
 
   min-height: 100svh;
 
-  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xl);
 
-  z-index: 1;
+  padding-block: var(--space-2xl);
+  padding-inline: max(var(--page-margin), (100% - var(--section-max-width)) / 2);
 }
 
-/* ==========================================================================
-   HERO TEXT
-   ========================================================================== */
-
 .homepage-hero__copy {
-  position: absolute;
+  flex: 1 1 26rem;
 
-  z-index: 2;
-
-  left: clamp(2rem, 5vw, 5rem);
-  top: 50%;
-
-  width: min(42rem, 40vw);
-
-  transform: translateY(-50%);
+  max-width: 40rem;
 }
 
 .homepage-hero__copy .eyebrow {
   margin: 0 0 var(--space-s);
 }
 
+.homepage-hero__phonetic {
+  margin: 0 0 var(--space-s);
+
+  font-family: var(--font-serif);
+  font-style: italic;
+
+  font-size: var(--step-2);
+}
+
 .homepage-hero__copy h2 {
   margin: 0 0 var(--space-m);
+
+  max-width: 13ch;
 
   font-family: var(--font-banner);
   font-weight: 400;
 
-  font-size: clamp(2.4rem, 4.1vw, 5rem);
+  font-size: var(--step-4);
 
   line-height: 0.96;
 
   letter-spacing: -0.035em;
 
   text-transform: uppercase;
-}
 
-/* ==========================================================================
-   HERO SUPPORTING STATEMENT
-   ========================================================================== */
+  overflow-wrap: break-word;
+}
 
 .homepage-hero__body {
   opacity: 0.85;
 }
 
-/* ==========================================================================
-   HERO IMAGE FIELD
-   ========================================================================== */
-
-.homepage-hero__gallery {
-  position: absolute;
-
-  top: 0;
-  right: 0;
-
-  width: 50%;
-  height: 100%;
-
-  z-index: 2;
-}
-
-/* ==========================================================================
-   HERO IMAGES
-   ========================================================================== */
-
-.homepage-hero__image {
-  position: absolute;
-
-  display: block;
+.homepage-hero__figure {
+  flex: 0 1 25rem;
 
   margin: 0;
 
+  aspect-ratio: 4 / 5;
+
+  overflow: hidden;
+}
+
+.homepage-hero__figure img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
   object-fit: cover;
-
-  border: 0;
-  border-radius: 0;
-
-  box-shadow: none;
-}
-
-/* --------------------------------------------------------------------------
-   HERO 1
-   -------------------------------------------------------------------------- */
-
-.homepage-hero__image--1 {
-  top: 12%;
-  left: 17%;
-
-  width: 27%;
-
-  aspect-ratio: 1.32 / 1;
-
-  z-index: 1;
-}
-
-/* --------------------------------------------------------------------------
-   HERO 2
-   -------------------------------------------------------------------------- */
-
-.homepage-hero__image--2 {
-  top: 32%;
-  left: 35%;
-
-  width: 51%;
-
-  aspect-ratio: 1.48 / 1;
-
-  z-index: 2;
-}
-
-/* --------------------------------------------------------------------------
-   HERO 3
-   -------------------------------------------------------------------------- */
-
-.homepage-hero__image--3 {
-  top: 54%;
-  left: 54%;
-
-  width: 25%;
-
-  aspect-ratio: 0.75 / 1;
-
-  z-index: 3;
 }
 
 /* ==========================================================================
@@ -542,27 +481,15 @@ body.nav-open .landing__video {
 }
 
 /* ==========================================================================
-   ARTIST / PEOPLE
+   02 — THE ARTIST / 03 — THE PEOPLE (#artist, #people)
    ==========================================================================
 
-   Structural split of what was previously one "encounter" section
-   (HERO2/artist + HERO3/people, a single interleaved 12-column grid
-   with a shared 50/50 divider). Per docs/HOMEPAGE-SPEC.md §2/§3, these
-   are now two independent sections (#artist, #people) with their own
-   simpler target layouts (image + text column pair, not an overlapping
-   grid) — to be built out in their own dedicated sessions.
-
-   For now, both sections share the same base treatment the old
-   .homepage-encounter used below 64rem (a simple flex column: text,
-   then photo). The old 12-column grid and its ::before divider line
-   are deliberately NOT carried over — they depended on both halves
-   living in one shared container, which splitting breaks. Until each
-   section's real layout is built, both render as this stacked
-   fallback at every width, including desktop.
-
-   HERO2/HERO3 remain individual photographic objects placed into the
-   persistent atmosphere, not background panels. Legibility comes from
-   white text + a soft shadow, not a colour block.
+   Mobile: stacked, text first (source order). ≥64rem: two columns.
+   02 = text left, image right, inset from the right edge.
+   03 = image left (order: -1), text right.
+   Photos are portrait 4:5 (real photography is portrait); no rotation —
+   rotation is reserved for the 04 collage (spec §1).
+   Spec: docs/HOMEPAGE-SPEC.md §3 sections 2–3.
    ========================================================================== */
 
 .homepage-artist,
@@ -572,10 +499,10 @@ body.nav-open .landing__video {
 
   display: flex;
   flex-direction: column;
-  gap: var(--space-m);
+  gap: var(--space-l);
 
   padding-block: var(--space-2xl);
-  padding-inline: var(--page-margin);
+  padding-inline: max(var(--page-margin), (100% - var(--section-max-width)) / 2);
 }
 
 .homepage-artist .eyebrow,
@@ -584,40 +511,26 @@ body.nav-open .landing__video {
 }
 
 .homepage-artist h2,
-.homepage-people h2 {
+.homepage-people h2,
+.homepage-practice h2 {
   font-family: var(--font-display);
   font-weight: 700;
 
-  font-size: var(--step-4);
+  font-size: var(--step-3);
 
   line-height: 1.05;
 
   letter-spacing: -0.01em;
 
-  text-transform: uppercase;
-
   margin: 0 0 var(--space-m);
 }
 
 .homepage-artist .body-copy,
-.homepage-people .body-copy {
+.homepage-people .body-copy,
+.homepage-practice .body-copy {
   opacity: 0.9;
 
-  max-width: 34ch;
-}
-
-.encounter__text--artist {
-  align-self: flex-start;
-}
-
-.encounter__text--participant {
-  align-self: flex-end;
-
-  text-align: right;
-}
-
-.encounter__text--participant .body-copy {
-  margin-left: auto;
+  max-width: 46ch;
 }
 
 /* --------------------------------------------------------------------------
@@ -625,83 +538,182 @@ body.nav-open .landing__video {
    -------------------------------------------------------------------------- */
 
 .encounter__photo {
-  align-self: center;
-
   margin: 0;
 
-  width: min(21rem, 74vw);
+  width: 100%;
+  max-width: 27.5rem;
 
-  aspect-ratio: 2 / 3;
+  aspect-ratio: 4 / 5;
 
-  position: relative;
   overflow: hidden;
-
-  box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.28);
-}
-
-.encounter__photo--artist {
-  align-self: flex-start;
-
-  transform: rotate(-3deg);
 }
 
 .encounter__photo--participant {
-  align-self: flex-end;
-
-  width: min(25rem, 80vw);
-
-  transform: rotate(2deg);
+  max-width: 30rem;
 }
 
 .encounter__photo img {
+  display: block;
+
   width: 100%;
   height: 100%;
 
   object-fit: cover;
 }
 
+@media (min-width: 64rem) {
+  .homepage-artist,
+  .homepage-people {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--space-xl);
+
+    min-height: 100svh;
+  }
+
+  .encounter__photo--artist {
+    justify-self: end;
+
+    margin-right: var(--space-xl);
+  }
+
+  .encounter__photo--participant {
+    order: -1;
+
+    justify-self: start;
+  }
+}
+
 /* ==========================================================================
-   PRACTICE — stub
+   04 — THE PRACTICE (#practice)
    ==========================================================================
 
-   Replaces the old empty .homepage-idea. min-height keeps the page's
-   section rhythm visible while this is placeholder content; real
-   layout per docs/HOMEPAGE-SPEC.md §3 is a future session. H2
-   treatment matches .homepage-artist/.homepage-people's for visual
-   consistency between adjacent sections — not a new style.
+   Copy + "Get in touch" link, and a static 4-image collage with fixed
+   rotations. The collage reveal interaction comes later (spec §7) and
+   will reuse .homepage-practice__link as its revealed button.
+   Spec: docs/HOMEPAGE-SPEC.md §3 section 4.
    ========================================================================== */
 
 .homepage-practice {
   position: relative;
   z-index: 1;
 
-  min-height: 60svh;
-
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: var(--space-xl);
 
   padding-block: var(--space-2xl);
-  padding-inline: var(--page-margin);
+  padding-inline: max(var(--page-margin), (100% - var(--section-max-width)) / 2);
 }
 
 .homepage-practice .eyebrow {
   margin: 0 0 var(--space-s);
 }
 
-.homepage-practice h2 {
-  font-family: var(--font-display);
+.homepage-practice__link {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 2.75rem;
+  margin-top: var(--space-m);
+
+  font-family: var(--font-text);
   font-weight: 700;
 
-  font-size: var(--step-4);
+  color: var(--color-ink);
+}
 
-  line-height: 1.05;
+.homepage-practice__link:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
 
-  letter-spacing: -0.01em;
+.practice-collage {
+  position: relative;
 
-  text-transform: uppercase;
+  width: 100%;
+  max-width: 33.75rem;
 
-  margin: 0 0 var(--space-m);
+  aspect-ratio: 27 / 23;
+}
+
+.practice-collage__item {
+  position: absolute;
+
+  margin: 0;
+
+  overflow: hidden;
+
+  box-shadow: var(--shadow-soft);
+}
+
+.practice-collage__item img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.practice-collage__item--1 {
+  left: 0;
+  top: 14%;
+
+  width: 44%;
+  aspect-ratio: 4 / 5;
+
+  transform: rotate(-5deg);
+}
+
+.practice-collage__item--2 {
+  left: 34%;
+  top: 0;
+
+  width: 40%;
+  aspect-ratio: 3 / 4;
+
+  transform: rotate(3deg);
+}
+
+.practice-collage__item--3 {
+  right: 0;
+  top: 46%;
+
+  width: 50%;
+  aspect-ratio: 4 / 3;
+
+  transform: rotate(-2deg);
+}
+
+.practice-collage__item--4 {
+  left: 22%;
+  bottom: 0;
+
+  width: 38%;
+  aspect-ratio: 1 / 1;
+
+  transform: rotate(6deg);
+}
+
+@media (min-width: 64rem) {
+  .homepage-practice {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--space-xl);
+
+    min-height: 100svh;
+  }
+
+  .homepage-practice__copy {
+    padding-left: var(--space-xl);
+  }
+
+  .practice-collage {
+    justify-self: end;
+  }
 }
 
 /* ==========================================================================
@@ -1092,55 +1104,6 @@ body.nav-open .landing__video {
 /* ==========================================================================
    RESPONSIVE
    ========================================================================== */
-
-@media (max-width: 800px) {
-  .homepage-hero {
-    min-height: 100svh;
-  }
-
-  .homepage-hero__copy {
-    left: var(--page-margin);
-
-    width: calc(100% - (var(--page-margin) * 2));
-
-    top: 22%;
-
-    transform: none;
-  }
-
-  .homepage-hero__copy h2 {
-    font-size: clamp(2.5rem, 10vw, 4.5rem);
-  }
-
-  .homepage-hero__gallery {
-    width: 100%;
-
-    height: 65%;
-
-    top: 35%;
-  }
-
-  .homepage-hero__image--1 {
-    top: 5%;
-    left: 10%;
-
-    width: 34%;
-  }
-
-  .homepage-hero__image--2 {
-    top: 24%;
-    left: 28%;
-
-    width: 58%;
-  }
-
-  .homepage-hero__image--3 {
-    top: 52%;
-    left: 55%;
-
-    width: 30%;
-  }
-}
 
 /* ==========================================================================
    REDUCED MOTION
