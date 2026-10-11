@@ -40,6 +40,7 @@ Astro (static output). Pages in src/, plain CSS/JS in public/ (no bundling). Dep
 - Atmosphere: per-section STOPS in public/js/homepage.js; idle breath + mouse; tuning in `--atmosphere-*` tokens.
 - Homepage photos: web-sized copies in public/assets/images/optimized/ (640/1280w). Don't link the 6000px originals.
 - Sample/past events are `draft: true` (dev only) until checked.
+- Homepage: landing + next-event strip fill the first screen; down arrow links to #idea; scroll-drawn thread through 02–04 (spec §6, guide §3.9.1).
 - Archive built (spec §12): media from src/assets/events/<slug>/; past event URLs redirect to /archive/#slug.
 - Next: events index page, privacy + terms pages, footer colour, connect Vercel.
 
