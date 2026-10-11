@@ -185,9 +185,11 @@ Sequence: `intro.webm` plays full screen → its `ended` event adds `.landing--r
 | Centre video size | `.landing__video` | `width: min(640px, 74vw)`, `aspect-ratio: 16 / 9` |
 | Video glow | `.landing__video` | `box-shadow: 0 0 9rem 1rem rgba(227,80,57,.22)` |
 | Fade speeds | `.landing__gif` (700ms), `.landing__video` (1400ms) | `transition` |
-| Scroll cue | `.landing__scroll-cue`, `.landing__scroll-cue-line`, `@keyframes scroll-cue` | Size, opacity, speed (2.4s) |
+| Down arrow | `src/pages/index.astro` `.landing__arrow` (`href="#idea"`); CSS `.landing__arrow`, `@keyframes landing-arrow` | Target, size, opacity (0.8), bob speed (2.4s). Hidden until `.landing--revealed` |
+| First screen | `.first-screen` wraps `.landing` + `#next-event`; together they fill `100svh` | Landing's smallest height: `--landing-min-height` (token) |
 
 **Gotchas**
+- `.landing__gif` is `position: fixed` so the intro covers the next-event strip too. Don't change it back to `absolute`.
 - If the intro video fails to play (autoplay blocked), the code skips straight to the revealed state. If the landing ever stays blank, check the console for a video error first.
 - Replacing the intro with a different length is fine: the atmosphere sweep reads `intro.duration`.
 - The spec says no letterbox bars on the centre video. If your clip has bars baked in, crop the file; CSS can't remove them cleanly.
@@ -249,6 +251,20 @@ Copy (label, H2, body, "Get in touch →" to `/contact/`) + `.practice-collage`:
 | Collage size | `.practice-collage` `max-width: 33.75rem`, `aspect-ratio: 27 / 23` |
 
 The reveal interaction (spec §7) isn't built; it will reveal `.homepage-practice__link`.
+
+### 3.9.1 Thread (dashed line through 02–04)
+**Files:** `src/pages/index.astro` (`.thread-wrap` around 02–04, `<svg class="thread">`, `data-thread-anchor` attributes), `public/css/homepage.css` (THREAD), `public/js/homepage.js` (THREAD block), tokens `--thread-*`. Spec §6.
+
+The path is a smooth curve through every `[data-thread-anchor]` in page order. The value is `"x,y"` as a fraction of that element's box: `"1.08,0.55"` = just right of the element, a bit below its middle; negative values go left/above. It's drawn on as you scroll; the tip sits at `--thread-lead` of the viewport height. Desktop only (≥64rem). Reduced motion: fully drawn.
+
+| To change | Where |
+|---|---|
+| Route of the line | `data-thread-anchor` values in `index.astro` (02 h2, 02 photo, 03 text, 03 body, 04 copy, `#events` top) |
+| Add / remove a bend | Add or remove a `data-thread-anchor` attribute on any element in 02–05 |
+| Colour, weight, dash | `--thread-color`, `--thread-width`, `--thread-dash` |
+| How far ahead it draws | `--thread-lead` (0.75) |
+
+**Gotcha:** the path is recomputed on width change only. If you change copy and the line crosses text, move the anchor numbers, not the CSS.
 
 ### 3.10 05 — join us (`#events`)
 **Files:** `src/pages/index.astro` (header + empty containers), `public/css/homepage.css` (EVENTS), `public/css/global.css` (`.stamp`), `public/js/events.js`, events from `src/content/events/`.

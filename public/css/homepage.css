@@ -4,11 +4,25 @@
 
 /* ==========================================================================
    LANDING / OPENING FRAME
+   ==========================================================================
+
+   .first-screen holds the landing and the next-event strip: together they
+   fill the viewport, so the strip is visible on arrival. The landing takes
+   whatever height the strip leaves; if the strip hides (no event), the
+   landing fills the screen on its own.
    ========================================================================== */
+
+.first-screen {
+  display: flex;
+  flex-direction: column;
+
+  min-height: 100svh;
+}
 
 .landing {
   position: relative;
-  min-height: 100svh;
+  flex: 1 0 auto;
+  min-height: var(--landing-min-height);
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -18,8 +32,10 @@
    INTRO WEBM / GIF — FULL SCREEN
    ========================================================================== */
 
+/* Fixed, not absolute: the intro still covers the whole screen,
+   including the next-event strip below the landing. */
 .landing__gif {
-  position: absolute;
+  position: fixed;
   inset: 0;
 
   width: 100%;
@@ -94,56 +110,72 @@ body.nav-open .landing__video {
 }
 
 /* ==========================================================================
-   LANDING SCROLL CUE
+   LANDING ARROW — link to #idea, the first section below the fold
    ========================================================================== */
 
-.landing__scroll-cue {
+.landing__arrow {
   position: absolute;
 
-  bottom: var(--space-l);
+  bottom: var(--space-s);
   left: 50%;
 
   transform: translateX(-50%);
 
   z-index: 3;
 
-  /* ink beats white at both ends of the atmosphere gradient — see audit */
-  opacity: 0.65;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: var(--tap-target-min);
+  height: var(--tap-target-min);
+
+  color: var(--color-ink);
+
+  /* hidden during the intro, fades in with the landing video */
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity 1400ms var(--ease-editorial);
 }
 
-.landing__scroll-cue-line {
+.landing--revealed .landing__arrow {
+  opacity: 0.8;
+  pointer-events: auto;
+}
+
+.landing__arrow:hover,
+.landing__arrow:focus-visible {
+  opacity: 1;
+}
+
+.landing__arrow:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+.landing__arrow svg {
   display: block;
 
-  width: 1px;
-  height: 2.75rem;
-
-  background: currentColor;
-
-  opacity: 0.4;
-
-  overflow: hidden;
+  animation: landing-arrow 2.4s var(--ease-editorial) infinite;
 }
 
-.landing__scroll-cue-line::after {
-  content: "";
-
-  display: block;
-
-  width: 100%;
-  height: 40%;
-
-  background: var(--color-ink);
-
-  animation: scroll-cue 2.4s var(--ease-editorial) infinite;
-}
-
-@keyframes scroll-cue {
-  0% {
-    transform: translateY(-100%);
+@keyframes landing-arrow {
+  0%,
+  100% {
+    transform: translateY(-0.125rem);
   }
 
-  100% {
-    transform: translateY(250%);
+  50% {
+    transform: translateY(0.25rem);
+  }
+}
+
+/* The strip shares the first screen, so keep it out of the intro:
+   it fades in with the landing video. Without JS it shows at once. */
+@media (scripting: enabled) {
+  .landing:not(.landing--revealed) + .next-event {
+    opacity: 0;
   }
 }
 
@@ -165,6 +197,8 @@ body.nav-open .landing__video {
 .next-event {
   position: relative;
   z-index: 1;
+
+  transition: opacity 1400ms var(--ease-editorial);
 
   border-top: var(--rule-width) solid var(--color-ink-30);
   border-bottom: var(--rule-width) solid var(--color-ink-30);
@@ -1093,6 +1127,58 @@ body.nav-open .landing__video {
 }
 
 /* ==========================================================================
+   THREAD — dashed line through 02–04 (≥64rem only)
+   ==========================================================================
+
+   SVG behind the section content: atmosphere < thread < images/text.
+   .thread-wrap has no z-index, so the sections (z-index: 1) sit above
+   the SVG (z-index: 0). Path and draw-on: js/homepage.js. Spec §6.
+   ========================================================================== */
+
+.thread-wrap {
+  position: relative;
+}
+
+.thread {
+  position: absolute;
+  inset: 0;
+
+  z-index: 0;
+
+  display: none;
+
+  width: 100%;
+  height: 100%;
+
+  overflow: visible;
+
+  pointer-events: none;
+}
+
+@media (min-width: 64rem) {
+  .thread {
+    display: block;
+  }
+}
+
+.thread__line {
+  fill: none;
+
+  stroke: var(--thread-color);
+  stroke-width: var(--thread-width);
+  stroke-dasharray: var(--thread-dash);
+  stroke-linecap: round;
+}
+
+/* Solid copy inside the <mask>; its dash offset reveals the line. */
+.thread__reveal {
+  fill: none;
+
+  stroke: var(--color-white);
+  stroke-width: calc(var(--thread-width) * 4);
+}
+
+/* ==========================================================================
    REDUCED MOTION
    ========================================================================== */
 
@@ -1102,11 +1188,10 @@ body.nav-open .landing__video {
     transition: none;
   }
 
-  .landing__scroll-cue-line::after {
+  .next-event,
+  .landing__arrow,
+  .landing__arrow svg {
+    transition: none;
     animation: none;
-
-    height: 100%;
-
-    opacity: 0.6;
   }
 }

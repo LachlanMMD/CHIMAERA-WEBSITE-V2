@@ -104,6 +104,8 @@
       if (midpoint !== null && typeof atmosphere.setColourMidpoint === "function") {
         atmosphere.setColourMidpoint(midpoint);
       }
+
+      if (thread) thread.update();
     }
 
     function requestUpdate() {
@@ -112,6 +114,167 @@
       ticking = true;
 
       window.requestAnimationFrame(updateAtmosphere);
+    }
+
+    /*
+     * ----------------------------------------------------------
+     * THREAD
+     * ----------------------------------------------------------
+     *
+     * Dashed line through 02–04, ending at the top of 05.
+     * Spec: docs/HOMEPAGE-SPEC.md §6.
+     *
+     *   - Path: smooth curve (Catmull-Rom → cubic Béziers) through
+     *     every [data-thread-anchor] in page order. The attribute is
+     *     "x,y" as a fraction of that element's box, so "1.1,0.5"
+     *     = just right of the element, halfway down. Move the line
+     *     by editing those numbers in src/pages/index.astro.
+     *   - Draw-on: a solid copy of the path inside a <mask>; its
+     *     dash offset follows scroll through .thread-wrap. The tip
+     *     sits at --thread-lead of the viewport height.
+     *   - Rebuilt on width change only (debounced), plus once fonts
+     *     and images have settled.
+     *   - Desktop only (≥64rem, matches the CSS). Reduced motion:
+     *     drawn in full, static.
+     */
+
+    var thread = setupThread();
+
+    function setupThread() {
+      var wrap = document.querySelector("[data-thread]");
+      var svg = wrap && wrap.querySelector(".thread");
+
+      if (!svg || typeof svg.createSVGPoint !== "function") return null;
+
+      var NS = "http://www.w3.org/2000/svg";
+      var desktop = window.matchMedia("(min-width: 64rem)");
+      var reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+      var lead = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--thread-lead")) || 0.75;
+
+      svg.innerHTML =
+        '<defs><mask id="thread-mask" maskUnits="userSpaceOnUse">' +
+        '<path class="thread__reveal"></path>' +
+        "</mask></defs>" +
+        '<path class="thread__line" mask="url(#thread-mask)"></path>';
+
+      var mask = svg.querySelector("mask");
+      var reveal = svg.querySelector(".thread__reveal");
+      var line = svg.querySelector(".thread__line");
+
+      var length = 0;
+      var built = false;
+
+      function anchorPoints() {
+        var origin = wrap.getBoundingClientRect();
+
+        return Array.prototype.map.call(document.querySelectorAll("[data-thread-anchor]"), function (el) {
+          var f = el.getAttribute("data-thread-anchor").split(",").map(Number);
+          var r = el.getBoundingClientRect();
+
+          return [r.left - origin.left + r.width * (f[0] || 0), r.top - origin.top + r.height * (f[1] || 0)];
+        });
+      }
+
+      /*
+       * Catmull-Rom tangent (next − prev) / 6, capped at a third of
+       * the segment it bends, so a long neighbouring segment can't
+       * swing a short one out through the copy.
+       */
+      function handle(from, to, prev, next) {
+        var tx = (next[0] - prev[0]) / 6;
+        var ty = (next[1] - prev[1]) / 6;
+        var max = Math.hypot(to[0] - from[0], to[1] - from[1]) / 3;
+        var len = Math.hypot(tx, ty);
+        var k = len > max ? max / len : 1;
+
+        return [tx * k, ty * k];
+      }
+
+      function pathThrough(p) {
+        var d = "M " + p[0][0].toFixed(1) + " " + p[0][1].toFixed(1);
+
+        for (var i = 0; i < p.length - 1; i++) {
+          var a = p[i - 1] || p[i];
+          var b = p[i];
+          var c = p[i + 1];
+          var e = p[i + 2] || c;
+
+          var h1 = handle(b, c, a, c);
+          var h2 = handle(b, c, b, e);
+
+          d +=
+            " C " +
+            (b[0] + h1[0]).toFixed(1) + " " + (b[1] + h1[1]).toFixed(1) + ", " +
+            (c[0] - h2[0]).toFixed(1) + " " + (c[1] - h2[1]).toFixed(1) + ", " +
+            c[0].toFixed(1) + " " + c[1].toFixed(1);
+        }
+
+        return d;
+      }
+
+      function build() {
+        built = false;
+
+        if (!desktop.matches) return;
+
+        var points = anchorPoints();
+        if (points.length < 2) return;
+
+        var w = wrap.clientWidth;
+        var h = wrap.offsetHeight;
+
+        svg.setAttribute("viewBox", "0 0 " + w + " " + h);
+
+        mask.setAttribute("x", -w);
+        mask.setAttribute("y", -h);
+        mask.setAttribute("width", w * 3);
+        mask.setAttribute("height", h * 3);
+
+        var d = pathThrough(points);
+        line.setAttribute("d", d);
+        reveal.setAttribute("d", d);
+
+        length = line.getTotalLength();
+        reveal.style.strokeDasharray = length + " " + length;
+
+        built = true;
+        update();
+      }
+
+      function update() {
+        if (!built) return;
+
+        var progress = 1;
+
+        if (!reduced.matches) {
+          var r = wrap.getBoundingClientRect();
+          progress = Math.min(1, Math.max(0, (window.innerHeight * lead - r.top) / r.height));
+        }
+
+        reveal.style.strokeDashoffset = length * (1 - progress);
+      }
+
+      var lastWidth = window.innerWidth;
+      var resizeTimer = null;
+
+      window.addEventListener("resize", function () {
+        if (window.innerWidth === lastWidth) return;
+
+        lastWidth = window.innerWidth;
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(build, 150);
+      });
+
+      if (desktop.addEventListener) desktop.addEventListener("change", build);
+      if (reduced.addEventListener) reduced.addEventListener("change", update);
+
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);
+      window.addEventListener("load", build);
+
+      build();
+
+      return { update: update };
     }
 
     window.addEventListener("scroll", requestUpdate, { passive: true });

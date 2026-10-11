@@ -126,7 +126,7 @@ Events are an Astro content collection: one markdown file per event in `src/cont
 
 ## 6. Thread (scroll-drawn dashed line), prototype first
 
-Prototype in `prototype/thread.html` before integrating.
+Built directly in the homepage (no separate prototype); route is set by anchor fractions, see COMPONENT-GUIDE §3.9.1. Mobile off, as below.
 - One SVG behind the content of sections 02–05, `pointer-events: none`. z-order: atmosphere < thread < images/text.
 - Path computed from anchor elements (`[data-thread-anchor]`), cubic béziers, not hardcoded coordinates.
 - Recompute on **width** change only, debounced.
