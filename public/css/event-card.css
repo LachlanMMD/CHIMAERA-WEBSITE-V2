@@ -1,0 +1,141 @@
+/* ==========================================================================
+   CHIMAERA — Event card
+   ==========================================================================
+
+   Passe-partout card: pale-warm mat, 3:4 poster with keyline, date,
+   title, venue, dashed rule, Tickets / Join the waitlist.
+   Used by the homepage 05 grid (built in public/js/events.js) and by
+   /events/ (src/pages/events/index.astro). Homepage-only layout
+   (flex sizing, mobile scroll row) stays in homepage.css.
+   Spec: docs/HOMEPAGE-SPEC.md §3 section 5.
+   ========================================================================== */
+
+.event-card {
+  position: relative;
+
+  flex: 0 1 22.5rem;
+
+  background: var(--color-pale-warm);
+
+  padding: var(--space-s) var(--space-s) var(--space-m);
+}
+
+.event-card__poster {
+  position: relative;
+
+  margin: 0 0 var(--space-s);
+
+  aspect-ratio: 3 / 4;
+
+  overflow: hidden;
+
+  border: var(--rule-width) solid var(--color-ink-25);
+}
+
+.event-card__poster img,
+.event-card__poster-placeholder {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.event-card__poster-placeholder {
+  background: var(--color-pale);
+}
+
+.event-card__poster .stamp {
+  position: absolute;
+  top: var(--space-xs);
+  left: var(--space-xs);
+}
+
+.event-card__date {
+  margin: 0;
+
+  font-family: var(--font-micro);
+  font-size: var(--text-small);
+
+  text-transform: uppercase;
+
+  font-variant-numeric: tabular-nums;
+}
+
+.event-card__title {
+  margin: var(--space-3xs) 0 0;
+
+  font-family: var(--font-display);
+  font-weight: 700;
+
+  font-size: 1.5rem;
+  line-height: 1.15;
+}
+
+.event-card__venue {
+  margin: var(--space-3xs) 0 0;
+
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+.event-card__rule {
+  border: 0;
+  border-top: 2px dashed var(--color-ink-45);
+
+  margin: var(--space-m) 0;
+}
+
+.event-card__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.event-card__link::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+}
+
+.event-card__link:hover {
+  text-decoration: underline;
+}
+
+.event-card__ticket-link,
+.event-card__waitlist-link {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  min-height: var(--tap-target-min);
+
+  font-family: var(--font-text);
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+.event-card__ticket-link {
+  background: var(--color-ink);
+  color: var(--color-pale-warm);
+}
+
+.event-card__waitlist-link {
+  background: transparent;
+  color: var(--color-ink);
+
+  border: var(--rule-width-strong) solid var(--color-ink);
+}
+
+.event-card__link:focus-visible,
+.event-card__ticket-link:focus-visible,
+.event-card__waitlist-link:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}

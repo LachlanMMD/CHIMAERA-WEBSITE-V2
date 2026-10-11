@@ -299,6 +299,17 @@ Card anatomy (built in `buildEventCard()`):
 | Archive link | `src/pages/index.astro` `.homepage-events__archive-link` (→ `/#events` for now) |
 | Empty-state text | `src/pages/index.astro` `.homepage-events__empty` |
 
+### 3.10.1 All events (`/events/`)
+**Files:** `src/pages/events/index.astro`, `public/css/events-index.css`, card styles in `public/css/event-card.css` (shared with the homepage 05 grid).
+
+Built at build time from `src/content/events/`, no JS. Two grids: **Upcoming** (soonest first, full card with Tickets / Join the waitlist; an event dated today shows "Today ·") and **Past** (newest first, smaller cards, two across on phones, each linking to `/archive/#slug`). No upcoming events → "New dates soon" line. Nav, footer and the event page's "← All events" link here.
+
+| To change | Where |
+|---|---|
+| Card look (both pages) | `public/css/event-card.css` |
+| Columns | `.events-index__grid` / `--past` `minmax(…)` |
+| Past card size | `.event-card--past` rules in `events-index.css` |
+
 ### 3.11 Footer
 **Files:** `src/components/Footer.astro` (markup, every page), `public/css/footer.css` (linked on every page).
 

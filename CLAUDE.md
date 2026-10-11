@@ -9,14 +9,14 @@ Astro (static output). Pages in src/, plain CSS/JS in public/ (no bundling). Dep
 
 ## Structure
 
-- src/pages/ — index.astro, about.astro, contact.astro, archive.astro, events/[slug].astro, data/events.json.ts
+- src/pages/ — index.astro, about.astro, contact.astro, archive.astro, events/index.astro, events/[slug].astro, data/events.json.ts
 - src/layouts/Base.astro — head, header, nav, footer, shared scripts; pages pass extra css/js
 - src/components/ — Header, Navigation, Footer
 - src/content/events/ — one .md per event (copy _template.md); schema in src/content.config.ts
 - src/lib/events.ts — event status (past is computed from the date), URLs, date format
 - src/assets/events/<slug>/ — archive photos/clips per event (read by src/lib/media.ts); scripts/clip.sh cuts clips
 - public/css/tokens.css — ALL colors, type, spacing. Never hardcode values; add missing tokens here.
-- public/css/ — global, typography, navigation, homepage, footer, event, archive, page (subpages)
+- public/css/ — global, typography, navigation, homepage, event-card (shared), footer, event, events-index, archive, page (subpages)
 - public/js/ — atmosphere, navigation, header-theme, homepage, page-chrome, next-event, events, archive
 - public/assets/ — images, video, logo. Don't open image files unless asked.
 
@@ -42,7 +42,8 @@ Astro (static output). Pages in src/, plain CSS/JS in public/ (no bundling). Dep
 - Sample/past events are `draft: true` (dev only) until checked.
 - Homepage: landing + next-event strip fill the first screen (keep the .first-screen and .thread-wrap divs in index.astro); scroll-drawn thread through 02–04, mockup shape (spec §6, guide §3.9.1).
 - Archive built (spec §12): media from src/assets/events/<slug>/; past event URLs redirect to /archive/#slug.
-- Next: events index page, privacy + terms pages, footer colour, connect Vercel.
+- /events/ built: all events in two grids (upcoming, past); card CSS shared in public/css/event-card.css.
+- Next: privacy + terms pages, footer colour, connect Vercel.
 
 ## Docs
 
