@@ -1,0 +1,153 @@
+/* ==========================================================================
+   CHIMAERA — All events (/events/)
+   ==========================================================================
+
+   Two grids of the shared event card (public/css/event-card.css):
+   Upcoming (full cards with tickets) and Past (smaller cards, no button,
+   linking to their photos in the archive).
+   Page: src/pages/events/index.astro. Header styling matches the archive.
+   ========================================================================== */
+
+.events-index {
+  position: relative;
+  z-index: 1;
+
+  padding: calc(var(--space-2xl) + var(--space-s)) var(--page-margin) var(--space-2xl);
+}
+
+.events-index__inner {
+  max-width: var(--section-max-width);
+  margin-inline: auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+.events-index__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+}
+
+.events-index__label {
+  margin: 0;
+
+  font-family: var(--font-micro);
+  font-size: var(--text-small);
+  letter-spacing: 0.02em;
+}
+
+.events-index h1 {
+  margin: 0;
+
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--step-4);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+/* --------------------------------------------------------------------------
+   GROUP — Upcoming / Past
+   -------------------------------------------------------------------------- */
+
+.events-index__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+
+  padding-top: var(--space-m);
+
+  border-top: var(--rule-width) solid var(--color-ink-30);
+}
+
+.events-index__group-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2xs) var(--space-m);
+}
+
+.events-index h2 {
+  margin: 0;
+
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--step-3);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.events-index__archive-link {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 2.75rem;
+
+  font-family: var(--font-text);
+  font-weight: 700;
+
+  color: var(--color-ink);
+
+  white-space: nowrap;
+}
+
+.events-index__empty {
+  margin: 0;
+
+  font-family: var(--font-serif);
+  font-size: var(--step-1);
+}
+
+.events-index__empty a {
+  color: var(--color-ink);
+}
+
+/* --------------------------------------------------------------------------
+   GRID
+   -------------------------------------------------------------------------- */
+
+.events-index__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  gap: var(--space-l);
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+/* Past: smaller cards, two across on phones. */
+.events-index__grid--past {
+  grid-template-columns: repeat(auto-fill, minmax(min(45%, 12rem), 1fr));
+  gap: var(--space-m) var(--space-s);
+}
+
+.events-index__grid .event-card {
+  height: 100%;
+}
+
+.event-card--past {
+  padding: var(--space-2xs) var(--space-2xs) var(--space-s);
+}
+
+.event-card--past .event-card__poster {
+  margin-bottom: var(--space-2xs);
+}
+
+.event-card--past .event-card__title {
+  font-size: var(--step-1);
+}
+
+.event-card--past .event-card__venue {
+  font-size: var(--text-small);
+}
+
+.events-index__archive-link:focus-visible,
+.events-index__empty a:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}

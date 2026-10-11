@@ -1,0 +1,135 @@
+---
+/**
+ * /events/ — every event in one place: upcoming (soonest first, with
+ * tickets) and past (newest first, linking to their photos in the
+ * archive). Rendered at build time from src/content/events/; no JS.
+ *
+ * Cards: public/css/event-card.css (same card as the homepage 05 grid).
+ * Page layout: public/css/events-index.css.
+ */
+import Base from "../../layouts/Base.astro";
+import { getEvents, statusOf, urlOf, formatDate, today } from "../../lib/events";
+
+const events = await getEvents();
+const upcoming = events.filter((event) => statusOf(event) !== "past");
+const past = events.filter((event) => statusOf(event) === "past").reverse();
+const now = today();
+---
+
+<Base
+  title="Events — CHIMAERA"
+  description="Every CHIMAERA evening in Copenhagen: what's coming up, and everything we've done so far."
+  path="/events/"
+  styles={["/css/event-card.css", "/css/events-index.css"]}
+  scripts={["/js/page-chrome.js"]}
+>
+  <main id="main">
+    <div class="events-index field-atmosphere" data-field="coral">
+      <div class="events-index__inner">
+        <header class="events-index__header">
+          <p class="events-index__label">events</p>
+          <h1>All events</h1>
+        </header>
+
+        <section class="events-index__group" aria-labelledby="upcoming-heading">
+          <h2 id="upcoming-heading">Upcoming</h2>
+
+          {
+            upcoming.length === 0 ? (
+              <p class="events-index__empty">
+                New dates soon. <a href="#footer">Join the newsletter</a> to hear first.
+              </p>
+            ) : (
+              <ul class="events-index__grid" role="list">
+                {upcoming.map((event) => {
+                  const { data } = event;
+                  const soldOut = statusOf(event) === "soldout";
+                  return (
+                    <li>
+                      <article class="event-card">
+                        <figure class="event-card__poster">
+                          {data.poster ? (
+                            <img src={data.poster} alt="" loading="lazy" decoding="async" />
+                          ) : (
+                            <div class="event-card__poster-placeholder" aria-hidden="true" />
+                          )}
+                          {soldOut && <span class="stamp">Sold out</span>}
+                        </figure>
+
+                        <p class="event-card__date">
+                          {data.date === now && "Today · "}
+                          <time datetime={data.date}>{formatDate(data.date)}</time>
+                        </p>
+                        <p class="event-card__title">
+                          <a class="event-card__link" href={urlOf(event)}>
+                            {data.title}
+                          </a>
+                        </p>
+                        <p class="event-card__venue">{data.venue}</p>
+
+                        <hr class="event-card__rule" />
+
+                        {soldOut ? (
+                          <a class="event-card__waitlist-link" href="#footer">
+                            Join the waitlist
+                          </a>
+                        ) : (
+                          <a class="event-card__ticket-link" href={data.stripeUrl ?? "#"} aria-label={`Tickets for ${data.title}`}>
+                            Tickets
+                          </a>
+                        )}
+                      </article>
+                    </li>
+                  );
+                })}
+              </ul>
+            )
+          }
+        </section>
+
+        {
+          past.length > 0 && (
+            <section class="events-index__group" aria-labelledby="past-heading">
+              <div class="events-index__group-head">
+                <h2 id="past-heading">Past</h2>
+                <a class="events-index__archive-link" href="/archive/">
+                  All photos →
+                </a>
+              </div>
+
+              <ul class="events-index__grid events-index__grid--past" role="list">
+                {past.map((event) => {
+                  const { data } = event;
+                  return (
+                    <li>
+                      <article class="event-card event-card--past">
+                        <figure class="event-card__poster">
+                          {data.poster ? (
+                            <img src={data.poster} alt="" loading="lazy" decoding="async" />
+                          ) : (
+                            <div class="event-card__poster-placeholder" aria-hidden="true" />
+                          )}
+                          {data.soldOut && <span class="stamp">Sold out</span>}
+                        </figure>
+
+                        <p class="event-card__date">
+                          <time datetime={data.date}>{formatDate(data.date)}</time>
+                        </p>
+                        <p class="event-card__title">
+                          <a class="event-card__link" href={urlOf(event)}>
+                            {data.title}
+                          </a>
+                        </p>
+                        <p class="event-card__venue">{data.venue}</p>
+                      </article>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          )
+        }
+      </div>
+    </div>
+  </main>
+</Base>

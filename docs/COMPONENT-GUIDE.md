@@ -185,10 +185,10 @@ Sequence: `intro.webm` plays full screen → its `ended` event adds `.landing--r
 | Centre video size | `.landing__video` | `width: min(640px, 74vw)`, `aspect-ratio: 16 / 9` |
 | Video glow | `.landing__video` | `box-shadow: 0 0 9rem 1rem rgba(227,80,57,.22)` |
 | Fade speeds | `.landing__gif` (700ms), `.landing__video` (1400ms) | `transition` |
-| Down arrow | `src/pages/index.astro` `.landing__arrow` (`href="#idea"`); CSS `.landing__arrow`, `@keyframes landing-arrow` | Target, size, opacity (0.8), bob speed (2.4s). Hidden until `.landing--revealed` |
-| First screen | `.first-screen` wraps `.landing` + `#next-event`; together they fill `100svh` | Landing's smallest height: `--landing-min-height` (token) |
+| First screen | `.first-screen` wraps `.landing` + `#next-event`; together they fill `100svh`, so the strip's bottom edge = viewport bottom | Landing's smallest height: `--landing-min-height` (token) |
 
 **Gotchas**
+- Keep the `<div class="first-screen">` wrapper in `index.astro`. Without it the landing collapses to `--landing-min-height` and the strip jumps up the screen.
 - `.landing__gif` is `position: fixed` so the intro covers the next-event strip too. Don't change it back to `absolute`.
 - If the intro video fails to play (autoplay blocked), the code skips straight to the revealed state. If the landing ever stays blank, check the console for a video error first.
 - Replacing the intro with a different length is fine: the atmosphere sweep reads `intro.duration`.
@@ -253,18 +253,17 @@ Copy (label, H2, body, "Get in touch →" to `/contact/`) + `.practice-collage`:
 The reveal interaction (spec §7) isn't built; it will reveal `.homepage-practice__link`.
 
 ### 3.9.1 Thread (dashed line through 02–04)
-**Files:** `src/pages/index.astro` (`.thread-wrap` around 02–04, `<svg class="thread">`, `data-thread-anchor` attributes), `public/css/homepage.css` (THREAD), `public/js/homepage.js` (THREAD block), tokens `--thread-*`. Spec §6.
+**Files:** `src/pages/index.astro` (`<div class="thread-wrap" data-thread>` around 02–04 with `<svg class="thread">`), `public/css/homepage.css` (THREAD), `public/js/homepage.js` (THREAD block), tokens `--thread-*`. Spec §6.
 
-The path is a smooth curve through every `[data-thread-anchor]` in page order. The value is `"x,y"` as a fraction of that element's box: `"1.08,0.55"` = just right of the element, a bit below its middle; negative values go left/above. It's drawn on as you scroll; the tip sits at `--thread-lead` of the viewport height. Desktop only (≥64rem). Reduced motion: fully drawn.
+The shape is the canvas mockup's path (`THREAD_PATH` in `homepage.js`, drawn in a 1440 × 2380 frame) stretched to the real `.thread-wrap`. It's drawn on as you scroll; the tip sits at `--thread-lead` of the viewport height. Desktop only (≥64rem). Reduced motion: fully drawn.
 
 | To change | Where |
 |---|---|
-| Route of the line | `data-thread-anchor` values in `index.astro` (02 h2, 02 photo, 03 text, 03 body, 04 copy, `#events` top) |
-| Add / remove a bend | Add or remove a `data-thread-anchor` attribute on any element in 02–05 |
+| Shape | `THREAD_PATH` numbers (x right, y down, in the 1440 × 2380 frame) |
 | Colour, weight, dash | `--thread-color`, `--thread-width`, `--thread-dash` |
 | How far ahead it draws | `--thread-lead` (0.75) |
 
-**Gotcha:** the path is recomputed on width change only. If you change copy and the line crosses text, move the anchor numbers, not the CSS.
+**Gotcha:** keep the `thread-wrap` div around 02–04 in `index.astro`; without it nothing draws.
 
 ### 3.10 05 — join us (`#events`)
 **Files:** `src/pages/index.astro` (header + empty containers), `public/css/homepage.css` (EVENTS), `public/css/global.css` (`.stamp`), `public/js/events.js`, events from `src/content/events/`.
@@ -299,6 +298,17 @@ Card anatomy (built in `buildEventCard()`):
 | Past poster size | `.past-poster` `flex: 0 0 150px` |
 | Archive link | `src/pages/index.astro` `.homepage-events__archive-link` (→ `/#events` for now) |
 | Empty-state text | `src/pages/index.astro` `.homepage-events__empty` |
+
+### 3.10.1 All events (`/events/`)
+**Files:** `src/pages/events/index.astro`, `public/css/events-index.css`, card styles in `public/css/event-card.css` (shared with the homepage 05 grid).
+
+Built at build time from `src/content/events/`, no JS. Two grids: **Upcoming** (soonest first, full card with Tickets / Join the waitlist; an event dated today shows "Today ·") and **Past** (newest first, smaller cards, two across on phones, each linking to `/archive/#slug`). No upcoming events → "New dates soon" line. Nav, footer and the event page's "← All events" link here.
+
+| To change | Where |
+|---|---|
+| Card look (both pages) | `public/css/event-card.css` |
+| Columns | `.events-index__grid` / `--past` `minmax(…)` |
+| Past card size | `.event-card--past` rules in `events-index.css` |
 
 ### 3.11 Footer
 **Files:** `src/components/Footer.astro` (markup, every page), `public/css/footer.css` (linked on every page).
