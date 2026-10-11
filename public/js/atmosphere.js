@@ -39,7 +39,7 @@
     pale: "#f1f6f8",
 
     colourMidpointX: 0.75,
-    organicDeviation: 0.04,
+    organicDeviation: 1.14,
 
     verticalPosition: 0.5,
 

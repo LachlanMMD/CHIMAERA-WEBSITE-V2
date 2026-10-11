@@ -2,24 +2,11 @@
 import Base from "../layouts/Base.astro";
 ---
 
-<Base
-  title={"CHIMAERA — creative community, Copenhagen"}
-  description={"CHIMAERA is a Copenhagen creative collective building community through art, design and tactile process — workshops, gatherings and hands-on making over consumption."}
-  path="/"
-  ogDescription={"A Copenhagen creative collective building community through art, design and tactile process."}
-  ogImage="/assets/images/optimized/workshop-sketching-1800.jpg"
-  styles={["/css/homepage.css"]}
-  scripts={["/js/homepage.js", "/js/next-event.js", "/js/events.js"]}
->
-<main id="main">
-
-
-  <!-- =======================================================
+<Base title={"CHIMAERA — creative community, Copenhagen"} description={"CHIMAERA is a Copenhagen creative collective building community through art, design and tactile process — workshops, gatherings and hands-on making over consumption."} path="/" ogDescription={"A Copenhagen creative collective building community through art, design and tactile process."} ogImage="/assets/images/optimized/workshop-sketching-1800.jpg" styles={["/css/homepage.css"]} scripts={["/js/homepage.js", "/js/next-event.js", "/js/events.js"]}>
+  <main id="main">
+    <!-- =======================================================
        OPENING / LANDING
        ======================================================= -->
-
-  <!-- Landing + next-event strip share the first screen (.first-screen). -->
-  <div class="first-screen">
 
   <section class="landing" data-field="coral" aria-label="CHIMAERA">
 
@@ -27,26 +14,20 @@ import Base from "../layouts/Base.astro";
       <source src="/assets/video/intro.webm" type="video/webm">
     </video>
 
+      <video class="landing__video" autoplay muted loop playsinline aria-hidden="true" poster="/assets/video/landing-vhs-poster.jpg" width="640" height="360">
+        <source src="/assets/video/landing-vhs.webm" type="video/webm" />
 
-    <video class="landing__video" autoplay muted loop playsinline aria-hidden="true"
-      poster="/assets/video/landing-vhs-poster.jpg" width="640" height="360">
-      <source src="/assets/video/landing-vhs.webm" type="video/webm">
+        <source src="/assets/video/landing-vhs.mp4" type="video/mp4" />
+      </video>
 
-      <source src="/assets/video/landing-vhs.mp4" type="video/mp4">
-    </video>
-
-
-    <a class="landing__arrow" href="#idea" aria-label="Scroll to the next section">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
-        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-        <path d="M12 4v16M5 13l7 7 7-7"></path>
-      </svg>
-    </a>
+    <div class="landing__scroll-cue" aria-hidden="true">
+      <span class="landing__scroll-cue-line"></span>
+    </div>
 
   </section>
 
 
-  <!-- =======================================================
+    <!-- =======================================================
        NEXT EVENT
        variant: Line — ruled caption band on the atmosphere.
        Static markup is the no-JS fallback; js/next-event.js
@@ -54,27 +35,21 @@ import Base from "../layouts/Base.astro";
        replacing the fallback link. See docs/HOMEPAGE-SPEC.md §3.
        ======================================================= -->
 
-  <section class="next-event field-atmosphere" id="next-event" data-field="coral" aria-labelledby="next-event-label">
+    <section class="next-event field-atmosphere" id="next-event" data-field="coral" aria-labelledby="next-event-label">
+      <div class="next-event__inner container">
+        <p class="next-event__label" id="next-event-label">Next event</p>
 
-    <div class="next-event__inner container">
+        <div class="next-event__row" data-next-event-row hidden>
+          <div class="next-event__info">
+            <p class="next-event__date" data-next-event-date></p>
+            <p class="next-event__title-venue">
+              <span class="next-event__title" data-next-event-title></span>
+              <span class="next-event__venue" data-next-event-venue></span>
+            </p>
+          </div>
 
-      <p class="next-event__label" id="next-event-label">
-        Next event
-      </p>
-
-      <div class="next-event__row" data-next-event-row hidden>
-
-        <div class="next-event__info">
-          <p class="next-event__date" data-next-event-date></p>
-          <p class="next-event__title-venue">
-            <span class="next-event__title" data-next-event-title></span>
-            <span class="next-event__venue" data-next-event-venue></span>
-          </p>
+          <div class="next-event__action" data-next-event-action></div>
         </div>
-
-        <div class="next-event__action" data-next-event-action></div>
-
-      </div>
 
       <p class="next-event__fallback" data-next-event-fallback>
         <a href="#events">See upcoming events</a>
@@ -85,33 +60,23 @@ import Base from "../layouts/Base.astro";
   </section>
 
 
-  </div>
-
-
-  <!-- =======================================================
+    <!-- =======================================================
        HERO / PROPOSITION
        ======================================================= -->
 
-  <section class="homepage-hero field-atmosphere" id="idea" data-field="coral" aria-labelledby="hero-heading">
+    <section class="homepage-hero field-atmosphere" id="idea" data-field="coral" aria-labelledby="hero-heading">
+      <div class="homepage-hero__copy">
+        <p class="eyebrow">01 — the idea</p>
 
-    <div class="homepage-hero__copy">
+        <p class="homepage-hero__phonetic">[khi-mæ-ra]</p>
 
-      <p class="eyebrow">
-        01 — the idea
-      </p>
+        <h2 id="hero-heading">
+          COME FOR THE ART.<br />
+          STAY FOR THE PEOPLE.
+        </h2>
 
-      <p class="homepage-hero__phonetic">[khi-mæ-ra]</p>
-
-      <h2 id="hero-heading">
-        SOME OF US WATCH.<br>
-        SOME OF US MAKE.
-      </h2>
-
-      <div class="homepage-hero__body body-copy">
-        Every gathering brings artists and participants together around the act of making.
+        <div class="homepage-hero__body body-copy">Every gathering brings artists and participants together around the act of making.</div>
       </div>
-
-    </div>
 
     <figure class="homepage-hero__figure">
       <img src="/assets/images/optimized/materials-flatlay-640.jpg"
@@ -122,44 +87,24 @@ import Base from "../layouts/Base.astro";
   </section>
 
 
-  <!-- =======================================================
-       THREAD — dashed line drawn on scroll through 02–04, ending
-       at the top of 05. Path runs through [data-thread-anchor]
-       elements ("x,y" = fraction of the element's box) in page
-       order. Desktop only. js/homepage.js, spec §6.
-       ======================================================= -->
-
-  <div class="thread-wrap" data-thread>
-
-    <svg class="thread" aria-hidden="true" focusable="false"></svg>
-
-
-  <!-- =======================================================
+    <!-- =======================================================
        ARTIST
        Two columns ≥64rem (text left, photo right, inset).
        Spec: docs/HOMEPAGE-SPEC.md §3 section 2.
        ======================================================= -->
 
-  <section class="homepage-artist field-atmosphere" id="artist" data-field="coral" aria-label="The artist">
+    <section class="homepage-artist field-atmosphere" id="artist" data-field="coral" aria-label="The artist">
+      <div class="encounter__text encounter__text--artist">
+        <p class="eyebrow">02 — the artist</p>
 
-    <div class="encounter__text encounter__text--artist">
-
-      <p class="eyebrow">
-        02 — the artist
-      </p>
-
-      <h2 data-thread-anchor="1.08,0.55">
+      <h2>
         artists without a stage.
       </h2>
 
-      <div class="body-copy">
-        Placeholder copy — CHIMAERA puts artists, their name, craft and work into the spotlight: a real
-        audience for people without an established platform.
+        <div class="body-copy">Placeholder copy — CHIMAERA puts artists, their name, craft and work into the spotlight: a real audience for people without an established platform.</div>
       </div>
 
-    </div>
-
-    <figure class="encounter__photo encounter__photo--artist" data-thread-anchor="-0.12,0.9">
+    <figure class="encounter__photo encounter__photo--artist">
       <img src="/assets/images/optimized/ladder-display-640.jpg"
         srcset="/assets/images/optimized/ladder-display-640.jpg 640w, /assets/images/optimized/ladder-display-1280.jpg 1280w"
         sizes="(min-width: 64rem) 27.5rem, 90vw" width="640" height="859" alt="" loading="lazy" decoding="async">
@@ -168,39 +113,33 @@ import Base from "../layouts/Base.astro";
   </section>
 
 
-  <!-- =======================================================
+    <!-- =======================================================
        PEOPLE
        ======================================================= -->
 
   <section class="homepage-people field-atmosphere" id="people" data-field="coral" aria-label="The people">
 
-    <div class="encounter__text encounter__text--participant" data-thread-anchor="-0.1,0.15">
+    <div class="encounter__text encounter__text--participant">
 
       <p class="eyebrow">
         03 — the people
       </p>
 
-      <h2>
-        make something yourself.
-      </h2>
+        <h2>make something yourself.</h2>
 
-      <div class="body-copy" data-thread-anchor="-0.1,1.9">
+      <div class="body-copy">
         Placeholder copy — CHIMAERA makes artistic practice accessible through doing: learning alongside
         others, and taking something home.
       </div>
 
     </div>
 
-    <figure class="encounter__photo encounter__photo--participant">
-      <img src="/assets/images/optimized/gathering-laughing-640.jpg"
-        srcset="/assets/images/optimized/gathering-laughing-640.jpg 640w, /assets/images/optimized/gathering-laughing-1280.jpg 1280w"
-        sizes="(min-width: 64rem) 30rem, 90vw" width="640" height="960" alt="" loading="lazy" decoding="async">
-    </figure>
+      <figure class="encounter__photo encounter__photo--participant">
+        <img src="/assets/images/optimized/gathering-laughing-640.jpg" srcset="/assets/images/optimized/gathering-laughing-640.jpg 640w, /assets/images/optimized/gathering-laughing-1280.jpg 1280w" sizes="(min-width: 64rem) 30rem, 90vw" width="640" height="960" alt="" loading="lazy" decoding="async" />
+      </figure>
+    </section>
 
-  </section>
-
-
-  <!-- =======================================================
+    <!-- =======================================================
        PRACTICE
        Copy + "Get in touch" link, static 4-image collage.
        Reveal interaction comes later (spec §7).
@@ -208,25 +147,18 @@ import Base from "../layouts/Base.astro";
 
   <section class="homepage-practice field-atmosphere" id="practice" data-field="coral" aria-labelledby="practice-heading">
 
-    <div class="homepage-practice__copy" data-thread-anchor="-0.12,0.35">
+    <div class="homepage-practice__copy">
 
       <p class="eyebrow">
         04 — the practice
       </p>
 
-      <h2 id="practice-heading">
-        [placeholder heading]
-      </h2>
+        <h2 id="practice-heading">[placeholder heading]</h2>
 
-      <div class="body-copy">
-        [placeholder]
+        <div class="body-copy">[placeholder]</div>
+
+        <a class="homepage-practice__link" href="/contact/"> Get in touch → </a>
       </div>
-
-      <a class="homepage-practice__link" href="/contact/">
-        Get in touch →
-      </a>
-
-    </div>
 
     <div class="practice-collage" aria-hidden="true">
       <figure class="practice-collage__item practice-collage__item--1">
@@ -246,16 +178,13 @@ import Base from "../layouts/Base.astro";
   </section>
 
 
-  </div>
-
-
-  <!-- =======================================================
+    <!-- =======================================================
        EVENTS
        Upcoming grid + past strip, rendered by js/events.js from
        data/events.json. See docs/HOMEPAGE-SPEC.md §3 section 5.
        ======================================================= -->
 
-  <section class="homepage-events field-atmosphere" id="events" data-field="coral" aria-labelledby="events-heading" data-thread-anchor="0.5,0">
+  <section class="homepage-events field-atmosphere" id="events" data-field="coral" aria-labelledby="events-heading">
 
     <div class="homepage-events__header">
 
@@ -264,44 +193,27 @@ import Base from "../layouts/Base.astro";
           05 — join us
         </p>
 
-        <h2 id="events-heading">
-          Upcoming
-        </h2>
+          <h2 id="events-heading">Upcoming</h2>
+        </div>
+
+        <a class="homepage-events__artist-link" href="/contact/"> Are you an artist? → </a>
       </div>
 
-      <a class="homepage-events__artist-link"
-        href="/contact/">
-        Are you an artist? →
-      </a>
+      <div class="homepage-events__grid" data-events-grid></div>
 
-    </div>
+      <p class="homepage-events__empty body-copy" data-events-empty>
+        New events soon — <a href="#footer">join the newsletter</a>
+      </p>
 
-    <div class="homepage-events__grid" data-events-grid></div>
+      <div class="homepage-events__past" hidden>
+        <div class="homepage-events__past-header">
+          <p class="eyebrow">Past events</p>
 
-    <p class="homepage-events__empty body-copy" data-events-empty>
-      New events soon — <a href="#footer">join the newsletter</a>
-    </p>
+          <a class="homepage-events__archive-link" href="/archive/"> Archive → </a>
+        </div>
 
-    <div class="homepage-events__past" hidden>
-
-      <div class="homepage-events__past-header">
-
-        <p class="eyebrow">
-          Past events
-        </p>
-
-        <a class="homepage-events__archive-link" href="/archive/">
-          Archive →
-        </a>
-
+        <div class="homepage-events__past-strip" data-events-past></div>
       </div>
-
-      <div class="homepage-events__past-strip" data-events-past></div>
-
-    </div>
-
-  </section>
-
-
-</main>
+    </section>
+  </main>
 </Base>
