@@ -109,68 +109,6 @@ body.nav-open .landing__video {
   opacity: 0;
 }
 
-/* ==========================================================================
-   LANDING ARROW — link to #idea, the first section below the fold
-   ========================================================================== */
-
-.landing__arrow {
-  position: absolute;
-
-  bottom: var(--space-s);
-  left: 50%;
-
-  transform: translateX(-50%);
-
-  z-index: 3;
-
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  width: var(--tap-target-min);
-  height: var(--tap-target-min);
-
-  color: var(--color-ink);
-
-  /* hidden during the intro, fades in with the landing video */
-  opacity: 0;
-  pointer-events: none;
-
-  transition: opacity 1400ms var(--ease-editorial);
-}
-
-.landing--revealed .landing__arrow {
-  opacity: 0.8;
-  pointer-events: auto;
-}
-
-.landing__arrow:hover,
-.landing__arrow:focus-visible {
-  opacity: 1;
-}
-
-.landing__arrow:focus-visible {
-  outline: 2px solid var(--color-ink);
-  outline-offset: 2px;
-}
-
-.landing__arrow svg {
-  display: block;
-
-  animation: landing-arrow 2.4s var(--ease-editorial) infinite;
-}
-
-@keyframes landing-arrow {
-  0%,
-  100% {
-    transform: translateY(-0.125rem);
-  }
-
-  50% {
-    transform: translateY(0.25rem);
-  }
-}
-
 /* The strip shares the first screen, so keep it out of the intro:
    it fades in with the landing video. Without JS it shows at once. */
 @media (scripting: enabled) {
@@ -1188,10 +1126,7 @@ body.nav-open .landing__video {
     transition: none;
   }
 
-  .next-event,
-  .landing__arrow,
-  .landing__arrow svg {
+  .next-event {
     transition: none;
-    animation: none;
   }
 }

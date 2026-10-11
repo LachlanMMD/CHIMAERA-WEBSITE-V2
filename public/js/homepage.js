@@ -124,11 +124,11 @@
      * Dashed line through 02–04, ending at the top of 05.
      * Spec: docs/HOMEPAGE-SPEC.md §6.
      *
-     *   - Path: smooth curve (Catmull-Rom → cubic Béziers) through
-     *     every [data-thread-anchor] in page order. The attribute is
-     *     "x,y" as a fraction of that element's box, so "1.1,0.5"
-     *     = just right of the element, halfway down. Move the line
-     *     by editing those numbers in src/pages/index.astro.
+     *   - Shape: the canvas mockup's path (THREAD_PATH), drawn in a
+     *     1440 × 2380 frame = .thread-wrap in the mockup. It is
+     *     stretched to the real .thread-wrap size, so it keeps its
+     *     place relative to 02–04 at any desktop size. Edit the
+     *     numbers to reshape it (x right, y down, in that frame).
      *   - Draw-on: a solid copy of the path inside a <mask>; its
      *     dash offset follows scroll through .thread-wrap. The tip
      *     sits at --thread-lead of the viewport height.
@@ -165,61 +165,36 @@
       var length = 0;
       var built = false;
 
-      function anchorPoints() {
-        var origin = wrap.getBoundingClientRect();
+      // Mockup path: start point, then one [c1, c2, end] triple per curve.
+      var THREAD_FRAME = [1440, 2380];
+      var THREAD_PATH = [
+        [600, 400],
+        [[700, 380], [740, 300], [840, 360]],
+        [[940, 420], [960, 600], [900, 760]],
+        [[850, 900], [760, 980], [800, 1080]],
+        [[840, 1180], [1000, 1250], [1080, 1360]],
+        [[1160, 1470], [900, 1560], [620, 1585]],
+        [[330, 1610], [150, 1690], [170, 1900]],
+        [[190, 2120], [480, 2270], [720, 2380]],
+      ];
 
-        return Array.prototype.map.call(document.querySelectorAll("[data-thread-anchor]"), function (el) {
-          var f = el.getAttribute("data-thread-anchor").split(",").map(Number);
-          var r = el.getBoundingClientRect();
+      function pathFor(w, h) {
+        var sx = w / THREAD_FRAME[0];
+        var sy = h / THREAD_FRAME[1];
 
-          return [r.left - origin.left + r.width * (f[0] || 0), r.top - origin.top + r.height * (f[1] || 0)];
-        });
-      }
-
-      /*
-       * Catmull-Rom tangent (next − prev) / 6, capped at a third of
-       * the segment it bends, so a long neighbouring segment can't
-       * swing a short one out through the copy.
-       */
-      function handle(from, to, prev, next) {
-        var tx = (next[0] - prev[0]) / 6;
-        var ty = (next[1] - prev[1]) / 6;
-        var max = Math.hypot(to[0] - from[0], to[1] - from[1]) / 3;
-        var len = Math.hypot(tx, ty);
-        var k = len > max ? max / len : 1;
-
-        return [tx * k, ty * k];
-      }
-
-      function pathThrough(p) {
-        var d = "M " + p[0][0].toFixed(1) + " " + p[0][1].toFixed(1);
-
-        for (var i = 0; i < p.length - 1; i++) {
-          var a = p[i - 1] || p[i];
-          var b = p[i];
-          var c = p[i + 1];
-          var e = p[i + 2] || c;
-
-          var h1 = handle(b, c, a, c);
-          var h2 = handle(b, c, b, e);
-
-          d +=
-            " C " +
-            (b[0] + h1[0]).toFixed(1) + " " + (b[1] + h1[1]).toFixed(1) + ", " +
-            (c[0] - h2[0]).toFixed(1) + " " + (c[1] - h2[1]).toFixed(1) + ", " +
-            c[0].toFixed(1) + " " + c[1].toFixed(1);
+        function pt(p) {
+          return (p[0] * sx).toFixed(1) + " " + (p[1] * sy).toFixed(1);
         }
 
-        return d;
+        return THREAD_PATH.map(function (seg, i) {
+          return i === 0 ? "M " + pt(seg) : " C " + seg.map(pt).join(", ");
+        }).join("");
       }
 
       function build() {
         built = false;
 
         if (!desktop.matches) return;
-
-        var points = anchorPoints();
-        if (points.length < 2) return;
 
         var w = wrap.clientWidth;
         var h = wrap.offsetHeight;
@@ -231,7 +206,7 @@
         mask.setAttribute("width", w * 3);
         mask.setAttribute("height", h * 3);
 
-        var d = pathThrough(points);
+        var d = pathFor(w, h);
         line.setAttribute("d", d);
         reveal.setAttribute("d", d);
 

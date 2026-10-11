@@ -126,9 +126,9 @@ Events are an Astro content collection: one markdown file per event in `src/cont
 
 ## 6. Thread (scroll-drawn dashed line), prototype first
 
-Built directly in the homepage (no separate prototype); route is set by anchor fractions, see COMPONENT-GUIDE §3.9.1. Mobile off, as below.
+Built directly in the homepage (no separate prototype). Shape = the canvas mockup path, scaled to the section wrapper, see COMPONENT-GUIDE §3.9.1. Mobile off, as below.
 - One SVG behind the content of sections 02–05, `pointer-events: none`. z-order: atmosphere < thread < images/text.
-- Path computed from anchor elements (`[data-thread-anchor]`), cubic béziers, not hardcoded coordinates.
+- Path: the mockup's cubic béziers in a 1440 × 2380 frame, scaled to the wrapper at runtime.
 - Recompute on **width** change only, debounced.
 - Draw-on effect uses a **mask**: a solid copy of the path in a `<mask>`, animated via `stroke-dashoffset`.
 - Progress = scroll through the thread container (0 → 1), in the page's single rAF scroll loop.
