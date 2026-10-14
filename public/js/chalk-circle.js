@@ -1,25 +1,21 @@
 /**
  * CHIMAERA — chalk-circle.js
  *
- * Draws a hand-drawn chalk circle around [data-chalk-target="message"]
- * (the contact form box) when someone arrives via a /contact/#message link,
- * or clicks one while already on the page.
- *
- *   - #message is deliberately NOT an element id: a real anchor would make
- *     the browser jump and cut off the top of a one-screen page. Instead the
- *     box is scrolled into view only when it isn't already fully visible.
+ * Draws a hand-drawn chalk circle around [data-chalk-target="footer"]
+ * (the newsletter box in the footer) when someone follows a #footer link —
+ * "join the newsletter", "Join the waitlist", "Hear about the next one first".
+ * Loaded on every page (Base.astro), since every page has the footer.
  *
  *   - Shape: a squarish loop (superellipse) around the box, slightly tilted,
  *     wobbling and over-shooting its start like a real hand-drawn circle.
  *     It's random every time.
- *   - Chalk: an SVG filter roughens the edge and breaks the line up with grain.
- *     Two passes, one in each atmosphere colour, slightly offset: a
- *     pencil-like double line that stays visible over coral and over pale.
+ *   - Chalk: an SVG filter roughens the edge and breaks the line up with grain,
+ *     plus a fainter second pass slightly offset: a pencil-like double line.
  *   - Draw: the stroke is revealed along its length (stroke-dashoffset),
  *     slow-fast-slow like a hand. Respects prefers-reduced-motion.
  *
- * Colour, width and speed: --chalk-color(-2), --chalk-width, --chalk-duration
- * in css/tokens.css. Styles in css/page.css (CHALK CIRCLE).
+ * Colour, width and speed: --chalk-color, --chalk-width, --chalk-duration
+ * in css/tokens.css. Styles in css/footer.css (CHALK CIRCLE).
  */
 (function () {
   "use strict";
@@ -145,8 +141,8 @@
 
     var group = el("g", { filter: "url(#" + id + ")" });
     var main = el("path", { d: d });
-    // Second pass, slightly off the first, in the other atmosphere colour.
-    var echo = el("path", { d: d, class: "chalk-circle__echo", transform: "translate(" + rand(-2.5, 2.5).toFixed(1) + " " + rand(1.5, 3).toFixed(1) + ")", opacity: "0.9" });
+    // Second, fainter pass slightly off the first: the pencil/chalk double line.
+    var echo = el("path", { d: d, transform: "translate(" + rand(-2.5, 2.5).toFixed(1) + " " + rand(1.5, 3).toFixed(1) + ")", opacity: "0.45", "stroke-width": "1.5" });
     group.appendChild(echo);
     group.appendChild(main);
     svg.appendChild(group);
@@ -203,7 +199,7 @@
     pending.observe(target);
   }
 
-  // Arrived on /contact/#message
+  // Arrived on a page via …#footer
   if (window.location.hash === hash) drawWhenVisible();
 
   // Followed a #message link while on the page
@@ -211,7 +207,7 @@
     if (window.location.hash === hash) drawWhenVisible();
   });
 
-  // Clicked a #message link when the hash is already #message (no hashchange)
+  // Clicked a #footer link when the hash is already #footer (no hashchange)
   document.addEventListener("click", function (event) {
     var link = event.target.closest && event.target.closest("a[href]");
     if (!link) return;

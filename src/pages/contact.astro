@@ -5,7 +5,6 @@
  * info@chimaeracollective.dk — no server needed on a static site.
  * Get the access key free at web3forms.com (enter that email address) and
  * paste it below. The key is safe to publish; it can only send to that inbox.
- * Links to /contact/#message draw the chalk circle (js/chalk-circle.js).
  */
 import Base from "../layouts/Base.astro";
 
@@ -17,7 +16,7 @@ const WEB3FORMS_ACCESS_KEY = "PASTE-YOUR-WEB3FORMS-ACCESS-KEY";
   description={"Get in touch with CHIMAERA, a Copenhagen creative collective."}
   path="/contact/"
   styles={["/css/page.css"]}
-  scripts={["/js/page-chrome.js", "/js/contact-form.js", "/js/chalk-circle.js"]}
+  scripts={["/js/page-chrome.js", "/js/contact-form.js"]}
 >
 <main id="main">
 
@@ -36,7 +35,7 @@ const WEB3FORMS_ACCESS_KEY = "PASTE-YOUR-WEB3FORMS-ACCESS-KEY";
         </p>
       </header>
 
-      <div class="contact-box" data-chalk-target="message">
+      <div class="contact-box">
 
         <form
           class="contact-form"

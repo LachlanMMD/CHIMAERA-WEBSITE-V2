@@ -112,9 +112,6 @@
 
   padding-top: var(--header-clearance);
   padding-bottom: var(--space-l);
-
-  /* the chalk circle may reach past the page margins on phones */
-  overflow-x: clip;
 }
 
 .page-screen__inner {
@@ -319,31 +316,4 @@
 
 .contact-form__status:empty {
   display: none;
-}
-
-/* ==========================================================================
-   CHALK CIRCLE — drawn by js/chalk-circle.js around [data-chalk-target]
-   ========================================================================== */
-
-.chalk-circle {
-  position: absolute;
-  inset: 0;
-
-  overflow: visible;
-
-  pointer-events: none;
-
-  color: var(--chalk-color);
-}
-
-.chalk-circle .chalk-circle__echo {
-  stroke: var(--chalk-color-2);
-}
-
-.chalk-circle path {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: var(--chalk-width);
-  stroke-linecap: round;
-  stroke-linejoin: round;
 }

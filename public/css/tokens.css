@@ -112,11 +112,9 @@
   /* Subpages (about, contact): space kept clear under the fixed header */
   --header-clearance: 5.5rem;
 
-  /* Chalk circle drawn around the contact form (js/chalk-circle.js).
-     Two passes in the atmosphere's two colours, so the line shows on both
-     sides of it: pale chalk over coral, coral over pale. */
-  --chalk-color: var(--color-pale-warm);
-  --chalk-color-2: var(--color-coral-deep);
+  /* Chalk circle drawn round the footer newsletter box when a #footer link
+     is followed (js/chalk-circle.js). Coral, the atmosphere colour, on ink. */
+  --chalk-color: var(--color-coral);
   --chalk-width: 3.5px;
   --chalk-duration: 1100ms;
 }

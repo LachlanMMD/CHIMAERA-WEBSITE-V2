@@ -45,7 +45,7 @@ Astro (static output). Pages in src/, plain CSS/JS in public/ (no bundling). Dep
 - /error/ page (noindex) for failed flows; the contact form sends people there when sending fails.
 - About + contact are one screen each (.page-screen in page.css), then the footer.
 - Contact form posts to Web3Forms → info@chimaeracollective.dk; access key constant at the top of contact.astro.
-- Links to /contact/#message draw a chalk circle round the form (js/chalk-circle.js; --chalk-* tokens). #message is not an element id on purpose (no jump).
+- #footer links (newsletter / waitlist) draw a coral chalk circle round the footer newsletter box (js/chalk-circle.js, loaded on every page; --chalk-* tokens; styles in footer.css).
 - /events/ built: all events in two grids (upcoming, past); card CSS shared in public/css/event-card.css.
 - Next: privacy + terms pages, footer colour, connect Vercel.
 
