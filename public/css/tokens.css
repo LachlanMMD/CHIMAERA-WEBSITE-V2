@@ -108,6 +108,17 @@
   --duration-fast: 180ms;
   --duration-medium: 420ms;
   --duration-slow: 900ms;
+
+  /* Subpages (about, contact): space kept clear under the fixed header */
+  --header-clearance: 5.5rem;
+
+  /* Chalk circle drawn around the contact form (js/chalk-circle.js).
+     Two passes in the atmosphere's two colours, so the line shows on both
+     sides of it: pale chalk over coral, coral over pale. */
+  --chalk-color: var(--color-pale-warm);
+  --chalk-color-2: var(--color-coral-deep);
+  --chalk-width: 3.5px;
+  --chalk-duration: 1100ms;
 }
 
 @media (prefers-color-scheme: dark) {

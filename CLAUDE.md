@@ -17,7 +17,7 @@ Astro (static output). Pages in src/, plain CSS/JS in public/ (no bundling). Dep
 - src/assets/events/<slug>/ — archive photos/clips per event (read by src/lib/media.ts); scripts/clip.sh cuts clips
 - public/css/tokens.css — ALL colors, type, spacing. Never hardcode values; add missing tokens here.
 - public/css/ — global, typography, navigation, homepage, event-card (shared), footer, event, events-index, archive, page (subpages)
-- public/js/ — atmosphere, navigation, header-theme, homepage, page-chrome, next-event, events, archive
+- public/js/ — atmosphere, navigation, header-theme, homepage, page-chrome, next-event, events, archive, contact-form, chalk-circle
 - public/assets/ — images, video, logo. Don't open image files unless asked.
 
 ## Rules
@@ -42,7 +42,10 @@ Astro (static output). Pages in src/, plain CSS/JS in public/ (no bundling). Dep
 - Sample/past events are `draft: true` (dev only) until checked.
 - Homepage: landing + next-event strip fill the first screen (keep the .first-screen and .thread-wrap divs in index.astro); scroll-drawn thread through 02–04, mockup shape (spec §6, guide §3.9.1).
 - Archive built (spec §12): media from src/assets/events/<slug>/; past events keep their own page at /events/<slug>/, which links to /archive/#slug when it has media.
-- /error/ page (noindex, not linked yet) for failed flows like checkout.
+- /error/ page (noindex) for failed flows; the contact form sends people there when sending fails.
+- About + contact are one screen each (.page-screen in page.css), then the footer.
+- Contact form posts to Web3Forms → info@chimaeracollective.dk; access key constant at the top of contact.astro.
+- Links to /contact/#message draw a chalk circle round the form (js/chalk-circle.js; --chalk-* tokens). #message is not an element id on purpose (no jump).
 - /events/ built: all events in two grids (upcoming, past); card CSS shared in public/css/event-card.css.
 - Next: privacy + terms pages, footer colour, connect Vercel.
 
