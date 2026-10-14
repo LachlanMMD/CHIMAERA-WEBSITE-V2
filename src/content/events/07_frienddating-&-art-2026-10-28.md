@@ -3,7 +3,7 @@
 # /events/short-name-yyyy-mm/). Never rename it after sharing the link.
 # Files starting with "_" are ignored, so this template never builds.
 
-draft: true # true = only visible in `npm run dev`. Set false to publish.
+draft: false # true = only visible in `npm run dev`. Set false to publish.
 
 title: "Frienddating & Art"
 medium: "charcoal, crayons & acrylic" # one line, shown in italics above the title

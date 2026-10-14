@@ -3,7 +3,7 @@
 draft: flase
 title: "FIMO Clay"
 medium: "FIMO clay workshop"
-date: "2026-04-08"
+date: "2025-11-09"
 time: "17:00"
 venue: "Café Porto"
 area: "Aarhus"
