@@ -4,7 +4,7 @@ draft: false
 title: "Ink Painting"
 medium: "Ink painting"
 date: "2025-09-14"
-venue: "Under Buen"
+venue: "Under Buen, Nørrebro"
 poster: "/assets/graphics/poster-ink-workshop.jpg"
 ---
 
