@@ -12,10 +12,11 @@
  *   - Chalk: an SVG filter roughens the edge and breaks the line up with grain,
  *     plus a fainter second pass slightly offset: a pencil-like double line.
  *   - Draw: the stroke is revealed along its length (stroke-dashoffset),
- *     slow-fast-slow like a hand. Respects prefers-reduced-motion.
+ *     slow-fast-slow like a hand, holds, then fades out and is removed.
+ *     prefers-reduced-motion: appears whole (no drawing), then fades.
  *
- * Colour, width and speed: --chalk-color, --chalk-width, --chalk-duration
- * in css/tokens.css. Styles in css/footer.css (CHALK CIRCLE).
+ * Colour, width and timing: --chalk-color, --chalk-width, --chalk-duration,
+ * --chalk-hold, --chalk-fade in css/tokens.css. Styles in css/footer.css (CHALK CIRCLE).
  */
 (function () {
   "use strict";
@@ -28,6 +29,7 @@
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var current = null;
   var pending = null;
+  var fadeTimer = null;
 
   function rand(min, max) {
     return min + Math.random() * (max - min);
@@ -124,8 +126,34 @@
     return filter;
   }
 
-  function draw() {
+  function ms(name, fallback) {
+    return parseFloat(token(name, fallback + "ms")) || fallback;
+  }
+
+  function clear() {
+    window.clearTimeout(fadeTimer);
     if (current) current.remove();
+    current = null;
+  }
+
+  /** After drawing + hold, fade the circle out and remove it. */
+  function fadeOut(svg, after) {
+    fadeTimer = window.setTimeout(function () {
+      if (svg !== current) return;
+
+      var fade = ms("--chalk-fade", 900);
+      if (!svg.animate) return clear();
+
+      svg.animate([{ opacity: 1 }, { opacity: 0 }], { duration: fade, easing: "ease-in", fill: "forwards" })
+        .finished.then(function () {
+          if (svg === current) clear();
+        })
+        .catch(function () {});
+    }, after);
+  }
+
+  function draw() {
+    clear();
 
     var w = target.offsetWidth;
     var h = target.offsetHeight;
@@ -150,9 +178,15 @@
     target.appendChild(svg);
     current = svg;
 
-    if (reduceMotion || !main.animate) return;
+    var hold = ms("--chalk-hold", 2500);
 
-    var duration = parseFloat(token("--chalk-duration", "1100ms")) || 1100;
+    if (reduceMotion || !main.animate) {
+      fadeOut(svg, hold);
+      return;
+    }
+
+    var duration = ms("--chalk-duration", 1100);
+    fadeOut(svg, duration + hold);
     var easing = "cubic-bezier(0.45, 0, 0.25, 1)";
 
     [main, echo].forEach(function (path, index) {
@@ -218,16 +252,12 @@
     }
   });
 
-  // Keep a finished circle fitted to the box when the layout changes.
-  var resizeTimer;
+  // The circle is temporary; if the layout changes mid-way, just drop it.
+  // Width only: phones fire resize when the address bar hides on scroll.
+  var lastWidth = window.innerWidth;
   window.addEventListener("resize", function () {
-    if (!current) return;
-    window.clearTimeout(resizeTimer);
-    resizeTimer = window.setTimeout(function () {
-      var wasReduced = reduceMotion;
-      reduceMotion = true; // redraw in place, no replay
-      draw();
-      reduceMotion = wasReduced;
-    }, 200);
+    if (window.innerWidth === lastWidth) return;
+    lastWidth = window.innerWidth;
+    if (current) clear();
   });
 })();

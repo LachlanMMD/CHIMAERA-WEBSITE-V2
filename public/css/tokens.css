@@ -116,7 +116,9 @@
      is followed (js/chalk-circle.js). Coral, the atmosphere colour, on ink. */
   --chalk-color: var(--color-coral);
   --chalk-width: 3.5px;
-  --chalk-duration: 1100ms;
+  --chalk-duration: 1100ms; /* drawing */
+  --chalk-hold: 2500ms;     /* stays fully visible after drawing */
+  --chalk-fade: 900ms;      /* then fades out and is removed */
 }
 
 @media (prefers-color-scheme: dark) {
