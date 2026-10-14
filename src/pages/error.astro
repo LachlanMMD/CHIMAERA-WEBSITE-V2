@@ -1,0 +1,46 @@
+---
+/**
+ * Generic error page at /error/. Not linked anywhere yet — point failed
+ * flows (e.g. a cancelled or failed checkout) here. Kept out of search.
+ * Reuses the editorial page styles (public/css/page.css); no new CSS.
+ */
+import Base from "../layouts/Base.astro";
+---
+
+<Base
+  title={"Something went wrong — CHIMAERA"}
+  description={"Something went wrong. Try again, or contact CHIMAERA."}
+  path="/error/"
+  styles={["/css/page.css"]}
+  scripts={["/js/page-chrome.js"]}
+  noindex
+>
+<main id="main">
+
+  <section class="page-intro field-atmosphere" data-field="coral" aria-labelledby="error-heading">
+
+    <div class="container">
+
+      <p class="eyebrow">
+        error
+      </p>
+
+      <h1 id="error-heading">
+        oh no
+      </h1>
+
+      <div class="body-copy">
+        Something went wrong. Try again, or tell us what happened at
+        <a href="mailto:info@chimaeracollective.dk">info@chimaeracollective.dk</a>.
+      </div>
+
+      <p class="body-copy">
+        <a href="/">← Back to the homepage</a>
+      </p>
+
+    </div>
+
+  </section>
+
+</main>
+</Base>

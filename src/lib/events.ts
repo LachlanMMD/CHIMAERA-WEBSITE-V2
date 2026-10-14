@@ -24,9 +24,9 @@ export function statusOf(event: EventEntry): EventStatus {
   return event.data.soldOut ? "soldout" : "upcoming";
 }
 
-/** Upcoming events have their own page; past ones live in the archive. */
+/** Every event has its own page; past pages link on to their archive photos. */
 export function urlOf(event: EventEntry): string {
-  return statusOf(event) === "past" ? `/archive/#${event.id}` : `/events/${event.id}/`;
+  return `/events/${event.id}/`;
 }
 
 /** 2026-11-14 → 14.11.2026 */
