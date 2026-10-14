@@ -41,7 +41,8 @@ Astro (static output). Pages in src/, plain CSS/JS in public/ (no bundling). Dep
 - Homepage photos: web-sized copies in public/assets/images/optimized/ (640/1280w). Don't link the 6000px originals.
 - Sample/past events are `draft: true` (dev only) until checked.
 - Homepage: landing + next-event strip fill the first screen (keep the .first-screen and .thread-wrap divs in index.astro); scroll-drawn thread through 02–04, mockup shape (spec §6, guide §3.9.1).
-- Archive built (spec §12): media from src/assets/events/<slug>/; past event URLs redirect to /archive/#slug.
+- Archive built (spec §12): media from src/assets/events/<slug>/; past events keep their own page at /events/<slug>/, which links to /archive/#slug when it has media.
+- /error/ page (noindex, not linked yet) for failed flows like checkout.
 - /events/ built: all events in two grids (upcoming, past); card CSS shared in public/css/event-card.css.
 - Next: privacy + terms pages, footer colour, connect Vercel.
 

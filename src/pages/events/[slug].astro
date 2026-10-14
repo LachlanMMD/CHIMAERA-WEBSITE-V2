@@ -7,6 +7,7 @@
 import Base from "../../layouts/Base.astro";
 import { render } from "astro:content";
 import { getEvents, statusOf, formatDate, type EventEntry } from "../../lib/events";
+import { mediaFor } from "../../lib/media";
 
 export async function getStaticPaths() {
   const events = await getEvents();
@@ -27,12 +28,9 @@ const { Content } = await render(event);
 
 const status = statusOf(event);
 
-// Past events live in the archive now; keep old links working.
-if (status === "past") {
-  const target = `/archive/#${event.id}`;
-  const title = data.title.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c] ?? c);
-  return new Response(`<!doctype html><meta charset="utf-8"><title>${title} — CHIMAERA</title><link rel="canonical" href="${target}"><meta http-equiv="refresh" content="0; url=${target}"><a href="${target}">${title} in the archive</a>`, { headers: { "Content-Type": "text/html; charset=utf-8" } });
-}
+// Past events with photos/clips in src/assets/events/<slug>/ link to them in the archive.
+const hasArchive = status === "past" && mediaFor(event.id).length > 0;
+
 const when = [formatDate(data.date), data.time].filter(Boolean).join(" · ");
 const where = [data.venue, data.area].filter(Boolean).join(" · ");
 const details = [
@@ -112,6 +110,14 @@ const description = [data.medium, `at ${data.venue}`, formatDate(data.date)].fil
                     </li>
                   ))}
                 </ul>
+              )
+            }
+
+            {
+              hasArchive && (
+                <a class="event-page__next" href={`/archive/#${event.id}`}>
+                  See photos from the evening →
+                </a>
               )
             }
 
