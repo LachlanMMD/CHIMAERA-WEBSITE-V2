@@ -195,3 +195,34 @@
   outline: 2px solid var(--color-pale-warm);
   outline-offset: 2px;
 }
+
+/* ==========================================================================
+   CHALK CIRCLE — drawn by js/chalk-circle.js round the newsletter box
+   ([data-chalk-target="footer"]) when a #footer link is followed
+   ========================================================================== */
+
+.site-footer__newsletter {
+  position: relative;
+
+  /* hug the content so the circle doesn't loop round empty grid space */
+  align-self: start;
+}
+
+.chalk-circle {
+  position: absolute;
+  inset: 0;
+
+  overflow: visible;
+
+  pointer-events: none;
+
+  color: var(--chalk-color);
+}
+
+.chalk-circle path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: var(--chalk-width);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

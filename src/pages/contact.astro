@@ -1,5 +1,14 @@
 ---
+/**
+ * Contact: one screen, then the footer.
+ * The form posts to Web3Forms (https://web3forms.com), which emails
+ * info@chimaeracollective.dk — no server needed on a static site.
+ * Get the access key free at web3forms.com (enter that email address) and
+ * paste it below. The key is safe to publish; it can only send to that inbox.
+ */
 import Base from "../layouts/Base.astro";
+
+const WEB3FORMS_ACCESS_KEY = "8c2a414d-7541-4ab4-8c15-64313f25b0bc";
 ---
 
 <Base
@@ -7,59 +16,68 @@ import Base from "../layouts/Base.astro";
   description={"Get in touch with CHIMAERA, a Copenhagen creative collective."}
   path="/contact/"
   styles={["/css/page.css"]}
-  scripts={["/js/page-chrome.js"]}
+  scripts={["/js/page-chrome.js", "/js/contact-form.js"]}
 >
 <main id="main">
 
+  <section class="page-screen field-atmosphere" data-field="coral" aria-labelledby="contact-heading">
 
-  <!-- =======================================================
-       INTRO
-       ======================================================= -->
+    <div class="container page-screen__inner page-screen__inner--split">
 
-  <section class="page-intro field-atmosphere" data-field="coral" aria-labelledby="contact-heading">
+      <header class="page-screen__intro">
+        <p class="eyebrow">contact</p>
 
-    <div class="container">
+        <h1 id="contact-heading">contact</h1>
 
-      <p class="eyebrow">
-        contact
-      </p>
+        <p class="body-copy">
+          Come make something with us. Artists, venues, questions — write to us here or at{" "}
+          <a href="mailto:info@chimaeracollective.dk">info@chimaeracollective.dk</a>.
+        </p>
+      </header>
 
-      <h1 id="contact-heading">
-        contact
-      </h1>
+      <div class="contact-box">
 
-      <div class="body-copy">
-        Come make something with us.
+        <form
+          class="contact-form"
+          action="https://api.web3forms.com/submit"
+          method="POST"
+          data-contact-form
+        >
+          <h2 class="contact-form__heading">send us a message</h2>
+
+          <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+          <input type="hidden" name="subject" value="New message from the CHIMAERA website" />
+          <input type="hidden" name="from_name" value="chimaera website" />
+          <!-- Honeypot: humans never see or tick this; bots do, and Web3Forms drops them. -->
+          <input type="checkbox" name="botcheck" class="visually-hidden" tabindex="-1" autocomplete="off" />
+
+          <div class="contact-form__row">
+            <label class="contact-form__field">
+              <span>Name</span>
+              <input type="text" name="name" autocomplete="name" required />
+            </label>
+
+            <label class="contact-form__field">
+              <span>Email</span>
+              <input type="email" name="email" autocomplete="email" required />
+            </label>
+          </div>
+
+          <label class="contact-form__field">
+            <span>Message</span>
+            <textarea name="message" rows="4" required></textarea>
+          </label>
+
+          <button class="contact-form__button" type="submit">Send <span aria-hidden="true">→</span></button>
+
+          <p class="contact-form__status" role="status" aria-live="polite" data-contact-status></p>
+        </form>
+
       </div>
 
     </div>
 
   </section>
-
-
-  <!-- =======================================================
-       GET IN TOUCH
-       PLACEHOLDER — no real contact details exist in the project
-       yet. Replace this block once you have them.
-       ======================================================= -->
-
-  <section class="page-section field-atmosphere" data-field="coral" aria-labelledby="get-in-touch-heading">
-
-    <div class="container">
-
-      <h2 id="get-in-touch-heading">
-        get in touch
-      </h2>
-
-      <div class="body-copy">
-        Email, event listings and social links are being finalised — check back soon, or find CHIMAERA at the
-        next gathering.
-      </div>
-
-    </div>
-
-  </section>
-
 
 </main>
 </Base>

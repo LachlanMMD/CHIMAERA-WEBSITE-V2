@@ -1,0 +1,16 @@
+---
+# Past event, carried over from the old site. Check the details, then set draft: false.
+draft: false
+title: "Roskilde Festival '26"
+medium: "Community Painting"
+date: "2026-06-30"
+time: "13:00"
+venue: "Roskilde Festival, Camp Cirkus"
+area: "Dream City"
+poster: "/assets/graphics/poster-roskilde-festival-2026.webp"
+duration: "2–3 hours"
+---
+
+Bring something from your wardrobe and give it a second life through colour, texture and experiment.
+
+A hands-on evening of textile painting, working straight onto your own garment with guidance along the way.
