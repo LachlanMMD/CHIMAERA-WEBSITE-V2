@@ -14,11 +14,11 @@ time: "16:00" # HH:MM, 24h
 venue: "Friheden"
 area: "Nørrebro"
 
-price: 50 # kr, shown in the button
+price: 65 # kr, shown in the button
 stripeUrl: "https://buy.stripe.com/..."
 soldOut: false # true → stamp + "Join the waitlist"
 
-poster: "/assets/images/events/short-name-yyyy-mm/poster.jpg" # in public/, 3:4, ~1280px wide
+poster: "/assets/images/events/poster-friend-dating.webp" # in public/, 3:4, ~1280px wide
 
 duration: "2–3 hours"
 bring: "We recommend wearing anything but white, unless you want a new look for your clothes:)"
