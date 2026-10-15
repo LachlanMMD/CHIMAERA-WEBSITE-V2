@@ -37,6 +37,8 @@ const {
 } = Astro.props;
 
 const canonical = new URL(path, Astro.site).href;
+// Social apps ignore relative og:image paths, so resolve against the site URL.
+const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).href : undefined;
 ---
 
 <!doctype html>
@@ -57,7 +59,7 @@ const canonical = new URL(path, Astro.site).href;
     <meta property="og:site_name" content="CHIMAERA" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={ogDescription} />
-    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
     <meta property="og:url" content={canonical} />
 
     <meta name="twitter:card" content="summary_large_image" />
