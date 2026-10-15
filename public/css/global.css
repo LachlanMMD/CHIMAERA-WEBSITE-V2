@@ -121,9 +121,13 @@ body.nav-open {
 /* Atmosphere canvas sits behind everything, persistent, non-interactive */
 #atmosphere-canvas {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  /* Large viewport: covers the screen with the phone's browser bar shown
+     or hidden, so scrolling never resizes (and wipes) the canvas. */
+  height: 100lvh;
   z-index: 0;
   pointer-events: none;
 }
