@@ -1,0 +1,93 @@
+---
+import Base from "../layouts/Base.astro";
+
+const UPDATED = "15.10.2026";
+const EMAIL = "info@chimaeracollective.dk";
+---
+
+<Base
+  title={"Terms & conditions — CHIMAERA"}
+  description={"Ticket terms for CHIMAERA events: buying tickets, refunds up to 48 hours before, cancellations and complaints."}
+  path="/terms/"
+  styles={["/css/page.css", "/css/legal.css"]}
+  scripts={["/js/page-chrome.js"]}
+>
+<main id="main">
+
+  <section class="page-intro page-intro--legal field-atmosphere" data-field="coral" aria-labelledby="terms-heading">
+    <div class="container">
+      <p class="eyebrow">legal</p>
+      <h1 id="terms-heading">terms &amp; conditions</h1>
+    </div>
+  </section>
+
+  <article class="legal field-atmosphere" data-field="coral">
+    <div class="container legal__inner">
+
+      <p class="legal__updated eyebrow">Last updated {UPDATED}</p>
+
+      <section>
+        <h2>Seller</h2>
+        <p class="body-copy">
+          CHIMAERA.CPH, CVR 45933091, Ved Linden 4, 3. th., 2300 Copenhagen S, Denmark, <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2>Buying tickets</h2>
+        <p class="body-copy">
+          Tickets are bought through our payment provider Stripe. Prices are in Danish kroner. Payment is taken at
+          purchase. You receive a confirmation by email, which is your ticket.
+        </p>
+      </section>
+
+      <section>
+        <h2>Right of withdrawal</h2>
+        <p class="body-copy">
+          Tickets carry no 14-day right of withdrawal, because they are for a leisure event on a specific date
+          (Danish Consumer Contracts Act, section 18(2)(xii)). Our refund rules below apply instead.
+        </p>
+      </section>
+
+      <section>
+        <h2>Refunds</h2>
+        <p class="body-copy">
+          You get a full refund if you cancel no later than 48 hours before the event starts. Email <a href={`mailto:${EMAIL}`}>{EMAIL}</a> with your name and order confirmation. We refund to the same
+          payment method within 14 days. Cancellations later than 48 hours before the start are not refunded.
+        </p>
+      </section>
+
+      <section>
+        <h2>Cancellations and changes</h2>
+        <p class="body-copy">
+          If we cancel an event, you automatically get a full refund. If we significantly change the date or
+          venue, you can choose a full refund instead of attending.
+        </p>
+      </section>
+
+      <section>
+        <h2>Photos</h2>
+        <p class="body-copy">
+          We take photos at our events. See our <a href="/privacy/">privacy policy</a> for how photos are used and
+          how to have one removed.
+        </p>
+      </section>
+
+      <section>
+        <h2>Complaints</h2>
+        <p class="body-copy">
+          Contact us first at <a href={`mailto:${EMAIL}`}>{EMAIL}</a>. If we can't resolve it, you can complain to
+          the Danish Centre for Complaint Resolution via <a href="https://www.forbrug.dk" rel="noopener">forbrug.dk</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2>Governing law</h2>
+        <p class="body-copy">Danish law applies. Disputes are settled by the Danish courts.</p>
+      </section>
+
+    </div>
+  </article>
+
+</main>
+</Base>
