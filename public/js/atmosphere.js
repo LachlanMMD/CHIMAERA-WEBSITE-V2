@@ -420,16 +420,29 @@
        * leave the landing unrevealed. Fall back to 1px and let the next
        * real resize event fix the size.
        */
-      width = Math.max(1, window.innerWidth || 0);
-      height = Math.max(1, window.innerHeight || 0);
+      /*
+       * Size from the canvas box itself, which CSS makes the *large*
+       * viewport (100lvh, global.css). On phones the browser bar showing
+       * and hiding while scrolling fires resize with a new innerHeight but
+       * leaves the large viewport unchanged — so nothing is reallocated.
+       * Reassigning canvas.width/height wipes the bitmap, and the wiped
+       * frames showed the pale page through: the white flash on scroll.
+       */
+      var rect = canvas.getBoundingClientRect();
+
+      var nextWidth = Math.max(1, Math.round(rect.width) || window.innerWidth || 0);
+      var nextHeight = Math.max(1, Math.round(rect.height) || window.innerHeight || 0);
+
+      if (nextWidth === width && nextHeight === height) {
+        return;
+      }
+
+      width = nextWidth;
+      height = nextHeight;
 
       canvas.width = Math.round(width * dpr);
 
       canvas.height = Math.round(height * dpr);
-
-      canvas.style.width = width + "px";
-
-      canvas.style.height = height + "px";
 
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
@@ -453,6 +466,10 @@
 
       if (REDUCED_MOTION) {
         drawFrame(FROZEN_T);
+      } else if (running) {
+        // A real resize (rotation, window resize) still clears the canvas —
+        // repaint now instead of waiting for the next throttled frame.
+        drawFrame(performance.now());
       }
     }
 
