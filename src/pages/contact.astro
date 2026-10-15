@@ -11,73 +11,52 @@ import Base from "../layouts/Base.astro";
 const WEB3FORMS_ACCESS_KEY = "8c2a414d-7541-4ab4-8c15-64313f25b0bc";
 ---
 
-<Base
-  title={"Contact — CHIMAERA"}
-  description={"Get in touch with CHIMAERA, a Copenhagen creative collective."}
-  path="/contact/"
-  styles={["/css/page.css"]}
-  scripts={["/js/page-chrome.js", "/js/contact-form.js"]}
->
-<main id="main">
+<Base title={"Contact — CHIMAERA"} description={"Get in touch with CHIMAERA, a Copenhagen creative collective."} path="/contact/" styles={["/css/page.css"]} scripts={["/js/page-chrome.js", "/js/contact-form.js"]}>
+  <main id="main">
+    <section class="page-screen field-atmosphere" data-field="coral" aria-labelledby="contact-heading">
+      <div class="container page-screen__inner page-screen__inner--split">
+        <header class="page-screen__intro">
+          <h1 id="contact-heading">contact</h1>
 
-  <section class="page-screen field-atmosphere" data-field="coral" aria-labelledby="contact-heading">
+          <p class="body-copy">
+            Come make something with us. Artists, venues, questions — write to us here or at{" "}
+            <a href="mailto:info@chimaeracollective.dk">info@chimaeracollective.dk</a>.
+          </p>
+        </header>
 
-    <div class="container page-screen__inner page-screen__inner--split">
+        <div class="contact-box">
+          <form class="contact-form" action="https://api.web3forms.com/submit" method="POST" data-contact-form>
+            <h2 class="contact-form__heading">send us a message</h2>
 
-      <header class="page-screen__intro">
-        <p class="eyebrow">contact</p>
+            <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+            <input type="hidden" name="subject" value="New message from the CHIMAERA website" />
+            <input type="hidden" name="from_name" value="chimaera website" />
+            <!-- Honeypot: humans never see or tick this; bots do, and Web3Forms drops them. -->
+            <input type="checkbox" name="botcheck" class="visually-hidden" tabindex="-1" autocomplete="off" />
 
-        <h1 id="contact-heading">contact</h1>
+            <div class="contact-form__row">
+              <label class="contact-form__field">
+                <span>Name</span>
+                <input type="text" name="name" autocomplete="name" required />
+              </label>
 
-        <p class="body-copy">
-          Come make something with us. Artists, venues, questions — write to us here or at{" "}
-          <a href="mailto:info@chimaeracollective.dk">info@chimaeracollective.dk</a>.
-        </p>
-      </header>
-
-      <div class="contact-box">
-
-        <form
-          class="contact-form"
-          action="https://api.web3forms.com/submit"
-          method="POST"
-          data-contact-form
-        >
-          <h2 class="contact-form__heading">send us a message</h2>
-
-          <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
-          <input type="hidden" name="subject" value="New message from the CHIMAERA website" />
-          <input type="hidden" name="from_name" value="chimaera website" />
-          <!-- Honeypot: humans never see or tick this; bots do, and Web3Forms drops them. -->
-          <input type="checkbox" name="botcheck" class="visually-hidden" tabindex="-1" autocomplete="off" />
-
-          <div class="contact-form__row">
-            <label class="contact-form__field">
-              <span>Name</span>
-              <input type="text" name="name" autocomplete="name" required />
-            </label>
+              <label class="contact-form__field">
+                <span>Email</span>
+                <input type="email" name="email" autocomplete="email" required />
+              </label>
+            </div>
 
             <label class="contact-form__field">
-              <span>Email</span>
-              <input type="email" name="email" autocomplete="email" required />
+              <span>Message</span>
+              <textarea name="message" rows="4" required></textarea>
             </label>
-          </div>
 
-          <label class="contact-form__field">
-            <span>Message</span>
-            <textarea name="message" rows="4" required></textarea>
-          </label>
+            <button class="contact-form__button" type="submit">Send <span aria-hidden="true">→</span></button>
 
-          <button class="contact-form__button" type="submit">Send <span aria-hidden="true">→</span></button>
-
-          <p class="contact-form__status" role="status" aria-live="polite" data-contact-status></p>
-        </form>
-
+            <p class="contact-form__status" role="status" aria-live="polite" data-contact-status></p>
+          </form>
+        </div>
       </div>
-
-    </div>
-
-  </section>
-
-</main>
+    </section>
+  </main>
 </Base>

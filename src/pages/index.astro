@@ -10,23 +10,19 @@ import Base from "../layouts/Base.astro";
 
     <!-- Landing + next-event strip fill the first screen together (.first-screen). -->
     <div class="first-screen">
+      <section class="landing" data-field="coral" aria-label="CHIMAERA">
+        <video class="landing__gif" autoplay muted playsinline preload="auto" aria-hidden="true">
+          <source src="/assets/video/intro.webm" type="video/webm" />
+        </video>
 
-  <section class="landing" data-field="coral" aria-label="CHIMAERA">
+        <video class="landing__video" autoplay muted loop playsinline aria-hidden="true" poster="/assets/video/landing-vhs-poster.jpg" width="640" height="360">
+          <source src="/assets/video/landing-vhs.webm" type="video/webm" />
 
-    <video class="landing__gif" autoplay muted playsinline preload="auto" aria-hidden="true">
-      <source src="/assets/video/intro.webm" type="video/webm">
-    </video>
+          <source src="/assets/video/landing-vhs.mp4" type="video/mp4" />
+        </video>
+      </section>
 
-      <video class="landing__video" autoplay muted loop playsinline aria-hidden="true" poster="/assets/video/landing-vhs-poster.jpg" width="640" height="360">
-        <source src="/assets/video/landing-vhs.webm" type="video/webm" />
-
-        <source src="/assets/video/landing-vhs.mp4" type="video/mp4" />
-      </video>
-
-  </section>
-
-
-    <!-- =======================================================
+      <!-- =======================================================
        NEXT EVENT
        variant: Line — ruled caption band on the atmosphere.
        Static markup is the no-JS fallback; js/next-event.js
@@ -34,32 +30,28 @@ import Base from "../layouts/Base.astro";
        replacing the fallback link. See docs/HOMEPAGE-SPEC.md §3.
        ======================================================= -->
 
-    <section class="next-event field-atmosphere" id="next-event" data-field="coral" aria-labelledby="next-event-label">
-      <div class="next-event__inner container">
-        <p class="next-event__label" id="next-event-label">Next event</p>
+      <section class="next-event field-atmosphere" id="next-event" data-field="coral" aria-labelledby="next-event-label">
+        <div class="next-event__inner container">
+          <p class="next-event__label" id="next-event-label">Next event</p>
 
-        <div class="next-event__row" data-next-event-row hidden>
-          <div class="next-event__info">
-            <p class="next-event__date" data-next-event-date></p>
-            <p class="next-event__title-venue">
-              <span class="next-event__title" data-next-event-title></span>
-              <span class="next-event__venue" data-next-event-venue></span>
-            </p>
+          <div class="next-event__row" data-next-event-row hidden>
+            <div class="next-event__info">
+              <p class="next-event__date" data-next-event-date></p>
+              <p class="next-event__title-venue">
+                <span class="next-event__title" data-next-event-title></span>
+                <span class="next-event__venue" data-next-event-venue></span>
+              </p>
+            </div>
+
+            <div class="next-event__action" data-next-event-action></div>
           </div>
 
-          <div class="next-event__action" data-next-event-action></div>
+          <p class="next-event__fallback" data-next-event-fallback>
+            <a href="#events">See upcoming events</a>
+          </p>
         </div>
-
-      <p class="next-event__fallback" data-next-event-fallback>
-        <a href="#events">See upcoming events</a>
-      </p>
-
+      </section>
     </div>
-
-  </section>
-
-    </div>
-
 
     <!-- =======================================================
        HERO / PROPOSITION
@@ -79,14 +71,10 @@ import Base from "../layouts/Base.astro";
         <div class="homepage-hero__body body-copy">Every gathering brings artists and participants together around the act of making.</div>
       </div>
 
-    <figure class="homepage-hero__figure">
-      <img src="/assets/images/optimized/materials-flatlay-640.jpg"
-        srcset="/assets/images/optimized/materials-flatlay-640.jpg 640w, /assets/images/optimized/materials-flatlay-1280.jpg 1280w"
-        sizes="(min-width: 64rem) 25rem, 90vw" width="640" height="853" alt="" loading="lazy" decoding="async">
-    </figure>
-
-  </section>
-
+      <figure class="homepage-hero__figure">
+        <img src="/assets/images/optimized/materials-flatlay-640.jpg" srcset="/assets/images/optimized/materials-flatlay-640.jpg 640w, /assets/images/optimized/materials-flatlay-1280.jpg 1280w" sizes="(min-width: 64rem) 25rem, 90vw" width="640" height="853" alt="" loading="lazy" decoding="async" />
+      </figure>
+    </section>
 
     <!-- =======================================================
        THREAD — dashed line drawn on scroll through 02–04, ending
@@ -95,138 +83,112 @@ import Base from "../layouts/Base.astro";
        ======================================================= -->
 
     <div class="thread-wrap" data-thread>
+      <svg class="thread" aria-hidden="true" focusable="false"></svg>
 
-    <svg class="thread" aria-hidden="true" focusable="false"></svg>
-
-    <!-- =======================================================
+      <!-- =======================================================
        ARTIST
        Two columns ≥64rem (text left, photo right, inset).
        Spec: docs/HOMEPAGE-SPEC.md §3 section 2.
        ======================================================= -->
 
-    <section class="homepage-artist field-atmosphere" id="artist" data-field="coral" aria-label="The artist">
-      <div class="encounter__text encounter__text--artist">
-        <p class="eyebrow">02 — the artist</p>
+      <section class="homepage-artist field-atmosphere" id="artist" data-field="coral" aria-label="The artist">
+        <div class="encounter__text encounter__text--artist">
+          <p class="eyebrow">02 — the artist</p>
 
-      <h2>
-        artists without a stage.
-      </h2>
+          <h2>artists without a stage.</h2>
 
-        <div class="body-copy">Placeholder copy — CHIMAERA puts artists, their name, craft and work into the spotlight: a real audience for people without an established platform.</div>
-      </div>
+          <div class="body-copy">As young artists ourselves, Chimaera prioritizes putting artists, their name, their craft and their work into the spotlight, giving local artists a chance to share themselves and their art with a brand new audience resulting in a lasting impact for their work and the people who get to experience it.</div>
 
-    <figure class="encounter__photo encounter__photo--artist">
-      <img src="/assets/images/optimized/ladder-display-640.jpg"
-        srcset="/assets/images/optimized/ladder-display-640.jpg 640w, /assets/images/optimized/ladder-display-1280.jpg 1280w"
-        sizes="(min-width: 64rem) 27.5rem, 90vw" width="640" height="859" alt="" loading="lazy" decoding="async">
-    </figure>
+          <figure class="encounter__photo encounter__photo--artist">
+            <img src="/assets/images/optimized/ladder-display-640.jpg" srcset="/assets/images/optimized/ladder-display-640.jpg 640w, /assets/images/optimized/ladder-display-1280.jpg 1280w" sizes="(min-width: 64rem) 27.5rem, 90vw" width="640" height="859" alt="" loading="lazy" decoding="async" />
+          </figure>
+        </div>
 
-  </section>
-
-
-    <!-- =======================================================
+        <!-- =======================================================
        PEOPLE
        ======================================================= -->
 
-  <section class="homepage-people field-atmosphere" id="people" data-field="coral" aria-label="The people">
+        <section class="homepage-people field-atmosphere" id="people" data-field="coral" aria-label="The people">
+          <div class="encounter__text encounter__text--participant">
+            <p class="eyebrow">03 — the people</p>
 
-    <div class="encounter__text encounter__text--participant">
+            <h2>make something yourself.</h2>
 
-      <p class="eyebrow">
-        03 — the people
-      </p>
+            <div class="body-copy">Chimaera makes artistic practice accessible through creating and doing, learning alongside others, and taking something home with them. Creativity and creating is an essential part of the human experience and Chimaera strives to bring people together in this process, creating art and connections, simultaneously.</div>
 
-        <h2>make something yourself.</h2>
+            <figure class="encounter__photo encounter__photo--participant">
+              <img src="/assets/images/optimized/gathering-laughing-640.jpg" srcset="/assets/images/optimized/gathering-laughing-640.jpg 640w, /assets/images/optimized/gathering-laughing-1280.jpg 1280w" sizes="(min-width: 64rem) 30rem, 90vw" width="640" height="960" alt="" loading="lazy" decoding="async" />
+            </figure>
+          </div>
 
-      <div class="body-copy">
-        Placeholder copy — CHIMAERA makes artistic practice accessible through doing: learning alongside
-        others, and taking something home.
-      </div>
-
-    </div>
-
-      <figure class="encounter__photo encounter__photo--participant">
-        <img src="/assets/images/optimized/gathering-laughing-640.jpg" srcset="/assets/images/optimized/gathering-laughing-640.jpg 640w, /assets/images/optimized/gathering-laughing-1280.jpg 1280w" sizes="(min-width: 64rem) 30rem, 90vw" width="640" height="960" alt="" loading="lazy" decoding="async" />
-      </figure>
-    </section>
-
-    <!-- =======================================================
+          <!-- =======================================================
        PRACTICE
        Copy + "Get in touch" link, static 4-image collage.
        Reveal interaction comes later (spec §7).
        ======================================================= -->
 
-  <section class="homepage-practice field-atmosphere" id="practice" data-field="coral" aria-labelledby="practice-heading">
+          <section class="homepage-practice field-atmosphere" id="practice" data-field="coral" aria-labelledby="practice-heading">
+            <div class="homepage-practice__copy">
+              <p class="eyebrow">04 — the practice</p>
 
-    <div class="homepage-practice__copy">
+              <h2 id="practice-heading">[placeholder heading]</h2>
 
-      <p class="eyebrow">
-        04 — the practice
-      </p>
+              <div class="body-copy">[placeholder]</div>
 
-        <h2 id="practice-heading">[placeholder heading]</h2>
+              <a class="homepage-practice__link" href="/contact/"> Get in touch → </a>
+            </div>
 
-        <div class="body-copy">[placeholder]</div>
+            <div class="practice-collage" aria-hidden="true">
+              <figure class="practice-collage__item practice-collage__item--1">
+                <img src="/assets/images/optimized/workshop-sketching-640.jpg" width="640" height="960" alt="" loading="lazy" decoding="async" />
+              </figure>
+              <figure class="practice-collage__item practice-collage__item--2">
+                <img src="/assets/images/optimized/workshop-painting-held-640.jpg" width="640" height="960" alt="" loading="lazy" decoding="async" />
+              </figure>
+              <figure class="practice-collage__item practice-collage__item--3">
+                <img src="/assets/images/optimized/two-women-painting-640.jpg" width="640" height="848" alt="" loading="lazy" decoding="async" />
+              </figure>
+              <figure class="practice-collage__item practice-collage__item--4">
+                <img src="/assets/images/optimized/table-flowers-640.jpg" width="640" height="960" alt="" loading="lazy" decoding="async" />
+              </figure>
+            </div>
+          </section>
+        </section>
 
-        <a class="homepage-practice__link" href="/contact/"> Get in touch → </a>
-      </div>
-
-    <div class="practice-collage" aria-hidden="true">
-      <figure class="practice-collage__item practice-collage__item--1">
-        <img src="/assets/images/optimized/workshop-sketching-640.jpg" width="640" height="960" alt="" loading="lazy" decoding="async">
-      </figure>
-      <figure class="practice-collage__item practice-collage__item--2">
-        <img src="/assets/images/optimized/workshop-painting-held-640.jpg" width="640" height="960" alt="" loading="lazy" decoding="async">
-      </figure>
-      <figure class="practice-collage__item practice-collage__item--3">
-        <img src="/assets/images/optimized/two-women-painting-640.jpg" width="640" height="848" alt="" loading="lazy" decoding="async">
-      </figure>
-      <figure class="practice-collage__item practice-collage__item--4">
-        <img src="/assets/images/optimized/table-flowers-640.jpg" width="640" height="960" alt="" loading="lazy" decoding="async">
-      </figure>
-    </div>
-
-  </section>
-
-    </div>
-
-
-    <!-- =======================================================
+        <!-- =======================================================
        EVENTS
        Upcoming grid + past strip, rendered by js/events.js from
        data/events.json. See docs/HOMEPAGE-SPEC.md §3 section 5.
        ======================================================= -->
 
-  <section class="homepage-events field-atmosphere" id="events" data-field="coral" aria-labelledby="events-heading">
+        <section class="homepage-events field-atmosphere" id="events" data-field="coral" aria-labelledby="events-heading">
+          <div class="homepage-events__header">
+            <div>
+              <p class="eyebrow">05 — join us</p>
 
-    <div class="homepage-events__header">
+              <h2 id="events-heading">Upcoming</h2>
+            </div>
 
-      <div>
-        <p class="eyebrow">
-          05 — join us
-        </p>
+            <a class="homepage-events__artist-link" href="/contact/"> Are you an artist? → </a>
+          </div>
 
-          <h2 id="events-heading">Upcoming</h2>
-        </div>
+          <div class="homepage-events__grid" data-events-grid></div>
 
-        <a class="homepage-events__artist-link" href="/contact/"> Are you an artist? → </a>
-      </div>
+          <p class="homepage-events__empty body-copy" data-events-empty>
+            New events soon — <a href="#footer">join the newsletter</a>
+          </p>
 
-      <div class="homepage-events__grid" data-events-grid></div>
+          <div class="homepage-events__past" hidden>
+            <div class="homepage-events__past-header">
+              <p class="eyebrow">Past events</p>
 
-      <p class="homepage-events__empty body-copy" data-events-empty>
-        New events soon — <a href="#footer">join the newsletter</a>
-      </p>
+              <a class="homepage-events__archive-link" href="/archive/"> Archive → </a>
+            </div>
 
-      <div class="homepage-events__past" hidden>
-        <div class="homepage-events__past-header">
-          <p class="eyebrow">Past events</p>
-
-          <a class="homepage-events__archive-link" href="/archive/"> Archive → </a>
-        </div>
-
-        <div class="homepage-events__past-strip" data-events-past></div>
-      </div>
-    </section>
+            <div class="homepage-events__past-strip" data-events-past></div>
+          </div>
+        </section>
+      </section>
+    </div>
   </main>
 </Base>
