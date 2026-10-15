@@ -15,10 +15,10 @@ venue: "Friheden"
 area: "Nørrebro"
 
 price: 65 # kr, shown in the button
-stripeUrl: "https://buy.stripe.com/..."
+stripeUrl: "https://buy.stripe.com/eVq5kCepu2zigwx0rk2sM0e"
 soldOut: false # true → stamp + "Join the waitlist"
 
-poster: "/assets/images/events/poster-friend-dating.webp" # in public/, 3:4, ~1280px wide
+poster: "/assets/graphics/poster-frienddating-2026.webp" # in public/, 3:4, ~1280px wide
 
 duration: "2–3 hours"
 bring: "We recommend wearing anything but white, unless you want a new look for your clothes:)"
