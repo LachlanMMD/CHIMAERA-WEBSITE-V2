@@ -199,34 +199,46 @@
 }
 
 /*
- * The star is an <img>, so `color` above can't recolour it. Like the
- * wordmark, two versions share one grid cell and data-ink picks one:
- * white over coral (on-dark, the default) and while the menu is open,
- * coral over a pale field (on-light).
+ * The star is an <img>, so `color` above can't recolour it. Two versions
+ * share one grid cell. Desktop always shows the coral star. Below 64rem
+ * (the site's desktop breakpoint) the coral atmosphere fills the phone
+ * screen, so data-ink picks the version instead: white over coral (on-dark,
+ * the default) and while the menu is open, coral over a pale field
+ * (on-light).
  */
 
 .nav-star-button__img {
   grid-area: 1 / 1;
 }
 
-.nav-star-button__img--coral {
+.nav-star-button__img--white {
   opacity: 0;
 }
 
-.nav-star-button[data-ink="on-light"] .nav-star-button__img--coral {
-  opacity: 1;
-}
+@media (max-width: 63.99rem) {
+  .nav-star-button__img--coral {
+    opacity: 0;
+  }
 
-.nav-star-button[data-ink="on-light"] .nav-star-button__img--white {
-  opacity: 0;
-}
+  .nav-star-button__img--white {
+    opacity: 1;
+  }
 
-.nav-star-button[aria-expanded="true"] .nav-star-button__img--coral {
-  opacity: 0;
-}
+  .nav-star-button[data-ink="on-light"] .nav-star-button__img--coral {
+    opacity: 1;
+  }
 
-.nav-star-button[aria-expanded="true"] .nav-star-button__img--white {
-  opacity: 1;
+  .nav-star-button[data-ink="on-light"] .nav-star-button__img--white {
+    opacity: 0;
+  }
+
+  .nav-star-button[aria-expanded="true"] .nav-star-button__img--coral {
+    opacity: 0;
+  }
+
+  .nav-star-button[aria-expanded="true"] .nav-star-button__img--white {
+    opacity: 1;
+  }
 }
 
 /* ================================================================
