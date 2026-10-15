@@ -1,0 +1,166 @@
+---
+import Base from "../layouts/Base.astro";
+
+const UPDATED = "15.10.2026";
+const EMAIL = "info@chimaeracollective.dk";
+
+// What we process and why: one entry per situation.
+const uses = [
+  {
+    title: "Newsletter",
+    data: "Email, optionally name",
+    purpose: "Sending news and ticket releases",
+    basis: "Consent, Art. 6(1)(a)",
+    retention: "Until you unsubscribe",
+  },
+  {
+    title: "Ticket purchase",
+    data: "Name, email, purchase and payment status",
+    purpose: "Delivering your ticket and handling refunds",
+    basis: "Contract, Art. 6(1)(b)",
+    retention: "5 years after the end of the financial year (Danish Bookkeeping Act)",
+  },
+  {
+    title: "Contacting us",
+    data: "Name, email, message content",
+    purpose: "Answering your enquiry",
+    basis: "Legitimate interest, Art. 6(1)(f)",
+    retention: "Up to 12 months after last contact",
+  },
+  {
+    title: "Artist applications",
+    data: "Name, contact details, portfolio, application content",
+    purpose: "Assessing and planning a collaboration",
+    basis: "Steps prior to a contract, Art. 6(1)(b)",
+    retention: "Up to 1 year",
+  },
+  {
+    title: "Photos at events",
+    data: "Images in which you may appear",
+    purpose: "Documenting and sharing our events",
+    basis: "Legitimate interest for situational photos, Art. 6(1)(f); consent for portraits",
+    retention: "Until you object or the image is removed",
+  },
+  {
+    title: "Visiting the website",
+    data: "IP address and technical log data",
+    purpose: "Running and securing the site, serving fonts",
+    basis: "Legitimate interest, Art. 6(1)(f)",
+    retention: "Per the provider's log policy",
+  },
+];
+---
+
+<Base
+  title={"Privacy policy — CHIMAERA"}
+  description={"How CHIMAERA.CPH collects, uses and protects personal data: newsletter, tickets, messages, artist applications and photos at events."}
+  path="/privacy/"
+  styles={["/css/page.css", "/css/legal.css"]}
+  scripts={["/js/page-chrome.js"]}
+>
+<main id="main">
+
+  <section class="page-intro page-intro--legal field-atmosphere" data-field="coral" aria-labelledby="privacy-heading">
+    <div class="container">
+      <p class="eyebrow">legal</p>
+      <h1 id="privacy-heading">privacy policy</h1>
+    </div>
+  </section>
+
+  <article class="legal field-atmosphere" data-field="coral">
+    <div class="container legal__inner">
+
+      <p class="legal__updated eyebrow">Last updated {UPDATED}</p>
+
+      <section>
+        <h2>Data controller</h2>
+        <p class="body-copy">
+          CHIMAERA.CPH, CVR 45933091, Ved Linden 4, 3. th., 2300 Copenhagen S, Denmark.
+          Contact: <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2>What we process and why</h2>
+
+        <div class="legal-uses">
+          {uses.map((use) => (
+            <div class="legal-use">
+              <h3>{use.title}</h3>
+              <dl>
+                <dt>Data</dt><dd>{use.data}</dd>
+                <dt>Purpose</dt><dd>{use.purpose}</dd>
+                <dt>Legal basis</dt><dd>{use.basis}</dd>
+                <dt>Kept</dt><dd>{use.retention}</dd>
+              </dl>
+            </div>
+          ))}
+        </div>
+
+        <p class="body-copy legal__note">
+          We never receive your card details. Payments are handled by Stripe, which is an independent data
+          controller for payment data.
+        </p>
+      </section>
+
+      <section>
+        <h2>Photos</h2>
+        <p class="body-copy">
+          We take photos at our events. Situational photos, where the activity is the focus, are used on our
+          website and social media. Portraits, where you are the focus, are used only with your consent. If you
+          don't want to be photographed, tell us on the day. To have a photo removed, email <a href={`mailto:${EMAIL}`}>{EMAIL}</a> and we will remove it.
+        </p>
+      </section>
+
+      <section>
+        <h2>Recipients and processors</h2>
+        <ul>
+          <li>MailerLite: newsletters.</li>
+          <li>Stripe: payments and receipts (independent controller).</li>
+          <li>Web3Forms: delivers messages sent through our contact form to our inbox.</li>
+          <li>Vercel: website hosting.</li>
+          <li>Adobe Fonts: typefaces. Your browser loads them from Adobe's servers, which therefore receive your IP address.</li>
+        </ul>
+        <p class="body-copy legal__note">
+          Some providers process data outside the EU, including in the USA. Transfers are based on the EU-U.S.
+          Data Privacy Framework or the European Commission's standard contractual clauses.
+        </p>
+      </section>
+
+      <section>
+        <h2>Cookies</h2>
+        <p class="body-copy">
+          The website currently uses no analytics or marketing cookies. If we introduce them, we will update this
+          policy and ask for your consent first.
+        </p>
+      </section>
+
+      <section>
+        <h2>Your rights</h2>
+        <p class="body-copy">
+          You have the right to access, rectification, erasure, restriction of processing and data portability.
+          You can object to processing based on legitimate interest, and you can withdraw consent at any time, for
+          example by unsubscribing. Email <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2>Complaints</h2>
+        <p class="body-copy">
+          You can complain to the Danish Data Protection Agency (Datatilsynet), Carl Jacobsens Vej 35, 2500 Valby, <a href="mailto:dt@datatilsynet.dk">dt@datatilsynet.dk</a>, <a href="https://www.datatilsynet.dk" rel="noopener">datatilsynet.dk</a>.
+        </p>
+      </section>
+
+      <section>
+        <h2>Changes</h2>
+        <p class="body-copy">
+          We update this policy when our processing changes. The date at the top shows the latest version.
+          Ticket terms are in our <a href="/terms/">terms &amp; conditions</a>.
+        </p>
+      </section>
+
+    </div>
+  </article>
+
+</main>
+</Base>
