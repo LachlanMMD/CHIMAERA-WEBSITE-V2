@@ -67,6 +67,13 @@
   visibility: hidden;
 }
 
+/* Narrow screens skip the intro (js/homepage.js); hide it before JS runs. */
+@media (max-width: 63.99rem) {
+  .landing__gif {
+    display: none;
+  }
+}
+
 /* ==========================================================================
    LANDING VHS VIDEO
    ========================================================================== */

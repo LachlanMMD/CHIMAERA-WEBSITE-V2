@@ -127,6 +127,7 @@ The fluid coral/pale field. Coral on the left, pale on the right, a soft wobblin
 | `--atmosphere-mouse` | 1 | × cursor push (desktop, fine pointer). 0 = off |
 | `--atmosphere-coral`, `--atmosphere-pale` | colour tokens | The two colours (hex) |
 | `--atmosphere-coral-intensity`, `--atmosphere-opacity` | 1 | Coral alpha, canvas opacity |
+| `--atmosphere-midpoint-lock` | -1 | Pins the boundary (0–1) over opening/scroll/nav states; -1 = off. Below 64rem tokens.css sets it to 0.95 with calmer speed/amplitude/breath (read once at load) |
 
 **Per-section coverage:** `STOPS` in `public/js/homepage.js` (landing .75, 01–04 .50, 05 .75). The midpoint eases between section centres as you scroll.
 

@@ -34,6 +34,7 @@
   --atmosphere-breath: 0.03;                /* idle breath: boundary swing, fraction of width; 0 = off */
   --atmosphere-breath-period: 8;            /* idle breath: seconds per breath */
   --atmosphere-breath-softness: 0.2;        /* idle breath: how much the edge softens/sharpens */
+  --atmosphere-midpoint-lock: -1;           /* pin boundary 0–1; -1 = follow sections */
 
   /* ---- Typography ----
      Served by Adobe Fonts, kit koo7phy (see the <link> tags in each
@@ -119,6 +120,17 @@
   --chalk-duration: 1100ms; /* drawing */
   --chalk-hold: 2500ms;     /* stays fully visible after drawing */
   --chalk-fade: 900ms;      /* then fades out and is removed */
+}
+
+/* Narrow screens: almost all coral, barely moving. Read once at page load. */
+@media (max-width: 63.99rem) {
+  :root {
+    --atmosphere-midpoint-lock: 0.95;
+    --atmosphere-speed: 0.5;
+    --atmosphere-amplitude: 0.35;
+    --atmosphere-breath: 0.008;
+    --atmosphere-breath-softness: 0.1;
+  }
 }
 
 @media (prefers-color-scheme: dark) {

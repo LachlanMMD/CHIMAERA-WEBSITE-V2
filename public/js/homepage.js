@@ -290,7 +290,55 @@
 
     var header = document.querySelector(".site-header");
 
-    if (landing && intro) {
+    var SKIP_INTRO = window.matchMedia("(max-width: 63.99rem)").matches;
+
+    /*
+     * ----------------------------------------------------------
+     * NO-INTRO PATH (below 64rem)
+     * ----------------------------------------------------------
+     *
+     * The intro never plays: stop it loading and remove it, then
+     * run the same reveals the intro's end would. The delays let
+     * the initial opacity:0 state paint so the CSS fades run.
+     *
+     * NO_INTRO_REVEAL_DELAY: before .landing--revealed.
+     * NO_INTRO_HEADER_DELAY: before .header--revealing.
+     */
+
+    var NO_INTRO_REVEAL_DELAY = 300;
+    var NO_INTRO_HEADER_DELAY = 600;
+
+    if (SKIP_INTRO) {
+      if (intro) {
+        intro.pause();
+        Array.prototype.forEach.call(intro.querySelectorAll("source"), function (source) {
+          source.remove();
+        });
+        intro.removeAttribute("src");
+        intro.load();
+        intro.remove();
+      }
+
+      try {
+        atmosphere.finishOpeningState();
+      } catch (error) {
+        console.error("Atmosphere: finishOpeningState failed", error);
+      }
+
+      if (landing) {
+        window.setTimeout(function () {
+          landing.classList.add("landing--revealed");
+        }, NO_INTRO_REVEAL_DELAY);
+      }
+
+      if (header) {
+        window.setTimeout(function () {
+          header.classList.add("header--revealing");
+        }, NO_INTRO_HEADER_DELAY);
+      }
+    }
+
+    if (!SKIP_INTRO && landing && intro) {
       /*
        * ----------------------------------------------------------
        * OPENING TIMING

@@ -73,6 +73,8 @@
     amplitudeScale: 1,
     softnessScale: 1,
     mouseScale: 1,
+    /* -1 = off. 0–1 pins the boundary there, ignoring opening/scroll/nav states. */
+    midpointLock: -1,
   };
 
   // ============================================================
@@ -616,7 +618,8 @@
         // MIDPOINT
         // ======================================================
 
-        var centerXFrac = animated.colourMidpointX + globalSwayFrac + breathFrac + wobbleFrac + verticalTilt + mouse.dxFrac;
+        var baseMidX = config.midpointLock >= 0 ? config.midpointLock : animated.colourMidpointX;
+        var centerXFrac = baseMidX + globalSwayFrac + breathFrac + wobbleFrac + verticalTilt + mouse.dxFrac;
 
         centerXFrac = clamp(centerXFrac, 0.04, 0.96);
 
@@ -1041,6 +1044,7 @@
     num("--atmosphere-breath", "breathAmplitude");
     num("--atmosphere-breath-period", "breathPeriod");
     num("--atmosphere-breath-softness", "breathSoftness");
+    num("--atmosphere-midpoint-lock", "midpointLock");
   }
 
   function init() {

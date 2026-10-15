@@ -39,7 +39,10 @@ const evenings = await Promise.all(
       .filter(Boolean)
       .join(" · ");
 
-    return { event, items, count };
+    const offset = event.data.poster ? 1 : 0;
+    const total = items.length + offset;
+
+    return { event, items, count, offset, total };
   }),
 );
 ---
@@ -69,7 +72,7 @@ const evenings = await Promise.all(
         {evenings.length === 0 && <p class="archive__empty">The first photos land here after our next evening.</p>}
 
         {
-          evenings.map(({ event, items, count }) => (
+          evenings.map(({ event, items, count, offset, total }) => (
             <section class="evening" id={event.id} aria-labelledby={`${event.id}-title`} data-lightbox-group>
               <div class="evening__head">
                 <div class="evening__title-line">
@@ -81,7 +84,7 @@ const evenings = await Promise.all(
                   {event.data.soldOut && <span class="stamp">Sold out</span>}
                 </div>
 
-                {items.length > 1 && (
+                {total > 1 && (
                   <div class="evening__tools">
                     <span class="evening__count">{count}</span>
                     <button class="evening__scroll" type="button" data-scroll="-1" aria-label={`Scroll ${event.data.title} back`}>
@@ -95,9 +98,25 @@ const evenings = await Promise.all(
               </div>
 
               <ul class="evening__strip" data-strip>
-                {items.length === 0 && event.data.poster && (
+                {event.data.poster && (
                   <li class="evening__item evening__item--poster">
-                    <img src={event.data.poster} alt={`Poster: ${event.data.title}`} loading="lazy" />
+                    <button
+                      class="evening__open"
+                      type="button"
+                      data-lightbox-item
+                      data-type="photo"
+                      data-src={event.data.poster}
+                      aria-label={`Open poster for ${event.data.title}`}
+                    >
+                      <img
+                        src={event.data.poster}
+                        width="1080"
+                        height="1350"
+                        alt={`Poster: ${event.data.title}`}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </button>
                   </li>
                 )}
 
@@ -110,7 +129,7 @@ const evenings = await Promise.all(
                         data-lightbox-item
                         data-type="photo"
                         data-src={item.full}
-                        aria-label={`Open photo ${index + 1} of ${items.length} from ${event.data.title}`}
+                        aria-label={`Open photo ${index + 1 + offset} of ${total} from ${event.data.title}`}
                       >
                         <Image
                           src={item.image}
@@ -128,7 +147,7 @@ const evenings = await Promise.all(
                         data-type="video"
                         data-src={item.src}
                         data-poster={item.posterSrc}
-                        aria-label={`Play clip ${index + 1} of ${items.length} from ${event.data.title}`}
+                        aria-label={`Play clip ${index + 1 + offset} of ${total} from ${event.data.title}`}
                       >
                         {item.posterSrc ? (
                           <img src={item.posterSrc} alt="" loading="lazy" />
