@@ -18,7 +18,7 @@ price: 150                  # kr, shown in the button
 stripeUrl: "https://buy.stripe.com/..."
 soldOut: false              # true → stamp + "Join the waitlist"
 
-poster: "/assets/images/events/short-name-yyyy-mm/poster.jpg"   # in public/, 3:4, ~1280px wide
+poster: "/assets/images/events/short-name-yyyy-mm/poster.jpg"   # in public/, 4:5, 1080×1350
 
 duration: "2–3 hours"
 bring: "Nothing. Everything is on the table."

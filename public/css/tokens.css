@@ -91,6 +91,7 @@
   --content-max-width: 60rem; /* capped reading/content width — first used by .next-event */
   --section-max-width: 80rem; /* homepage two-column sections (01–05): content box width on wide screens */
   --tap-target-min: 3rem; /* 48px — minimum interactive target height */
+  --poster-ratio: 4 / 5; /* event posters are Instagram 4:5 (1080×1350) — frames match so the whole poster shows */
 
   /* ---- Elevation ---- */
   --shadow-soft: 0 0.625rem 1.5rem rgba(26, 26, 26, 0.18); /* --color-ink at 18% — 04 collage photos */

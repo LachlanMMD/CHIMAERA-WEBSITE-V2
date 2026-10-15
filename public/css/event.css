@@ -67,7 +67,7 @@
 .event-page__poster-frame {
   position: relative;
 
-  aspect-ratio: 3 / 4;
+  aspect-ratio: var(--poster-ratio);
 
   overflow: hidden;
 

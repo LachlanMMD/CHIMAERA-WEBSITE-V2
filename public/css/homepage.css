@@ -886,7 +886,7 @@ body.nav-open .landing__video {
   width: 150px;
   margin: 0;
 
-  aspect-ratio: 3 / 4;
+  aspect-ratio: var(--poster-ratio);
 
   overflow: hidden;
 
