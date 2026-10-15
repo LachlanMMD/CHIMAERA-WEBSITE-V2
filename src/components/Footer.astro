@@ -7,12 +7,21 @@
 
         <p class="site-footer__copy">New dates reach the newsletter first — before tickets go on sale here.</p>
 
-        <!-- Placeholder form: replaced by the MailerLite embed before launch. -->
-        <form class="newsletter-form" onsubmit="return false;">
+        <!-- MailerLite embedded form "Footer signup" (double opt-in). Our own markup;
+             js/newsletter-form.js posts it in the background. Field names and the
+             hidden inputs are MailerLite's — don't rename them. Without JS it posts
+             straight to MailerLite in a new tab. -->
+        <form class="newsletter-form" action="https://assets.mailerlite.com/jsonp/2715494/forms/201409149212297109/subscribe" method="post" target="_blank" data-newsletter-form>
           <label class="visually-hidden" for="newsletter-email">Email address</label>
-          <input class="newsletter-form__input" id="newsletter-email" type="email" name="email" autocomplete="email" placeholder="your@email.dk" required />
-          <button class="newsletter-form__button" type="button">Subscribe</button>
+          <input class="newsletter-form__input" id="newsletter-email" type="email" name="fields[email]" autocomplete="email" placeholder="your@email.dk" required />
+          <input type="hidden" name="ml-submit" value="1" />
+          <input type="hidden" name="anticsrf" value="true" />
+          <button class="newsletter-form__button" type="submit">Subscribe</button>
         </form>
+
+        <p class="newsletter-form__status" role="status" aria-live="polite" data-newsletter-status></p>
+
+        <p class="newsletter-form__note">We'll email you once to confirm. Unsubscribe anytime. <a href="/privacy/">Privacy policy</a></p>
       </section>
 
       <nav class="site-footer__nav" aria-labelledby="footer-explore-heading">

@@ -61,7 +61,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   NEWSLETTER FORM (placeholder until the MailerLite embed)
+   NEWSLETTER FORM (MailerLite, sent by js/newsletter-form.js)
    -------------------------------------------------------------------------- */
 
 .newsletter-form {
@@ -183,6 +183,36 @@
   min-height: 2.75rem;
 
   color: var(--color-pale-warm);
+}
+
+.newsletter-form__button:disabled {
+  opacity: 0.6;
+
+  cursor: progress;
+}
+
+.newsletter-form__status {
+  margin: var(--space-xs) 0 0;
+
+  font-family: var(--font-text);
+  font-size: var(--text-body);
+}
+
+.newsletter-form__status:empty {
+  display: none;
+}
+
+.newsletter-form__note {
+  margin: var(--space-xs) 0 0;
+
+  font-family: var(--font-text);
+  font-size: var(--text-small);
+
+  color: var(--color-pale-warm-50);
+}
+
+.newsletter-form__note a {
+  color: inherit;
 }
 
 /* --------------------------------------------------------------------------
