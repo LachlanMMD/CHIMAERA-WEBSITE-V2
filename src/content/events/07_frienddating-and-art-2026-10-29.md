@@ -15,18 +15,22 @@ venue: "Friheden"
 area: "Nørrebro"
 
 price: 65 # kr, shown in the button
-stripeUrl: "https://buy.stripe.com/..."
+stripeUrl: "https://buy.stripe.com/eVq5kCepu2zigwx0rk2sM0e"
 soldOut: false # true → stamp + "Join the waitlist"
 
-poster: "/assets/images/events/poster-friend-dating.webp" # in public/, 3:4, ~1280px wide
+poster: "/assets/graphics/poster-frienddating-2026.webp" # in public/, 4:5, 1080×1350
 
-duration: "2–3 hours"
-bring: "We recommend wearing anything but white, unless you want a new look for your clothes:)"
+duration: "16:00–19:00"
+bring: "Nothing — materials are provided. Wear anything but white, unless you want your clothes redecorated :)"
 experience: "None needed"
 
 photos: [] # after the event: ["/assets/images/events/short-name-yyyy-mm/01.jpg", ...]
 ---
 
-Join us at Friheden for an afternoon of new friends, eye contact and drawing one another with simple tools and paper! bla bla bla
+Spooky season is here, and what's scarier than meeting someone new?
 
-We meet at 16:00, start at 16:30, seated across from someone old or new. First 5 minutes is for conversation, getting to know a bit about one another, then 5 minutes of drawing (and talking if you can multitask<3) with whatever medium you'd like. Then we shuffle people around and do it all again. Bryn, please write something better and more structured.
+We're back at our favourite spot, Friheden, for an afternoon of friend-speeddating with drawing materials in hand. You sit across from someone, talk for five minutes, then draw each other for five — talking allowed if you can multitask. Then everyone shuffles seats and you go again.
+
+Conversation breaks the ice, drawing keeps your hands busy, and with a bit of luck you leave with a friend or two who outlast the evening.
+
+Doors open at 16:00 and we start at 16:30. No experience needed. Come on your own, or bring your friends and split them up.

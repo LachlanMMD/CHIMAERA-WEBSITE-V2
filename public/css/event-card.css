@@ -25,7 +25,7 @@
 
   margin: 0 0 var(--space-s);
 
-  aspect-ratio: 3 / 4;
+  aspect-ratio: var(--poster-ratio);
 
   overflow: hidden;
 

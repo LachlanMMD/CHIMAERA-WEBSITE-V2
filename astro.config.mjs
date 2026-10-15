@@ -4,7 +4,7 @@ import { defineConfig } from "astro/config";
 // Static site: every page is built to plain HTML in dist/.
 // Pages are served as folders (/about/ → about/index.html), matching the old URLs.
 export default defineConfig({
-  site: "https://www.chimaera.cph",
+  site: "https://chimaeracollective.dk",
   build: {
     format: "directory",
   },
