@@ -11,6 +11,6 @@ poster: "/assets/graphics/poster-roskilde-festival-2026.webp"
 duration: "2–3 hours"
 ---
 
-Bring something from your wardrobe and give it a second life through colour, texture and experiment.
+Come find us in Dream City to paint on a canvas alongside everyone else! We have all the paint, the canvas and the music. Just bring yourself and a friend. We'll have some cold beers from ÅBEN for those who come early.
 
-A hands-on evening of textile painting, working straight onto your own garment with guidance along the way.
+Big thank you to Camp Cirkus for letting us use their space! They'll be playing music that makes your hips move during and after, so be sure to give them a moment of your time!

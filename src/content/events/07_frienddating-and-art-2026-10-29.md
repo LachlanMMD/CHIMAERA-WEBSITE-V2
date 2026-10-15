@@ -29,7 +29,7 @@ photos: [] # after the event: ["/assets/images/events/short-name-yyyy-mm/01.jpg"
 
 Spooky season is here, and what's scarier than meeting someone new?
 
-We're back at our favourite spot, Friheden, for an afternoon of friend-speeddating with drawing materials in hand. You sit across from someone, talk for five minutes, then draw each other for five — talking allowed if you can multitask. Then everyone shuffles seats and you go again.
+We're back at our favourite spot, Friheden, for an afternoon of friend-speeddating with drawing materials in hand. You sit across from someone, talk for five minutes, then draw each other for five (talking encouraged if you can multitask). Then everyone shuffles seats and you go again.
 
 Conversation breaks the ice, drawing keeps your hands busy, and with a bit of luck you leave with a friend or two who outlast the evening.
 
