@@ -17,7 +17,7 @@ Astro (static output). Pages in src/, plain CSS/JS in public/ (no bundling). Dep
 - src/assets/events/<slug>/ — archive photos/clips per event (read by src/lib/media.ts); scripts/clip.sh cuts clips
 - public/css/tokens.css — ALL colors, type, spacing. Never hardcode values; add missing tokens here.
 - public/css/ — global, typography, navigation, homepage, event-card (shared), footer, event, events-index, archive, page (subpages)
-- public/js/ — atmosphere, navigation, header-theme, homepage, page-chrome, next-event, events, archive, contact-form, chalk-circle
+- public/js/ — atmosphere, navigation, header-theme, homepage, page-chrome, next-event, events, archive, contact-form, newsletter-form, chalk-circle
 - public/assets/ — images, video, logo. Don't open image files unless asked.
 
 ## Rules
@@ -45,6 +45,7 @@ Astro (static output). Pages in src/, plain CSS/JS in public/ (no bundling). Dep
 - /error/ page (noindex) for failed flows; the contact form sends people there when sending fails.
 - About + contact are one screen each (.page-screen in page.css), then the footer.
 - Contact form posts to Web3Forms → info@chimaeracollective.dk; access key constant at the top of contact.astro.
+- Footer newsletter form posts to MailerLite (form "Footer signup", double opt-in) via js/newsletter-form.js; endpoint + field names from the MailerLite embed, in Footer.astro.
 - #footer links (newsletter / waitlist) draw a coral chalk circle round the footer newsletter box (js/chalk-circle.js, loaded on every page; --chalk-* tokens; styles in footer.css).
 - /events/ built: all events in two grids (upcoming, past); card CSS shared in public/css/event-card.css.
 - Next: privacy + terms pages, footer colour, connect Vercel.
