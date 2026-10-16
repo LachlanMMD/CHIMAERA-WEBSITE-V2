@@ -86,10 +86,12 @@
 
   transform: translate(-50%, -50%);
 
-  width: min(640px, 74vw);
+  /* Matches the video file (490×360). A 16:9 box left empty transparent
+     strips either side of the picture, outlined by the glow below. */
+  width: min(490px, 74vw);
   height: auto;
 
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 490 / 360;
 
   z-index: 1;
 
