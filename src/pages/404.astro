@@ -1,0 +1,44 @@
+---
+/**
+ * Not-found page. Astro builds it to dist/404.html, which Vercel serves
+ * for any unknown URL (with a 404 status). Same look as /error/.
+ */
+import Base from "../layouts/Base.astro";
+---
+
+<Base
+  title={"Page not found — CHIMAERA"}
+  description={"This page doesn't exist. Head back to CHIMAERA's homepage or see upcoming events."}
+  path="/404/"
+  styles={["/css/page.css"]}
+  scripts={["/js/page-chrome.js"]}
+  noindex
+>
+<main id="main">
+
+  <section class="page-intro field-atmosphere" data-field="coral" aria-labelledby="notfound-heading">
+
+    <div class="container">
+
+      <p class="eyebrow">
+        404
+      </p>
+
+      <h1 id="notfound-heading">
+        nothing here
+      </h1>
+
+      <div class="body-copy">
+        This page doesn't exist, or it moved. All our events are on the <a href="/events/">events page</a>.
+      </div>
+
+      <p class="body-copy">
+        <a href="/">← Back to the homepage</a>
+      </p>
+
+    </div>
+
+  </section>
+
+</main>
+</Base>
