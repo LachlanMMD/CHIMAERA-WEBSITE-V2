@@ -38,7 +38,9 @@ const {
 
 const canonical = new URL(path, Astro.site).href;
 // Social apps ignore relative og:image paths, so resolve against the site URL.
-const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).href : undefined;
+// Pages without their own image fall back to the homepage photo, so every
+// shared link shows a picture.
+const ogImageUrl = new URL(ogImage ?? "/assets/images/optimized/workshop-sketching-1800.jpg", Astro.site).href;
 ---
 
 <!doctype html>
@@ -98,5 +100,11 @@ const ogImageUrl = ogImage ? new URL(ogImage, Astro.site).href : undefined;
     <script is:inline src="/js/chalk-circle.js"></script>
     <script is:inline src="/js/newsletter-form.js"></script>
     {scripts.map((src) => <script is:inline src={src}></script>)}
+
+    <!-- Vercel Web Analytics: cookieless page-view counts. Served by Vercel
+         once Analytics is enabled for the project; 404s harmlessly before
+         that and in `npm run dev`. -->
+    <script is:inline>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+    <script is:inline defer src="/_vercel/insights/script.js"></script>
   </body>
 </html>

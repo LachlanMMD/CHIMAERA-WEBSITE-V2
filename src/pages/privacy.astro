@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 
-const UPDATED = "15.10.2026";
+const UPDATED = "22.10.2026";
 const EMAIL = "info@chimaeracollective.dk";
 
 // What we process and why: one entry per situation.
@@ -47,6 +47,13 @@ const uses = [
     purpose: "Running and securing the site, serving fonts",
     basis: "Legitimate interest, Art. 6(1)(f)",
     retention: "Per the provider's log policy",
+  },
+  {
+    title: "Visitor statistics",
+    data: "Page visited, referring site, country, device type, browser. No cookies, no stored IP address",
+    purpose: "Counting visits so we know which pages people use",
+    basis: "Legitimate interest, Art. 6(1)(f)",
+    retention: "Aggregate counts only; the daily visitor hash is discarded after 24 hours",
   },
 ];
 ---
@@ -118,7 +125,7 @@ const uses = [
           <li>MailerLite: newsletters.</li>
           <li>Stripe: payments and receipts (independent controller).</li>
           <li>Web3Forms: delivers messages sent through our contact form to our inbox.</li>
-          <li>Vercel: website hosting.</li>
+          <li>Vercel: website hosting and cookieless visitor statistics (Vercel Web Analytics).</li>
           <li>Adobe Fonts: typefaces. Your browser loads them from Adobe's servers, which therefore receive your IP address.</li>
         </ul>
         <p class="body-copy legal__note">
@@ -130,7 +137,7 @@ const uses = [
       <section>
         <h2>Cookies</h2>
         <p class="body-copy">
-          The website currently uses no analytics or marketing cookies. If we introduce them, we will update this
+          The website uses no analytics or marketing cookies. Visitor statistics are counted without cookies. If we ever introduce such cookies, we will update this
           policy and ask for your consent first.
         </p>
       </section>
