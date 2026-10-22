@@ -1,5 +1,4 @@
 ---
-# Past event, carried over from the old site. Add the real date and details, then set draft: false.
 draft: false
 title: "FIMO Clay"
 date: "2025-11-09"

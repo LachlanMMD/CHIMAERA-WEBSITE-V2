@@ -200,11 +200,11 @@
 
 /*
  * The star is an <img>, so `color` above can't recolour it. Two versions
- * share one grid cell. Desktop always shows the coral star. Below 64rem
- * (the site's desktop breakpoint) the coral atmosphere fills the phone
- * screen, so data-ink picks the version instead: white over coral (on-dark,
- * the default) and while the menu is open, coral over a pale field
- * (on-light).
+ * share one grid cell. Computers (mouse/trackpad) always show the coral
+ * star, at any window width. Touch screens (phones, tablets) let data-ink
+ * pick: white over coral (on-dark, the default) and while the menu is
+ * open, coral over a pale field (on-light). Keyed to the input device, not
+ * width, so a narrow or zoomed desktop window still gets coral.
  */
 
 .nav-star-button__img {
@@ -215,7 +215,7 @@
   opacity: 0;
 }
 
-@media (max-width: 63.99rem) {
+@media (hover: none) and (pointer: coarse) {
   .nav-star-button__img--coral {
     opacity: 0;
   }

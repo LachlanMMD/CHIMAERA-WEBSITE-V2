@@ -37,6 +37,10 @@ const {
 } = Astro.props;
 
 const canonical = new URL(path, Astro.site).href;
+// Social apps ignore relative og:image paths, so resolve against the site URL.
+// Pages without their own image fall back to the homepage photo, so every
+// shared link shows a picture.
+const ogImageUrl = new URL(ogImage ?? "/assets/images/optimized/workshop-sketching-1800.jpg", Astro.site).href;
 ---
 
 <!doctype html>
@@ -57,7 +61,7 @@ const canonical = new URL(path, Astro.site).href;
     <meta property="og:site_name" content="CHIMAERA" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={ogDescription} />
-    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
     <meta property="og:url" content={canonical} />
 
     <meta name="twitter:card" content="summary_large_image" />
@@ -96,5 +100,11 @@ const canonical = new URL(path, Astro.site).href;
     <script is:inline src="/js/chalk-circle.js"></script>
     <script is:inline src="/js/newsletter-form.js"></script>
     {scripts.map((src) => <script is:inline src={src}></script>)}
+
+    <!-- Vercel Web Analytics: cookieless page-view counts. Served by Vercel
+         once Analytics is enabled for the project; 404s harmlessly before
+         that and in `npm run dev`. -->
+    <script is:inline>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+    <script is:inline defer src="/_vercel/insights/script.js"></script>
   </body>
 </html>

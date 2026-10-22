@@ -1,0 +1,28 @@
+# Runs `astro build` on every push and pull request. If the build fails,
+# the commit gets a red ✗ on GitHub — merge nothing with a red ✗ into
+# main, because Vercel would fail to deploy it too.
+#
+# Optional, once you trust it: GitHub → Settings → Branches → add a rule
+# for main → "Require status checks to pass" → pick "build". Then a broken
+# PR can't be merged at all.
+
+name: Build check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run build

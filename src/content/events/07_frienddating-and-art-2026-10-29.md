@@ -20,7 +20,7 @@ soldOut: false # true → stamp + "Join the waitlist"
 
 poster: "/assets/graphics/poster-frienddating-2026.webp" # in public/, 4:5, 1080×1350
 
-duration: "16:00–19:00"
+duration: "16:00–21:00"
 bring: "Nothing — materials are provided. Wear anything but white, unless you want your clothes redecorated :)"
 experience: "None needed"
 

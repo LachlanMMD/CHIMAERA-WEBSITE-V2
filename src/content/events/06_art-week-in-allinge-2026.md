@@ -1,5 +1,4 @@
 ---
-# Past event, carried over from the old site. Check the details, then set draft: false.
 draft: false
 title: "Art Week in Allinge"
 date: "2026-07-20"
