@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 
-const UPDATED = "22.10.2026";
+const UPDATED = "02.11.2026";
 const EMAIL = "info@chimaeracollective.dk";
 
 // What we process and why: one entry per situation.
@@ -19,6 +19,13 @@ const uses = [
     purpose: "Delivering your ticket and handling refunds",
     basis: "Contract, Art. 6(1)(b)",
     retention: "5 years after the end of the financial year (Danish Bookkeeping Act)",
+  },
+  {
+    title: "Supper club waitlist",
+    data: "Name, phone number",
+    purpose: "Texting you when seats open at our supper club dinners",
+    basis: "Consent, Art. 6(1)(a)",
+    retention: "Until you ask to be removed, or the waitlist closes",
   },
   {
     title: "Contacting us",
@@ -125,6 +132,7 @@ const uses = [
           <li>MailerLite: newsletters.</li>
           <li>Stripe: payments and receipts (independent controller).</li>
           <li>Web3Forms: delivers messages sent through our contact form to our inbox.</li>
+          <li>Google: stores the supper club waitlist in Google Sheets.</li>
           <li>Vercel: website hosting and cookieless visitor statistics (Vercel Web Analytics).</li>
           <li>Adobe Fonts: typefaces. Your browser loads them from Adobe's servers, which therefore receive your IP address.</li>
         </ul>

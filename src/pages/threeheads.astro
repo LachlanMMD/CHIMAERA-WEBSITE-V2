@@ -1,0 +1,123 @@
+---
+/**
+ * /threeheads/ — Three Heads supper club waitlist.
+ *
+ * Unlisted on purpose: no links from the site, not in sitemap.xml.ts
+ * (its path list is explicit), noindex. Share the URL directly.
+ *
+ * Its own identity, so it does NOT use Base.astro (no CHIMAERA header,
+ * nav, atmosphere or footer). Styles: public/css/threeheads.css.
+ *
+ * Sign-ups go to a Google Sheet through a Google Apps Script web app.
+ * Setup: docs/THREEHEADS-WAITLIST.md. Script source:
+ * scripts/threeheads-waitlist.gs. Paste the web app URL (ends in /exec)
+ * below. It's safe to publish: it can only append rows to that sheet.
+ */
+const WAITLIST_ENDPOINT = "";
+
+const site = Astro.site ?? new URL("https://chimaeracollective.dk");
+const canonical = new URL("/threeheads/", site).href;
+const description = "Six seats, three courses and a cocktail. Join the waitlist for the Three Heads supper club in Copenhagen.";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#e9e5dc" />
+
+    <title>Three Heads — supper club waitlist</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Three Heads" />
+    <meta property="og:title" content="Three Heads — supper club waitlist" />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+    <link rel="stylesheet" href="https://use.typekit.net/koo7phy.css" />
+    <link rel="stylesheet" href="/css/threeheads.css" />
+  </head>
+
+  <body class="th">
+    <!-- Lino-print edge + ink speckle for the wordmark. Kept in-page SVG
+         (not a CSS filter on HTML) because iOS Safari renders it reliably. -->
+    <svg class="th-defs" aria-hidden="true" focusable="false">
+      <filter id="th-lino" x="-5%" y="-20%" width="110%" height="140%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="7" result="grain" />
+        <feDisplacementMap in="SourceGraphic" in2="grain" scale="3.5" xChannelSelector="R" yChannelSelector="G" result="carved" />
+        <feTurbulence type="fractalNoise" baseFrequency="1.8" numOctaves="2" seed="3" result="speck" />
+        <feColorMatrix in="speck" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -4 3.1" result="mask" />
+        <feComposite in="carved" in2="mask" operator="in" />
+      </filter>
+    </svg>
+
+    <main class="th-card" id="main">
+      <header class="th-head">
+        <h1 class="th-mark">
+          <span class="visually-hidden">Three Heads</span>
+          <svg class="th-mark__print" viewBox="0 0 600 150" aria-hidden="true" focusable="false">
+            <text x="300" y="112" text-anchor="middle" filter="url(#th-lino)">Three Heads</text>
+          </svg>
+        </h1>
+        <p class="th-sub">a supper club in Copenhagen</p>
+      </header>
+
+      <div class="th-rule" aria-hidden="true"></div>
+
+      <section class="th-about" aria-label="What it is">
+        <p>
+          Six people at one table, most of them strangers. Three courses, one cocktail made for the menu, and a long
+          evening.
+        </p>
+        <p>Seats go to the waitlist first. Leave your name and number and you'll get a text when the next table is set.</p>
+      </section>
+
+      <div class="th-rule" aria-hidden="true"></div>
+
+      <form class="th-form" action={WAITLIST_ENDPOINT} method="POST" data-th-waitlist novalidate>
+        <h2 class="th-form__heading">Join the waitlist</h2>
+
+        <!-- Honeypot: hidden from people; bots fill it and the script drops the row. -->
+        <label class="th-trap" aria-hidden="true">
+          Leave this empty
+          <input type="text" name="website" tabindex="-1" autocomplete="off" />
+        </label>
+
+        <label class="th-field">
+          <span class="th-field__label">Name</span>
+          <input type="text" name="name" autocomplete="name" maxlength="80" required />
+        </label>
+
+        <label class="th-field">
+          <span class="th-field__label">Phone number</span>
+          <input type="tel" name="phone" autocomplete="tel" inputmode="tel" maxlength="24" placeholder="+45 12 34 56 78" required />
+        </label>
+
+        <label class="th-consent">
+          <input type="checkbox" name="consent" value="yes" required />
+          <span>Text me about upcoming dinners. I can ask to be taken off the list at any time.</span>
+        </label>
+
+        <button class="th-button" type="submit">Join the waitlist</button>
+
+        <p class="th-status" role="status" aria-live="polite" data-th-status></p>
+      </form>
+
+      <footer class="th-foot">
+        <a href="https://www.instagram.com/threeheads.cph/" rel="noopener">@threeheads.cph</a>
+        <a href="/privacy/">Privacy</a>
+      </footer>
+    </main>
+
+    <script is:inline src="/js/threeheads-waitlist.js"></script>
+
+    <!-- Vercel Web Analytics (cookieless), same as the main site. -->
+    <script is:inline>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+    <script is:inline defer src="/_vercel/insights/script.js"></script>
+  </body>
+</html>

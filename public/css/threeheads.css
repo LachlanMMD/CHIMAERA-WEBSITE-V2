@@ -1,0 +1,374 @@
+/* ==========================================================================
+   THREE HEADS — /threeheads/ waitlist page
+   Standalone identity: one ink on uncoated paper, like a lino print or a
+   printed menu card. Shares nothing with CHIMAERA's tokens.css on purpose;
+   its tokens live here (--th-*) until Three Heads gets its own site or
+   merges into CHIMAERA.
+   ========================================================================== */
+
+:root {
+  /* ---- Colour: one ink, one paper ---- */
+  --th-paper: #e9e5dc;        /* unbleached cotton paper */
+  --th-paper-lit: #f2efe8;    /* card face, a shade lighter than the table */
+  --th-ink: #1f2b47;          /* Prussian-blue relief ink */
+  --th-ink-60: rgba(31, 43, 71, 0.6);  /* secondary text, placeholders */
+  --th-ink-25: rgba(31, 43, 71, 0.25); /* rules, input lines */
+  --th-ink-08: rgba(31, 43, 71, 0.08); /* pressed button, focus wash */
+  --th-error: #8f2a1e;        /* error text only */
+
+  /* ---- Type (Adobe kit koo7phy) ----
+     voice   = Minion Pro, the menu's printed voice
+     set     = Forma DJR Micro, typeset info: labels, numbers, buttons
+     mark    = wordmark placeholder until the Three Heads lettering exists;
+               swap for the hand-lettered/handwriting face (see @font-face below) */
+  --th-font-voice: "minion-pro", Georgia, serif;
+  --th-font-set: "forma-djr-greek-micro", "Helvetica Neue", Arial, sans-serif;
+  --th-font-mark: "minion-pro", Georgia, serif;
+
+  --th-text: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem); /* 17px → 19px body */
+  --th-text-small: 0.8125rem;                            /* 13px labels */
+  --th-leading: 1.55;
+  --th-measure: 34ch;
+
+  /* ---- Space ---- */
+  --th-space-xs: 0.5rem;
+  --th-space-s: 0.875rem;
+  --th-space-m: 1.5rem;
+  --th-space-l: 2.5rem;
+  --th-space-xl: 4rem;
+  --th-gutter: 1rem;
+  --th-card-max: 30rem;
+  --th-tap: 3rem;
+
+  --th-rule: 1px;
+  --th-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --th-duration: 420ms;
+}
+
+/* Your handwriting font, when you want it on the page: export as .woff2,
+   put it in public/assets/threeheads/, uncomment, and point --th-font-mark
+   (or a new token) at "Three Heads Hand".
+@font-face {
+  font-family: "Three Heads Hand";
+  src: url("/assets/threeheads/handwriting.woff2") format("woff2");
+  font-display: swap;
+}
+*/
+
+/* ---- Reset (this page loads no shared CSS) ---- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body,
+h1,
+h2,
+p,
+form {
+  margin: 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---- Page: the table, with the card on it ---- */
+.th {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: var(--th-space-l) var(--th-gutter);
+  background: var(--th-paper);
+  color: var(--th-ink);
+  font-family: var(--th-font-voice);
+  font-size: var(--th-text);
+  line-height: var(--th-leading);
+  -webkit-font-smoothing: antialiased;
+}
+
+.th-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.th-card {
+  width: 100%;
+  max-width: var(--th-card-max);
+  padding: var(--th-space-l) var(--th-space-m) var(--th-space-m);
+  background: var(--th-paper-lit);
+  text-align: center; /* a menu card: centred, like the printed ones */
+}
+
+/* ---- Wordmark: the one loud thing ---- */
+.th-mark {
+  font-weight: normal;
+  line-height: 0;
+}
+
+.th-mark__print {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.th-mark__print text {
+  fill: var(--th-ink);
+  font-family: var(--th-font-mark);
+  font-style: italic;
+  font-size: 112px;
+  letter-spacing: -1px;
+}
+
+.th-sub {
+  margin-top: var(--th-space-xs);
+  font-family: var(--th-font-set);
+  font-size: var(--th-text-small);
+  letter-spacing: 0.02em;
+  color: var(--th-ink-60);
+}
+
+.th-rule {
+  width: 2.5rem;
+  height: var(--th-rule);
+  margin: var(--th-space-l) auto;
+  background: var(--th-ink-25);
+}
+
+/* ---- What it is ---- */
+.th-about {
+  max-width: var(--th-measure);
+  margin-inline: auto;
+}
+
+.th-about p + p {
+  margin-top: var(--th-space-s);
+}
+
+/* ---- Form ---- */
+.th-form {
+  text-align: left;
+  max-width: var(--th-measure);
+  margin-inline: auto;
+}
+
+.th-form__heading {
+  margin-bottom: var(--th-space-m);
+  text-align: center;
+  font-family: var(--th-font-voice);
+  font-style: italic;
+  font-weight: normal;
+  font-size: 1.5em;
+  line-height: 1.2;
+}
+
+.th-field {
+  display: block;
+  margin-bottom: var(--th-space-m);
+}
+
+.th-field__label {
+  display: block;
+  margin-bottom: 0.125rem;
+  font-family: var(--th-font-set);
+  font-size: var(--th-text-small);
+  color: var(--th-ink-60);
+}
+
+.th-field input {
+  width: 100%;
+  min-height: var(--th-tap);
+  padding: 0.25rem 0;
+  border: 0;
+  border-bottom: var(--th-rule) solid var(--th-ink-25);
+  border-radius: 0;
+  background: transparent;
+  color: var(--th-ink);
+  font-family: var(--th-font-voice);
+  font-size: max(16px, 1.125em); /* ≥16px stops iOS zooming on focus */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.th-field input[type="tel"] {
+  font-family: var(--th-font-set); /* numbers are typeset, not written */
+  letter-spacing: 0.04em;
+}
+
+.th-field input::placeholder {
+  color: var(--th-ink-25);
+}
+
+.th-field input:focus {
+  outline: none;
+  border-bottom-color: var(--th-ink);
+  box-shadow: 0 1px 0 0 var(--th-ink);
+}
+
+.th-field input[aria-invalid="true"] {
+  border-bottom-color: var(--th-error);
+}
+
+.th-consent {
+  display: flex;
+  gap: var(--th-space-s);
+  align-items: flex-start;
+  margin: var(--th-space-l) 0 var(--th-space-m);
+  font-family: var(--th-font-set);
+  font-size: var(--th-text-small);
+  line-height: 1.45;
+  color: var(--th-ink-60);
+  cursor: pointer;
+}
+
+.th-consent input {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin: 0;
+  accent-color: var(--th-ink);
+}
+
+.th-button {
+  display: block;
+  width: 100%;
+  min-height: var(--th-tap);
+  padding: var(--th-space-s) var(--th-space-m);
+  border: var(--th-rule) solid var(--th-ink);
+  border-radius: 0;
+  background: var(--th-ink);
+  color: var(--th-paper-lit);
+  font-family: var(--th-font-set);
+  font-size: 0.9375rem;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background-color var(--th-duration) var(--th-ease), color var(--th-duration) var(--th-ease);
+}
+
+@media (hover: hover) {
+  .th-button:hover {
+    background: transparent;
+    color: var(--th-ink);
+  }
+}
+
+.th-button:active {
+  background: var(--th-ink-08);
+}
+
+.th-button:disabled {
+  cursor: progress;
+  opacity: 0.6;
+}
+
+:focus-visible {
+  outline: 2px solid var(--th-ink);
+  outline-offset: 3px;
+}
+
+.th-field input:focus-visible {
+  outline: none; /* the underline carries focus for text fields */
+}
+
+.th-status {
+  min-height: 1.5em;
+  margin-top: var(--th-space-s);
+  text-align: center;
+  font-family: var(--th-font-set);
+  font-size: var(--th-text-small);
+}
+
+.th-status[data-state="error"] {
+  color: var(--th-error);
+}
+
+/* Honeypot: off-screen, not display:none (some bots skip hidden fields) */
+.th-trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* ---- Done: the form is replaced by a confirmation ---- */
+.th-done {
+  max-width: var(--th-measure);
+  margin-inline: auto;
+  text-align: center;
+  animation: th-press var(--th-duration) var(--th-ease) both;
+}
+
+.th-done__title {
+  font-style: italic;
+  font-size: 1.5em;
+  line-height: 1.2;
+  margin-bottom: var(--th-space-xs);
+}
+
+@keyframes th-press {
+  from {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- Foot ---- */
+.th-foot {
+  display: flex;
+  justify-content: center;
+  gap: var(--th-space-m);
+  margin-top: var(--th-space-xl);
+  font-family: var(--th-font-set);
+  font-size: var(--th-text-small);
+}
+
+.th-foot a {
+  color: var(--th-ink-60);
+  text-decoration: underline;
+  text-decoration-color: var(--th-ink-25);
+  text-underline-offset: 0.2em;
+  padding-block: var(--th-space-xs); /* bigger tap area */
+}
+
+.th-foot a:hover {
+  color: var(--th-ink);
+}
+
+/* ---- Wider screens: same card, more air ---- */
+@media (min-width: 40rem) {
+  .th-card {
+    padding: var(--th-space-xl) var(--th-space-l) var(--th-space-l);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .th-done {
+    animation: none;
+  }
+
+  .th-button {
+    transition: none;
+  }
+}
