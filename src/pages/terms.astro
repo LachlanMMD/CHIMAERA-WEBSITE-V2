@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 
-const UPDATED = "15.10.2026";
+const UPDATED = "05.11.2026";
 const EMAIL = "info@chimaeracollective.dk";
 ---
 
@@ -29,23 +29,26 @@ const EMAIL = "info@chimaeracollective.dk";
       <section>
         <h2>Seller</h2>
         <p class="body-copy">
-          CHIMAERA.CPH, CVR 45933091, Ved Linden 4, 3. th., 2300 Copenhagen S, Denmark, <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
+          CHIMAERA.CPH (an association, forening), CVR 45933091, Ved Linden 4, 3. th., 2300 Copenhagen S, Denmark.
+          <a href={`mailto:${EMAIL}`}>{EMAIL}</a>, chimaeracollective.dk.
         </p>
       </section>
 
       <section>
         <h2>Buying tickets</h2>
         <p class="body-copy">
-          Tickets are bought through our payment provider Stripe. Prices are in Danish kroner. Payment is taken at
-          purchase. You receive a confirmation by email, which is your ticket.
+          You buy tickets from the event page. The ticket button takes you to a checkout run by our payment
+          provider, Stripe. The price on the event page is the full price in Danish kroner. Payment is taken when you
+          buy. Stripe emails you a receipt. That receipt is your ticket.
         </p>
       </section>
 
       <section>
         <h2>Right of withdrawal</h2>
         <p class="body-copy">
-          Tickets carry no 14-day right of withdrawal, because they are for a leisure event on a specific date
-          (Danish Consumer Contracts Act, section 18(2)(xii)). Our refund rules below apply instead.
+          Danish law normally gives you 14 days to change your mind about an online purchase. That right does not
+          apply to tickets for a leisure event on a specific date (Danish Consumer Contracts Act, section 18(2)(12)).
+          So there is no 14-day right of withdrawal on our tickets. Our own refund rule below applies instead.
         </p>
       </section>
 
@@ -58,10 +61,17 @@ const EMAIL = "info@chimaeracollective.dk";
       </section>
 
       <section>
+        <h2>Age</h2>
+        <p class="body-copy">
+          Our events currently have no age limit. If an event is 18+, its event page will say so before you buy.
+        </p>
+      </section>
+
+      <section>
         <h2>Cancellations and changes</h2>
         <p class="body-copy">
-          If we cancel an event, you automatically get a full refund. If we significantly change the date or
-          venue, you can choose a full refund instead of attending.
+          If we cancel an event, you get a full refund automatically, within 14 days. If we significantly change the
+          date or venue, you can choose a full refund instead of attending.
         </p>
       </section>
 

@@ -48,7 +48,8 @@ Astro (static output). Pages in src/, plain CSS/JS in public/ (no bundling). Dep
 - Footer newsletter form posts to MailerLite (form "Footer signup", double opt-in) via js/newsletter-form.js; endpoint + field names from the MailerLite embed, in Footer.astro.
 - #footer links (newsletter / waitlist) draw a coral chalk circle round the footer newsletter box (js/chalk-circle.js, loaded on every page; --chalk-* tokens; styles in footer.css).
 - /events/ built: all events in two grids (upcoming, past); card CSS shared in public/css/event-card.css.
-- Next: privacy + terms pages, footer colour, connect Vercel.
+- /privacy/ and /terms/ built (public/css/legal.css), linked from the footer legal line.
+- Next: footer colour, connect Vercel.
 
 ## Docs
 
