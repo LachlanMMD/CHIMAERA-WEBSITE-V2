@@ -48,6 +48,7 @@ Astro (static output). Pages in src/, plain CSS/JS in public/ (no bundling). Dep
 - Footer newsletter form posts to MailerLite (form "Footer signup", double opt-in) via js/newsletter-form.js; endpoint + field names from the MailerLite embed, in Footer.astro.
 - #footer links (newsletter / waitlist) draw a coral chalk circle round the footer newsletter box (js/chalk-circle.js, loaded on every page; --chalk-* tokens; styles in footer.css).
 - /events/ built: all events in two grids (upcoming, past); card CSS shared in public/css/event-card.css.
+- /threeheads/ (secret, unlinked, noindex): Three Heads supper club waitlist, standalone page (no Base.astro) → Google Apps Script → Sheet; setup + pending privacy entry in docs/THREEHEADS-WAITLIST.md.
 - Next: privacy + terms pages, footer colour, connect Vercel.
 
 ## Docs

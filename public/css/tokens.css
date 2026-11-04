@@ -121,6 +121,15 @@
   --chalk-duration: 1100ms; /* drawing */
   --chalk-hold: 2500ms;     /* stays fully visible after drawing */
   --chalk-fade: 900ms;      /* then fades out and is removed */
+
+  /* Three Heads (/threeheads/, the supper club waitlist): its own warm palette,
+     deliberately off the coral/pale system. Used only by css/threeheads.css. */
+  --threeheads-apricot: #f6c9a0;   /* page background */
+  --threeheads-olive: #3b3d1f;     /* text, rules, button */
+  --threeheads-olive-80: rgba(59, 61, 31, 0.8); /* --threeheads-olive at 80% (lower fails contrast on apricot) — hints, placeholders, footer */
+  --threeheads-olive-30: rgba(59, 61, 31, 0.3); /* --threeheads-olive at 30% — input underlines at rest */
+  --threeheads-accent: #cbe3b9;    /* pale sage — sparingly: button text, checkbox tick */
+  --font-threeheads-wordmark: "Pinyon Script", cursive; /* Google Fonts, loaded only on /threeheads/ */
 }
 
 /* Narrow screens: almost all coral, barely moving. Read once at page load. */
