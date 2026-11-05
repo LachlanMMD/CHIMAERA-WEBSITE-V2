@@ -7,7 +7,6 @@ time: "16:30"
 venue: "Friheden"
 area: "Nørrebro"
 price: 65
-stripeUrl: "https://buy.stripe.com/4gM00ibdi7TCfstfme2sM0g"
 soldOut: false
 duration: "3–4 hours"
 bring: "Nothing. Everything is on the table."

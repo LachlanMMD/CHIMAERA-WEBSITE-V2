@@ -12,7 +12,7 @@ soldOut: false
 duration: "3–4 hours"
 bring: "Nothing. Everything is on the table."
 experience: "None needed"
-poster: "/assets/graphics/poster-zine-workshop.png"
+poster: "/assets/graphics/poster-zine-workshop.webp"
 ---
 
 Come flex your creative muscles making Mini Zines with us!
