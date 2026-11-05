@@ -1,27 +1,27 @@
 ---
 import Base from "../layouts/Base.astro";
 
-const UPDATED = "22.10.2026";
+const UPDATED = "05.11.2026";
 const EMAIL = "info@chimaeracollective.dk";
 
 // What we process and why: one entry per situation.
 const uses = [
   {
     title: "Newsletter",
-    data: "Email, optionally name",
-    purpose: "Sending news and ticket releases",
+    data: "Email address; whether emails are opened and links clicked",
+    purpose: "Sending news and ticket releases. Sign-up is double opt-in: nothing is sent until you confirm",
     basis: "Consent, Art. 6(1)(a)",
     retention: "Until you unsubscribe",
   },
   {
     title: "Ticket purchase",
-    data: "Name, email, purchase and payment status",
+    data: "Name, email, what you bought, payment status",
     purpose: "Delivering your ticket and handling refunds",
     basis: "Contract, Art. 6(1)(b)",
     retention: "5 years after the end of the financial year (Danish Bookkeeping Act)",
   },
   {
-    title: "Contacting us",
+    title: "Contact form and email",
     data: "Name, email, message content",
     purpose: "Answering your enquiry",
     basis: "Legitimate interest, Art. 6(1)(f)",
@@ -29,7 +29,7 @@ const uses = [
   },
   {
     title: "Artist applications",
-    data: "Name, contact details, portfolio, application content",
+    data: "Name, contact details, portfolio, application content (sent to us by email)",
     purpose: "Assessing and planning a collaboration",
     basis: "Steps prior to a contract, Art. 6(1)(b)",
     retention: "Up to 1 year",
@@ -37,7 +37,7 @@ const uses = [
   {
     title: "Photos at events",
     data: "Images in which you may appear",
-    purpose: "Documenting and sharing our events",
+    purpose: "Documenting our events in the archive on this site and on Instagram",
     basis: "Legitimate interest for situational photos, Art. 6(1)(f); consent for portraits",
     retention: "Until you object or the image is removed",
   },
@@ -82,8 +82,8 @@ const uses = [
       <section>
         <h2>Data controller</h2>
         <p class="body-copy">
-          CHIMAERA.CPH, CVR 45933091, Ved Linden 4, 3. th., 2300 Copenhagen S, Denmark.
-          Contact: <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
+          CHIMAERA.CPH (an association, forening), CVR 45933091, Ved Linden 4, 3. th., 2300 Copenhagen S,
+          Denmark. Website: chimaeracollective.dk. Contact: <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
         </p>
       </section>
 
@@ -113,9 +113,18 @@ const uses = [
       <section>
         <h2>Photos</h2>
         <p class="body-copy">
-          We take photos at our events. Situational photos, where the activity is the focus, are used on our
-          website and social media. Portraits, where you are the focus, are used only with your consent. If you
-          don't want to be photographed, tell us on the day. To have a photo removed, email <a href={`mailto:${EMAIL}`}>{EMAIL}</a> and we will remove it.
+          We photograph and film our events. You may appear in those photos. We publish them in the
+          <a href="/archive/">archive</a> on this site and on our Instagram.
+        </p>
+        <p class="body-copy">
+          Situational photos, where the activity is the focus, we publish without asking. Portraits, where you
+          are the focus, we publish only with your consent.
+        </p>
+        <p class="body-copy">
+          Don't want to be photographed? Tell the photographer or one of us on the day. Want a photo taken down?
+          Email <a href={`mailto:${EMAIL}`}>{EMAIL}</a> with the event and a description or screenshot of the
+          photo. We remove it from our website and our own accounts within 30 days, usually much sooner. We can't
+          remove copies other people have shared.
         </p>
       </section>
 
@@ -147,7 +156,7 @@ const uses = [
         <p class="body-copy">
           You have the right to access, rectification, erasure, restriction of processing and data portability.
           You can object to processing based on legitimate interest, and you can withdraw consent at any time, for
-          example by unsubscribing. Email <a href={`mailto:${EMAIL}`}>{EMAIL}</a>.
+          example by unsubscribing. Email <a href={`mailto:${EMAIL}`}>{EMAIL}</a>. We answer within one month.
         </p>
       </section>
 
