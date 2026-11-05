@@ -1,0 +1,156 @@
+/* ==========================================================================
+   Three Heads — waitlist page (/threeheads/, src/pages/threeheads.astro)
+   Standalone: no CHIMAERA header/nav/atmosphere/footer. Values from the
+   --threeheads-* tokens plus the shared space/type tokens.
+   ========================================================================== */
+
+body.threeheads {
+  background: var(--threeheads-apricot);
+  color: var(--threeheads-olive);
+}
+
+.threeheads :focus-visible {
+  outline-color: var(--threeheads-olive);
+}
+
+.threeheads__screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-m);
+  min-height: 100svh;
+  max-width: 26rem;
+  margin: 0 auto;
+  padding: var(--space-l) var(--page-margin) var(--space-m);
+  text-align: center;
+}
+
+/* Slot for the heads SVG (commented out in the page until it exists) */
+.threeheads__mark {
+  width: min(9rem, 40vw);
+}
+
+.threeheads__mark svg,
+.threeheads__mark img {
+  width: 100%;
+  height: auto;
+}
+
+.threeheads__wordmark {
+  font-family: var(--font-threeheads-wordmark);
+  font-weight: 400;
+  font-size: var(--step-5);
+  line-height: 1;
+}
+
+.threeheads__line {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--step-0);
+  max-width: 22ch;
+}
+
+/* ---- Form ---- */
+.threeheads__form,
+.threeheads__thanks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+  width: 100%;
+  text-align: left;
+}
+
+.threeheads__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  font-size: var(--text-small);
+}
+
+.threeheads__field em {
+  font-style: normal;
+  color: var(--threeheads-olive-80);
+}
+
+.threeheads__field input {
+  min-height: var(--tap-target-min);
+  padding: 0;
+  font: inherit;
+  font-size: var(--text-body);
+  color: inherit;
+  background: none;
+  border: 0;
+  border-bottom: var(--rule-width) solid var(--threeheads-olive-30);
+  border-radius: 0;
+}
+
+.threeheads__field input:focus {
+  border-bottom-color: var(--threeheads-olive);
+}
+
+.threeheads__field input::placeholder,
+.threeheads__field small {
+  color: var(--threeheads-olive-80);
+}
+
+.threeheads__field small {
+  font-size: var(--text-small);
+}
+
+.threeheads__consent {
+  display: flex;
+  gap: var(--space-2xs);
+  align-items: flex-start;
+  font-size: var(--text-small);
+  line-height: 1.4;
+}
+
+.threeheads__consent input {
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0.1rem 0 0;
+  accent-color: var(--threeheads-olive);
+}
+
+.threeheads__button {
+  min-height: var(--tap-target-min);
+  margin-top: var(--space-2xs);
+  padding: 0 var(--space-m);
+  background: var(--threeheads-olive);
+  color: var(--threeheads-accent);
+  border-radius: 999px;
+  transition: opacity var(--duration-fast) var(--ease-editorial);
+}
+
+.threeheads__button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.threeheads__status {
+  min-height: 1.5em;
+  font-size: var(--text-small);
+  text-align: center;
+}
+
+.threeheads__thanks {
+  align-items: center;
+  text-align: center;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--step-1);
+}
+
+.threeheads__thanks:focus {
+  outline: none;
+}
+
+/* ---- Footer ---- */
+.threeheads__footer {
+  margin-top: auto;
+  padding-top: var(--space-m);
+  font-size: var(--text-small);
+  color: var(--threeheads-olive-80);
+}
