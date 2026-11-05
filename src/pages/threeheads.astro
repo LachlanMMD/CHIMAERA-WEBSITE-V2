@@ -1,0 +1,100 @@
+---
+/**
+ * /threeheads/ — secret, unlinked waitlist for Three Heads (private supper
+ * club, later part of CHIMAERA). Not in the nav, footer or sitemap; noindex.
+ *
+ * Deliberately NOT wrapped in Base.astro: a secret page shouldn't carry the
+ * CHIMAERA header, star menu, atmosphere or footer. It keeps the same plain
+ * files: tokens.css + global.css (reset, focus ring, .visually-hidden), then
+ * its own css/threeheads.css and js/threeheads-waitlist.js.
+ *
+ * Submissions go to a Google Apps Script web app that appends a row to a
+ * Google Sheet. Setup: docs/THREEHEADS-WAITLIST.md. Paste the web app URL
+ * (…/exec) below.
+ */
+const APPS_SCRIPT_URL = "PASTE_APPS_SCRIPT_URL";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+
+    <title>Three Heads</title>
+    <meta name="description" content="By invitation." />
+
+    <link rel="icon" href="data:," />
+
+    <!-- Body text: the site's Adobe kit. Wordmark: Pinyon Script (Google Fonts). -->
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+    <link rel="stylesheet" href="https://use.typekit.net/koo7phy.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap" />
+
+    <link rel="stylesheet" href="/css/tokens.css" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/threeheads.css" />
+  </head>
+
+  <body class="threeheads">
+    <main class="threeheads__screen">
+      <!-- HEADS SLOT: Lachlan's goat / lion / serpent SVG goes here.
+           Paste the inline <svg> (or <img src="/assets/graphics/…svg" alt="">)
+           inside this div; .threeheads__mark sizes it. Left empty on purpose.
+      <div class="threeheads__mark" aria-hidden="true"></div>
+      -->
+
+      <h1 class="threeheads__wordmark">Three Heads</h1>
+
+      <p class="threeheads__line">A long table, a short list. Leave your number by the door.</p>
+
+      <form class="threeheads__form" action={APPS_SCRIPT_URL} method="POST" data-threeheads-form novalidate>
+        <!-- Honeypot: hidden from people; bots fill it and the script drops the row. -->
+        <div class="visually-hidden" aria-hidden="true">
+          <label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+        </div>
+
+        <label class="threeheads__field">
+          <span>Name</span>
+          <input type="text" name="name" autocomplete="name" required />
+        </label>
+
+        <label class="threeheads__field">
+          <span>Phone</span>
+          <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+45 12 34 56 78" pattern="[+0-9 \(\)\-]{6,20}" required aria-describedby="threeheads-phone-hint" />
+          <small id="threeheads-phone-hint">With country code, e.g. +45</small>
+        </label>
+
+        <label class="threeheads__field">
+          <span>Who sent you? <em>(optional)</em></span>
+          <input type="text" name="referral" autocomplete="off" />
+        </label>
+
+        <label class="threeheads__consent">
+          <input type="checkbox" name="consent" value="yes" required />
+          <span>
+            Use my number only to text me about Three Heads dinners. See the <a href="/privacy/">privacy policy</a>;
+            ask for deletion anytime at <a href="mailto:info@chimaeracollective.dk">info@chimaeracollective.dk</a>.
+          </span>
+        </label>
+
+        <button class="threeheads__button" type="submit">Put me down</button>
+
+        <p class="threeheads__status" role="status" aria-live="polite" data-threeheads-status></p>
+      </form>
+
+      <div class="threeheads__thanks" hidden data-threeheads-thanks tabindex="-1">
+        <p>Noted. We'll text when a seat opens.</p>
+      </div>
+
+      <footer class="threeheads__footer">
+        <p>threeheads.cph · Copenhagen</p>
+      </footer>
+    </main>
+
+    <script is:inline src="/js/threeheads-waitlist.js"></script>
+  </body>
+</html>
