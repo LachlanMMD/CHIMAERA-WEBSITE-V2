@@ -101,7 +101,7 @@ Saving the script does **not** change what the live URL runs. Each deployment po
 - **New deployment** (Deploy → New deployment) creates a new deployment ID and therefore a **new URL**. Only do this deliberately; then update `APPS_SCRIPT_URL` and redeploy the site. The old URL keeps running its old version until you archive it in Manage deployments.
 - The `/dev` URL (Test deployments) runs the latest saved code but only works for you while signed in. Don't put it on the site.
 
-## 4. GDPR — privacy page entry (pending, after PR #21)
+## 4. GDPR — privacy page entry (added 07.11.2026)
 
 The waitlist collects phone numbers, so `/privacy/` must list it before the link is shared. Not done on this branch because PR #21 has `src/pages/privacy.astro` open. Once #21 is merged, add:
 

@@ -1,7 +1,7 @@
 ---
 import Base from "../layouts/Base.astro";
 
-const UPDATED = "05.11.2026";
+const UPDATED = "07.11.2026";
 const EMAIL = "info@chimaeracollective.dk";
 
 // What we process and why: one entry per situation.
@@ -12,6 +12,20 @@ const uses = [
     purpose: "Sending news and ticket releases. Sign-up is double opt-in: nothing is sent until you confirm",
     basis: "Consent, Art. 6(1)(a)",
     retention: "Until you unsubscribe",
+  },
+  {
+    title: "Three Heads waitlist",
+    data: "Name, phone number, optionally who invited you",
+    purpose: "Texting you about Three Heads supper club dinners (invitations, dates, seats)",
+    basis: "Consent, Art. 6(1)(a)",
+    retention: "Until you ask us to delete it or withdraw consent, or when the waitlist is closed; reviewed at least once a year",
+  },
+  {
+    title: "Three Heads Friendsgiving signup",
+    data: "Name, phone, email, dietary needs and allergies (yours and your +1's), payment status",
+    purpose: "Seating, cooking for your diet, payment and directions for the 05.12.26 dinner",
+    basis: "Consent, Art. 6(1)(a), and explicit consent for allergies, Art. 9(2)(a)",
+    retention: "Deleted within 30 days after the dinner",
   },
   {
     title: "Ticket purchase",
@@ -136,6 +150,7 @@ const uses = [
           <li>Web3Forms: delivers messages sent through our contact form to our inbox.</li>
           <li>Vercel: website hosting and cookieless visitor statistics (Vercel Web Analytics).</li>
           <li>Adobe Fonts: typefaces. Your browser loads them from Adobe's servers, which therefore receive your IP address.</li>
+          <li>Google (Google Sheets, Apps Script and Gmail): stores Three Heads waitlist and dinner signups and sends signup confirmations.</li>
         </ul>
         <p class="body-copy legal__note">
           Some providers process data outside the EU, including in the USA. Transfers are based on the EU-U.S.

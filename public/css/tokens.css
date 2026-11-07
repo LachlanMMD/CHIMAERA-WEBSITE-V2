@@ -130,6 +130,20 @@
   --threeheads-olive-30: rgba(59, 61, 31, 0.3); /* --threeheads-olive at 30% — input underlines at rest */
   --threeheads-accent: #cbe3b9;    /* pale sage — sparingly: button text, checkbox tick */
   --font-threeheads-wordmark: "Pinyon Script", cursive; /* Google Fonts, loaded only on /threeheads/ */
+
+  /* Friendsgiving Nº 03 (/threeheads/friendsgiving/): one ink (oxblood) on
+     paper towel, matching the poster. Used only by css/friendsgiving.css. */
+  --friendsgiving-ink: #4e1a1c;                   /* oxblood: all text, rules, button */
+  --friendsgiving-ink-70: rgba(78, 26, 28, 0.7);  /* hints, optional labels */
+  --friendsgiving-ink-30: rgba(78, 26, 28, 0.3);  /* input underlines at rest */
+  --friendsgiving-paper: #f6eadb;                 /* background while the texture loads; button text */
+  --friendsgiving-lift: rgba(255, 250, 242, 0.72); /* feathered light patch behind the form (poster option B) */
+  --friendsgiving-lift-radius: 1.75rem;           /* patch corner + spread */
+  --friendsgiving-lift-feather: 2.5rem;           /* patch edge blur */
+  --friendsgiving-mark-width: min(15rem, 62vw);  /* winged trio (wide, ~2:1) */
+  --friendsgiving-title-size: clamp(2.6rem, 11vw, 4.2rem); /* "Friendsgiving" fits one line at 360px */
+  --font-friendsgiving-title: "cooper-black-std", "Cooper Black", Georgia, serif; /* Adobe kit (add Cooper Black to koo7phy) */
+  --font-friendsgiving-mono: "Courier Prime", "Courier New", monospace;          /* Google Fonts, loaded only on this page */
 }
 
 /* Narrow screens: almost all coral, barely moving. Read once at page load. */
