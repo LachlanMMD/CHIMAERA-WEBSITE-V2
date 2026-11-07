@@ -206,6 +206,17 @@ body.friendsgiving::before {
   transition: opacity var(--duration-fast) var(--ease-editorial);
 }
 
+/* Secondary (thank-you screen): same shape, ink outline instead of fill */
+.friendsgiving__button--outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  color: var(--friendsgiving-ink);
+  border: var(--rule-width-strong) solid var(--friendsgiving-ink);
+  text-decoration: none;
+}
+
 .friendsgiving__button:disabled {
   opacity: 0.6;
   cursor: progress;
