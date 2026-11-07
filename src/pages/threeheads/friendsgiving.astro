@@ -1,0 +1,166 @@
+---
+/**
+ * /threeheads/friendsgiving/ — secret, unlinked signup for Three Heads
+ * Nº 03 "Friendsgiving" (05.12.26). Not in nav, footer or sitemap; noindex.
+ *
+ * Same pattern as threeheads.astro: standalone <html> (no Base.astro),
+ * tokens.css + global.css, then its own css/friendsgiving.css and
+ * js/friendsgiving-signup.js. Posts to its OWN Apps Script web app + Sheet
+ * (not the waitlist's). Setup: docs/FRIENDSGIVING-SIGNUP.md.
+ */
+import WingedTrio from "../../assets/graphics/winged-trio.svg"; // fill="currentColor" → takes the ink colour
+
+const APPS_SCRIPT_URL = "PASTE_APPS_SCRIPT_URL";
+const MOBILEPAY_BOX = "1080XP";
+const PRICE = 100; // kr per head — must match PRICE in the Apps Script
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+
+    <title>Friendsgiving · Three Heads Nº 03</title>
+    <meta name="description" content="By invitation." />
+
+    <link rel="icon" href="data:," />
+
+    <!-- Title: Cooper Black from the site's Adobe kit. Text: Courier Prime; wordmark: Pinyon Script (Google Fonts). -->
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+    <link rel="stylesheet" href="https://use.typekit.net/koo7phy.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Pinyon+Script&display=swap" />
+
+    <link rel="stylesheet" href="/css/tokens.css" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/friendsgiving.css" />
+  </head>
+
+  <body class="friendsgiving">
+    <main class="friendsgiving__screen">
+      <div class="friendsgiving__mark" aria-hidden="true"><WingedTrio /></div>
+
+      <header class="friendsgiving__poster">
+        <p class="friendsgiving__edition">Nº 03</p>
+        <h1 class="friendsgiving__title">Friendsgiving</h1>
+        <p class="friendsgiving__date">05.12.26</p>
+        <ul class="friendsgiving__info">
+          <li>18:00 doors · 18:30 dinner</li>
+          <li>DJ till late</li>
+          <li>family-style · {PRICE} kr · BYOB</li>
+          <li>Hagemanns Kollegium</li>
+          <li>Kristianiagade 10, Østerbro</li>
+        </ul>
+      </header>
+
+      <section class="friendsgiving__panel" data-fg-panel>
+        <h2 class="friendsgiving__heading" data-fg-heading>Sign up</h2>
+        <p class="friendsgiving__spots" aria-live="polite" data-fg-spots>Signups close 01.12.</p>
+
+        <form
+          class="friendsgiving__form"
+          action={APPS_SCRIPT_URL}
+          method="POST"
+          data-fg-form
+          data-price={PRICE}
+          novalidate
+        >
+          <!-- Honeypot: hidden from people; bots fill it and the script drops the row. -->
+          <div class="visually-hidden" aria-hidden="true">
+            <label>Leave this empty <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+          </div>
+
+          <label class="friendsgiving__field">
+            <span>Name</span>
+            <input type="text" name="name" autocomplete="name" maxlength="100" required />
+          </label>
+
+          <label class="friendsgiving__field">
+            <span>Phone</span>
+            <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+45 12 34 56 78" pattern="[+0-9 \(\)\-]{6,20}" required />
+          </label>
+
+          <label class="friendsgiving__field">
+            <span>Email <em>(confirmation + directions)</em></span>
+            <input type="email" name="email" autocomplete="email" maxlength="120" required />
+          </label>
+
+          <fieldset class="friendsgiving__choices">
+            <legend>You eat</legend>
+            <label><input type="radio" name="diet" value="everything" checked /> everything</label>
+            <label><input type="radio" name="diet" value="vegetarian" /> vegetarian</label>
+            <label><input type="radio" name="diet" value="vegan" /> vegan</label>
+          </fieldset>
+
+          <label class="friendsgiving__field">
+            <span>Allergies <em>(optional)</em></span>
+            <input type="text" name="allergies" maxlength="200" />
+          </label>
+
+          <label class="friendsgiving__check">
+            <input type="checkbox" name="plusOne" value="yes" data-fg-plus-toggle />
+            <span>I'm bringing a +1</span>
+          </label>
+
+          <div class="friendsgiving__plus" hidden data-fg-plus>
+            <label class="friendsgiving__field">
+              <span>Their name</span>
+              <input type="text" name="plusName" maxlength="100" data-fg-plus-required />
+            </label>
+
+            <fieldset class="friendsgiving__choices">
+              <legend>They eat</legend>
+              <label><input type="radio" name="plusDiet" value="everything" checked /> everything</label>
+              <label><input type="radio" name="plusDiet" value="vegetarian" /> vegetarian</label>
+              <label><input type="radio" name="plusDiet" value="vegan" /> vegan</label>
+            </fieldset>
+
+            <label class="friendsgiving__field">
+              <span>Their allergies <em>(optional)</em></span>
+              <input type="text" name="plusAllergies" maxlength="200" />
+            </label>
+          </div>
+
+          <label class="friendsgiving__check">
+            <input type="checkbox" name="consent" value="yes" required />
+            <span>
+              Use my details only for this dinner. See the <a href="/privacy/">privacy policy</a>;
+              ask for deletion anytime at <a href="mailto:info@chimaeracollective.dk">info@chimaeracollective.dk</a>.
+            </span>
+          </label>
+
+          <button class="friendsgiving__button" type="submit" data-fg-button>
+            Count me in · <span data-fg-price>{PRICE}</span> kr
+          </button>
+
+          <p class="friendsgiving__status" role="status" aria-live="polite" data-fg-status></p>
+        </form>
+
+        <!-- Shown after signup. data-fg-done-* blocks are picked by the script's status. -->
+        <div class="friendsgiving__done" hidden tabindex="-1" data-fg-done>
+          <div hidden data-fg-done-confirmed>
+            <p class="friendsgiving__heading">You're in.</p>
+            <p>
+              Pay <strong><span data-fg-amount>{PRICE}</span> kr</strong> to MobilePay Box
+              <strong>{MOBILEPAY_BOX}</strong>, with your name in the message.
+            </p>
+            <p>Confirmation's in your inbox. Directions follow closer to the day.</p>
+          </div>
+          <div hidden data-fg-done-waitlist>
+            <p class="friendsgiving__heading">You're on the waitlist.</p>
+            <p>We're full for now. If a seat opens we'll text you. Don't pay anything yet.</p>
+          </div>
+        </div>
+      </section>
+
+      <footer class="friendsgiving__footer">
+        <p class="friendsgiving__wordmark">Three Heads</p>
+      </footer>
+    </main>
+
+    <script is:inline src="/js/friendsgiving-signup.js"></script>
+  </body>
+</html>
