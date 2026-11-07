@@ -22,6 +22,7 @@ Rules (all enforced in the script, the page only displays them):
 - **Deadline** 01.12.26 23:59 Copenhagen → `closed`.
 - Duplicate = same phone (ignoring spaces / +45) or same email.
 - Confirmation email on every signup (confirmed or waitlist), sent from the Google account that owns the script.
+- Notification to that same account on every signup (name, status, diet, spots left). Turn off with `NOTIFY = false`.
 - Directions: fill `DIRECTIONS`, then run `sendDirections` once from the editor. It emails every `confirmed` row that hasn't had them yet and ticks "Directions sent".
 
 ---
@@ -39,6 +40,7 @@ var PRICE = 100;                                      // kr per head — must ma
 var MOBILEPAY_BOX = "1080XP";
 var DEADLINE = new Date("2026-12-01T23:59:00+01:00"); // Copenhagen (CET)
 var DIRECTIONS = "";                                  // fill in, then run sendDirections()
+var NOTIFY = true;                                    // email the script owner on every signup
 
 var HEADERS = ["Timestamp", "Status", "Name", "Phone", "Email", "Diet", "Allergies",
   "Plus one", "+1 name", "+1 diet", "+1 allergies", "Heads", "Amount (kr)", "Paid", "Directions sent"];
@@ -94,6 +96,7 @@ function doPost(e) {
 
   try {
     sendConfirmation_(email, name, result.status, result.amount, plus ? plusName : "");
+    if (NOTIFY) notifyOwner_(name, plus ? plusName : "", result, p.diet, p.allergies);
   } catch (err) {
     console.error(err); // the row is saved; a failed email shouldn't fail the signup
   }
@@ -117,6 +120,20 @@ function sendConfirmation_(email, name, status, amount, plusName) {
     subject: status === "confirmed" ? "You're in · Friendsgiving 05.12" : "Waitlist · Friendsgiving 05.12",
     body: lines.join("\n"),
     name: "Three Heads",
+  });
+}
+
+// One line per signup to you (the account the script runs as), with the running count.
+function notifyOwner_(name, plusName, result, diet, allergies) {
+  var left = Math.max(0, CAPACITY - confirmedHeads_(rows_()));
+  var who = String(name).replace(/^'/, "") + (plusName ? " + " + String(plusName).replace(/^'/, "") : "");
+  MailApp.sendEmail({
+    to: Session.getEffectiveUser().getEmail(),
+    subject: "[Friendsgiving] " + (result.status === "confirmed" ? "+" : "waitlist: ") + who + " · " + left + " left",
+    body: who + "\nStatus: " + result.status + (result.amount ? " · owes " + result.amount + " kr" : "") +
+      "\nDiet: " + (diet || "-") + (allergies ? " · allergies: " + allergies : "") +
+      "\nSpots left: " + left + " / " + CAPACITY,
+    name: "Three Heads signups",
   });
 }
 
