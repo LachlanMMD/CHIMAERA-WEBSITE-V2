@@ -186,7 +186,7 @@ function reply_(obj) {
 
 Redeploying after edits: **Manage deployments → Edit → New version** (same URL). See `docs/THREEHEADS-WAITLIST.md` §3.
 
-## 3. GDPR
+## 3. GDPR (privacy entry added 07.11.2026)
 
 Collects name, phone, email, diet and allergies. **Allergies are health data** (special category, Art. 9): the consent checkbox covers it, but keep the Sheet unshared and **delete the Sheet after the event**. Add to `uses` in `src/pages/privacy.astro` (alongside the waitlist entry):
 
