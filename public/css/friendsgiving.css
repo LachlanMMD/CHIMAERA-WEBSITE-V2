@@ -1,0 +1,245 @@
+/* ==========================================================================
+   Friendsgiving Nº 03 — signup (/threeheads/friendsgiving/,
+   src/pages/threeheads/friendsgiving.astro)
+   Standalone like threeheads.css: one ink (oxblood) on paper towel.
+   Values from the --friendsgiving-* tokens plus the shared space/type tokens.
+   ========================================================================== */
+
+body.friendsgiving {
+  background: var(--friendsgiving-paper);
+  color: var(--friendsgiving-ink);
+  font-family: var(--font-friendsgiving-mono);
+}
+
+/* Texture on a fixed layer: background-attachment: fixed is ignored on iOS */
+body.friendsgiving::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: var(--friendsgiving-paper) url("/assets/images/friendsgiving/towel.jpg") center / cover no-repeat;
+}
+
+.friendsgiving :focus-visible {
+  outline-color: var(--friendsgiving-ink);
+}
+
+.friendsgiving a {
+  color: inherit;
+}
+
+.friendsgiving__screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-l);
+  min-height: 100svh;
+  max-width: 30rem;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--page-margin) var(--space-m);
+  text-align: center;
+}
+
+.friendsgiving__mark {
+  width: var(--friendsgiving-mark-width);
+  margin-bottom: calc(-1 * var(--space-m)); /* sits close above Nº 03 */
+}
+
+.friendsgiving__mark svg,
+.friendsgiving__mark img {
+  width: 100%;
+  height: auto;
+  mix-blend-mode: multiply;
+}
+
+/* ---- Poster block ---- */
+.friendsgiving__edition {
+  letter-spacing: 0.12em;
+}
+
+/* multiply lets the towel fibres show through the ink, like the poster */
+.friendsgiving__title,
+.friendsgiving__date {
+  font-family: var(--font-friendsgiving-title);
+  font-weight: 900;
+  line-height: 1;
+  mix-blend-mode: multiply;
+}
+
+.friendsgiving__title {
+  margin-top: var(--space-s);
+  font-size: var(--friendsgiving-title-size);
+}
+
+.friendsgiving__date {
+  margin: var(--space-2xs) 0 var(--space-m);
+  font-size: var(--step-2);
+}
+
+.friendsgiving__info {
+  list-style: none;
+  padding: 0;
+  font-size: var(--text-body);
+  line-height: 1.6;
+}
+
+/* ---- Panel: feathered light patch, no hard box ---- */
+.friendsgiving__panel {
+  width: 100%;
+  padding: var(--space-m);
+  text-align: left;
+  background: var(--friendsgiving-lift);
+  border-radius: var(--friendsgiving-lift-radius);
+  box-shadow: 0 0 var(--friendsgiving-lift-feather) var(--friendsgiving-lift-radius) var(--friendsgiving-lift);
+}
+
+.friendsgiving__heading {
+  font-family: var(--font-friendsgiving-title);
+  font-weight: 900;
+  font-size: var(--step-1);
+  line-height: 1.1;
+}
+
+.friendsgiving__spots {
+  margin: var(--space-3xs) 0 var(--space-m);
+  font-size: var(--text-small);
+  color: var(--friendsgiving-ink-70);
+}
+
+/* ---- Form ---- */
+.friendsgiving__form,
+.friendsgiving__plus {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+.friendsgiving__plus {
+  padding-left: var(--space-s);
+  border-left: var(--rule-width) solid var(--friendsgiving-ink-30);
+}
+
+.friendsgiving__plus[hidden] {
+  display: none;
+}
+
+.friendsgiving__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+  font-size: var(--text-small);
+}
+
+.friendsgiving__field em {
+  font-style: normal;
+  color: var(--friendsgiving-ink-70);
+}
+
+.friendsgiving__field input {
+  min-height: var(--tap-target-min);
+  padding: 0;
+  font: inherit;
+  font-size: var(--text-body);
+  color: inherit;
+  background: none;
+  border: 0;
+  border-bottom: var(--rule-width) solid var(--friendsgiving-ink-30);
+  border-radius: 0;
+}
+
+.friendsgiving__field input:focus {
+  border-bottom-color: var(--friendsgiving-ink);
+}
+
+.friendsgiving__field input::placeholder {
+  color: var(--friendsgiving-ink-70);
+}
+
+.friendsgiving__choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2xs) var(--space-m);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: var(--text-body);
+}
+
+.friendsgiving__choices legend {
+  width: 100%;
+  margin-bottom: var(--space-2xs);
+  font-size: var(--text-small);
+}
+
+.friendsgiving__choices label,
+.friendsgiving__check {
+  display: flex;
+  gap: var(--space-2xs);
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.friendsgiving__check {
+  font-size: var(--text-small);
+  line-height: 1.4;
+}
+
+.friendsgiving input[type="radio"],
+.friendsgiving input[type="checkbox"] {
+  flex: none;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0.1rem 0 0;
+  accent-color: var(--friendsgiving-ink);
+}
+
+.friendsgiving__button {
+  min-height: var(--tap-target-min);
+  margin-top: var(--space-2xs);
+  padding: 0 var(--space-m);
+  font-family: var(--font-friendsgiving-title);
+  font-weight: 900;
+  font-size: var(--step-0);
+  background: var(--friendsgiving-ink);
+  color: var(--friendsgiving-paper);
+  border-radius: 999px;
+  transition: opacity var(--duration-fast) var(--ease-editorial);
+}
+
+.friendsgiving__button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.friendsgiving__status {
+  min-height: 1.5em;
+  font-size: var(--text-small);
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ---- After signup ---- */
+.friendsgiving__done > div {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.friendsgiving__done > div[hidden] {
+  display: none;
+}
+
+.friendsgiving__done:focus {
+  outline: none;
+}
+
+/* ---- Footer ---- */
+.friendsgiving__footer {
+  margin-top: auto;
+}
+
+.friendsgiving__wordmark {
+  font-family: var(--font-threeheads-wordmark);
+  font-size: var(--step-3);
+  line-height: 1;
+}
