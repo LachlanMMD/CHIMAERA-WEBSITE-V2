@@ -11,13 +11,15 @@ body.friendsgiving {
   font-family: var(--font-friendsgiving-mono);
 }
 
-/* Texture on a fixed layer: background-attachment: fixed is ignored on iOS */
+/* Texture on a fixed layer: background-attachment: fixed is ignored on iOS.
+   Seamless 1024px tile repeated at its own scale instead of one 1080px image
+   stretched with `cover` (which blurred it ~1.3x on phones, ~1.8x on desktop). */
 body.friendsgiving::before {
   content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: var(--friendsgiving-paper) url("/assets/images/friendsgiving/towel.jpg") center / cover no-repeat;
+  background: var(--friendsgiving-paper) var(--friendsgiving-towel) center top / var(--friendsgiving-towel-size) repeat;
 }
 
 .friendsgiving :focus-visible {

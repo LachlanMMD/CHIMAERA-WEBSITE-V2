@@ -137,6 +137,8 @@
   --friendsgiving-ink-70: rgba(78, 26, 28, 0.7);  /* hints, optional labels */
   --friendsgiving-ink-30: rgba(78, 26, 28, 0.3);  /* input underlines at rest */
   --friendsgiving-paper: #f6eadb;                 /* background while the texture loads; button text */
+  --friendsgiving-towel: url("/assets/images/friendsgiving/towel-tile.webp"); /* seamless; towel-tile-soft.webp = 45% contrast */
+  --friendsgiving-towel-size: 360px;              /* tile width on screen; 1024px source stays sharp up to ~2.8x DPR */
   --friendsgiving-lift: rgba(255, 250, 242, 0.72); /* feathered light patch behind the form (poster option B) */
   --friendsgiving-lift-radius: 1.75rem;           /* patch corner + spread */
   --friendsgiving-lift-feather: 2.5rem;           /* patch edge blur */
