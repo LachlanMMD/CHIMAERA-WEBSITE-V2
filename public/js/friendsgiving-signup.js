@@ -58,16 +58,24 @@
       .catch(function () { /* keep the default line; submit still works */ });
   }
 
+  // Thank-you view: hide poster + form, show the matching block, back to top.
+  var poster = document.querySelector("[data-fg-poster]");
+  var panel = document.querySelector("[data-fg-panel]");
+
   function showDone(kind, amount) {
-    form.hidden = true;
-    heading.hidden = true;
-    spots.hidden = true;
+    var first = String(form.elements.name.value || "").trim().split(/\s+/)[0];
+    poster.hidden = true;
+    panel.hidden = true;
     var block = done.querySelector("[data-fg-done-" + kind + "]");
-    var amountOut = done.querySelector("[data-fg-amount]");
+    block.querySelectorAll("[data-fg-firstname]").forEach(function (el) {
+      el.textContent = first ? ", " + first : "";
+    });
+    var amountOut = block.querySelector("[data-fg-amount]");
     if (amountOut && amount) amountOut.textContent = amount;
     block.hidden = false;
     done.hidden = false;
-    done.focus();
+    window.scrollTo(0, 0);
+    done.focus({ preventScroll: true });
   }
 
   var MESSAGES = {

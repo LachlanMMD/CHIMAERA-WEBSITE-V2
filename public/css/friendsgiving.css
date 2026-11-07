@@ -218,19 +218,39 @@ body.friendsgiving::before {
   text-align: center;
 }
 
-/* ---- After signup ---- */
-.friendsgiving__done > div {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-.friendsgiving__done > div[hidden] {
+/* ---- Thank-you view (replaces poster + form) ---- */
+.friendsgiving__poster[hidden],
+.friendsgiving__panel[hidden],
+.friendsgiving__thanks[hidden],
+.friendsgiving__thanks > div[hidden] {
   display: none;
 }
 
-.friendsgiving__done:focus {
+.friendsgiving__thanks,
+.friendsgiving__thanks > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-m);
+  width: 100%;
+}
+
+.friendsgiving__thanks:focus {
   outline: none;
+}
+
+.friendsgiving__thanks-lead {
+  font-size: var(--step-0);
+}
+
+.friendsgiving__thanks .friendsgiving__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+}
+
+.friendsgiving__thanks .friendsgiving__info {
+  font-size: var(--text-small);
 }
 
 /* ---- Footer ---- */
