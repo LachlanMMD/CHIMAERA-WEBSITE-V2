@@ -109,7 +109,7 @@ function sendConfirmation_(email, name, status, amount, plusName) {
     ? ["Hi " + first + ",", "",
        "You're in for Friendsgiving" + (plusName ? " (+ " + plusName + ")" : "") + ".", "",
        "Pay " + amount + " kr to MobilePay Box " + MOBILEPAY_BOX + ", with your name in the message.", "",
-       "05.12.26 · 18:00 doors · 18:30 dinner · DJ till late",
+       "05.12.26 · 18:00 doors · 18:30 dinner · DJ b2b till late",
        "Hagemanns Kollegium, Kristianiagade 10, Østerbro · BYOB", "",
        "Directions follow closer to the day.", "", "Three Heads"]
     : ["Hi " + first + ",", "",
